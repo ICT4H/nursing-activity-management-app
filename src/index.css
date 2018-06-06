@@ -24,3 +24,26 @@ table {
 th, td {
     border: 2px solid black;
 }
+
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1; /* Sit on top */
+    padding:9%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
+.popupContent {
+    background-color: #fefefe;
+    padding: 2%;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.medicineDetails{
+  color: blue;
+}

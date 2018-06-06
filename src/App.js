@@ -1,21 +1,32 @@
 import React, { Component } from 'react';
-import PatientView from './PatientView'
-
-let sampleTime=new Date().getTime();
+import PatientMARView from './PatientMARView'
 let sampleStartingDate=new Date();
+
+let medicineData = {
+  name: "Paracetmol",
+  dose:1,
+  unit:'Tablet',
+  dosage: "twice a day",
+  startingDate: sampleStartingDate,
+  noOfDays: 3,
+};
+
+
+let medicineData2 = {
+  name: "Crosine",
+  dose:1,
+  unit:'Tablet',
+  dosage: "twice a day",
+  startingDate: sampleStartingDate,
+  noOfDays: 3,
+};
 
 const patientDetails = {
       id:'GAN12345',
       name: "Cally Cardenas",
       gender:'male',
       age:33,
-      medicine:{
-        name:"Paracetmol",
-        startingDate:sampleStartingDate,
-        noOfDays:3,
-        dosage:2,
-        timings:[sampleTime]
-      }
+      medicinesToBeScheduled:[medicineData,medicineData2],
 };
 
 
@@ -24,7 +35,10 @@ class App extends Component {
     return (
         <div>
           <script src="./moment.js"/>
-          <PatientView patient={patientDetails}/>
+          <div>
+            <p>Medicine Administration Record</p>
+          </div>
+          <PatientMARView patient={patientDetails}/>
         </div>
     );
   }
