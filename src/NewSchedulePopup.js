@@ -1,15 +1,5 @@
 import React from "react";
-
-function PatientDetails(props) {
-  let patient = props.patient;
-  return (
-      <div className={"PatientDetails"}>
-        <p>
-          {patient.name + " " + patient.gender + ", " + patient.age + " yrs"}
-        </p>
-      </div>
-  );
-}
+import {PatientDetails} from './utility'
 
 class NewSchedulePopup extends React.Component {
   constructor(props){
@@ -27,21 +17,21 @@ class NewSchedulePopup extends React.Component {
 
   handleChange(){
     let medicine = {
-      name:this.refs.name.value,
+      medicineName:this.refs.medicineName.value,
       dose:this.refs.dose.value
     };
     this.props.onChange(medicine);
   }
   render() {
-    console.log(this.props.medicine.name);
+    console.log(this.props.medicine.medicineName);
     return (
         <div className={"popup"}>
           <div className={"popupContent"}>
             <p>Add New Medicine Schedule</p>
             <PatientDetails patient={this.props.patient}/>
             <input
-                type={"text"} placeholder={"medicineName"} ref="name"
-                value={this.props.medicine.name} onChange={this.handleChange}/>
+                type={"text"} placeholder={"medicineName"} ref="medicineName"
+                value={this.props.medicine.medicineName} onChange={this.handleChange}/>
 
             <input
                 type={"text"} placeholder={"dose"} ref="dose"
@@ -80,11 +70,11 @@ function SelectingUnit (props){
   );
 }
 
-function InputField(props) {
-  return(
-      <input
-          type={props.type} placeholder={props.placeholder} ref={props.ref}
-          value={props.value} onChange={props.onChange}/>
-  )
-}
+// function InputField(props) {
+//   return(
+//       <input
+//           type={props.type} placeholder={props.placeholder} ref={props.ref}
+//           value={props.value} onChange={props.onChange}/>
+//   )
+// }
 export default NewSchedulePopup;

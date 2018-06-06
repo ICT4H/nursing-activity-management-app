@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PatientMARView from './PatientMARView'
+import PatientMAR from './PatientMAR'
 let sampleStartingDate=new Date();
 
 let medicineData = {
-  name: "Paracetmol",
+  medicineName: "Paracetmol",
   dose:1,
   unit:'Tablet',
   dosage: "twice a day",
@@ -13,7 +13,7 @@ let medicineData = {
 
 
 let medicineData2 = {
-  name: "Crosine",
+  medicineName: "Crosine",
   dose:1,
   unit:'Tablet',
   dosage: "twice a day",
@@ -38,7 +38,7 @@ class App extends Component {
           <div>
             <p>Medicine Administration Record</p>
           </div>
-          <PatientMARView patient={patientDetails}/>
+          <PatientMAR patient={patientDetails}/>
         </div>
     );
   }

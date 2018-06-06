@@ -1,11 +1,34 @@
 import React from "react";
 import moment from "moment/moment";
 import NewSchedulePopup from './NewSchedulePopup';
+import {PatientDetails,ScheduledMedicines,MedicinesTobeScheduled,CurrentWeekDates} from './utility';
 
 let initialEmptyMedicine = {
-  name: "", dose: 0,
+  medicineName: "", dose: 0,
   unit: "", dosage: ""
 };
+
+let schedules=[
+  [{
+    medicineName:"Dopamine 40mg/ml",
+    dose:40,
+    unit:"ml",
+    scheduledTime:new Date('June 4, 2018 01:30:00'),
+    status:"notAdministrated"
+  },{
+    medicineName:"Dopamine 40mg/ml",
+    dose:40,
+    unit:"ml",
+    scheduledTime:new Date('June 5, 2018 01:30:00'),
+    status:"administrated"
+  },{
+    medicineName:"Dopamine 40mg/ml",
+    dose:40,
+    unit:"ml",
+    scheduledTime:new Date('June 6, 2018 01:30:00'),
+    status:"toBeAdministrated"
+  }]
+];
 
 function Titles(props) {
   return(
@@ -17,68 +40,13 @@ function Titles(props) {
   )
 }
 
-function PatientDetails(props) {
-  let patient = props.patient;
-  return (
-      <div className={"PatientDetails"}>
-        <p>
-          {patient.name +" "+ patient.gender +", "+patient.age + " yrs"}
-        </p>
-      </div>
-  );
-}
-
-function CurrentWeekDates(props){
-  let currentWeekDates=[];
-  let startingDate=props.currentWeek.startingDate;
-
-  for (let i=0;i<7;i++){
-    currentWeekDates.push(<th key={'day'+i}>{moment(startingDate).day(i).toDate().toDateString()}</th>);
-  }
-
-  return currentWeekDates;
-}
-
 function makePopupVisible() {
   let popup=document.querySelector('.popup');
   popup.style.display='block';
   return true;
 }
 
-
-function MedicineDetails(props) {
-  let medicine=props.medicine;
-  let onClickFunction=props.showPopup.bind(null,medicine);
-  return(
-      <div onClick={onClickFunction} className={"medicineDetails"}>
-        {medicine.name}
-        <br/>
-        {medicine.dose+"\t"+medicine.unit}
-      </div>
-  )
-}
-
-function MedicineWithEmptySchedules(props){
-  let schedules = [];
-  schedules.push(<td>{MedicineDetails(props)}</td>);
-  for (let i=0;i<7;i++){
-    schedules.push(<td/>)
-  }
-
-  return <tr>{schedules}</tr>;
-}
-
-
-function MedicinesTobeScheduled(props){
-  let allMedicines=[];
-  for (let i = 0; i < props.medicinesToBeScheduled.length; i++){
-    allMedicines.push(
-        <MedicineWithEmptySchedules medicine={props.medicinesToBeScheduled[i]} showPopup={props.showPopup}/>);
-  }
-  return allMedicines;
-}
-
-class PatientMARView extends React.Component{
+class PatientMAR extends React.Component{
   constructor(props){
     super(props);
     this.state= {
@@ -87,11 +55,13 @@ class PatientMARView extends React.Component{
         startingDate:moment().day(0).toDate(),
         endingDate:moment().day(6).toDate()
       },
-      scheduledMedicines: []
+      schedules:schedules
     };
     this.showNewSchedulePopup=this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine=this.updateCurrentMedicine.bind(this);
     this.resetCurrentMedicine=this.resetCurrentMedicine.bind(this);
+    this.pastWeek=this.pastWeek.bind(this);
+    this.nextWeek=this.nextWeek.bind(this);
   }
 
   showNewSchedulePopup(currentMedicineToPopup){
@@ -103,13 +73,36 @@ class PatientMARView extends React.Component{
     let newState={
       currentMedicineToPopup:medicine,
       currentWeek:this.state.currentWeek,
-      scheduledMedicines:this.state.scheduledMedicines
+      schedules:this.state.schedules
+    };
+    this.setState(newState);
+  }
+
+  updateCurrentWeek(givenWeek){
+    let newState={
+      currentMedicineToPopup:this.state.currentMedicineToPopup,
+      currentWeek:givenWeek,
+      schedules:this.state.schedules
     };
     this.setState(newState);
   }
 
   resetCurrentMedicine(){
     this.updateCurrentMedicine(initialEmptyMedicine);
+  }
+
+  pastWeek(){
+    let pastWeek={};
+    pastWeek.startingDate=moment(this.state.currentWeek.startingDate).day(-7).toDate();
+    pastWeek.endingDate=moment(pastWeek.startingDate).day(6).toDate();
+    this.updateCurrentWeek(pastWeek);
+  }
+
+  nextWeek(){
+    let nextWeek={};
+    nextWeek.startingDate=moment(this.state.currentWeek.startingDate).day(7).toDate();
+    nextWeek.endingDate=moment(nextWeek.startingDate).day(6).toDate();
+    this.updateCurrentWeek(nextWeek);
   }
 
   render(){
@@ -122,15 +115,21 @@ class PatientMARView extends React.Component{
           />
 
           <Titles patient={patient} showPopup={this.showNewSchedulePopup.bind(this,this.state.currentMedicineToPopup)}/>
-          <table className={"medicineTable"}>
+          <div>
+            <button onClick={this.pastWeek}>{"<"}</button>
+            <p>{moment(this.state.currentWeek.startingDate).format('DD')}-
+              {moment(this.state.currentWeek.endingDate).format('DD MMM')}
+            </p>
+            <button onClick={this.nextWeek}>{">"}</button>
+          </div>
+          <table className="medicineTable">
             <tbody>
             <tr>
               <th>medicine</th>
               {<CurrentWeekDates currentWeek={this.state.currentWeek}/>}
             </tr>
             <MedicinesTobeScheduled medicinesToBeScheduled={patient.medicinesToBeScheduled} showPopup={this.showNewSchedulePopup}/>
-            {/*<ScheduledMedicines medicines={patient.scheduledMedicines}*/}
-            {/*getScheduleListOfThisWeek={this.getTimingsOfThisWeek}/>*/}
+            <ScheduledMedicines schedules={this.state.schedules} currentWeek={this.state.currentWeek}/>
             </tbody>
           </table>
         </div>
@@ -138,4 +137,4 @@ class PatientMARView extends React.Component{
   }
 }
 
-export default PatientMARView;
+export default PatientMAR;
