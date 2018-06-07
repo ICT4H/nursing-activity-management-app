@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Provided data as a list of objects having two methods as getTitleOfRow and getDetailsFor(givenDate)should give table consisting row for each object 1`] = `
+<div>
+  <table>
+    <tr>
+      <th>
+        Column1
+      </th>
+    </tr>
+    <tr>
+      <tr>
+        <td>
+          titleOfRow
+        </td>
+      </tr>
+    </tr>
+  </table>
+</div>
+`;
+
+exports[`Provided title and currentWeek having starting date should give table with row having title and dates of given week as table headers 1`] = `
+<div>
+  <table>
+    <tr>
+      <th>
+        Column1
+      </th>
+    </tr>
+  </table>
+</div>
+`;

@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment/moment";
 import NewSchedulePopup from './NewSchedulePopup';
-import PatientDetails from './PatientDetails';
+import PersonDetails from './PersonDetails';
 import ScheduledMedicines from './ScheduledMedicines';
 import MedicinesToBeScheduled from './MedicinesToBeScheduled';
 import CurrentWeekDates from './CurrentWeekDates';
@@ -36,7 +36,7 @@ let schedules=[
 function Titles(props) {
   return(
       <div className={"titles"}>
-        <PatientDetails patient={props.patient}/>
+        <PersonDetails person={props.patient}/>
         <button onClick={props.showPopup}>+ add more</button>
         <p>{new Date().toDateString()}</p>
       </div>

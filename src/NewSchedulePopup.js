@@ -1,5 +1,5 @@
 import React from "react";
-import PatientDetails from './PatientDetails'
+import PersonDetails from './PersonDetails'
 
 class NewSchedulePopup extends React.Component {
   constructor(props){
@@ -28,7 +28,7 @@ class NewSchedulePopup extends React.Component {
         <div className={"popup"}>
           <div className={"popupContent"}>
             <p>Add New Medicine Schedule</p>
-            <PatientDetails patient={this.props.patient}/>
+            <PersonDetails person={this.props.patient}/>
             <input
                 type={"text"} placeholder={"medicineName"} ref="medicineName"
                 value={this.props.medicine.medicineName} onChange={this.handleChange}/>

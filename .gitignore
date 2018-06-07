@@ -24,3 +24,4 @@ nursing-activity-management-app.iml
 package-lock.json
 .idea
 .vscode
+spike/*

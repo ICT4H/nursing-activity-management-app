@@ -6,9 +6,8 @@ class MedicineDetails extends Component {
     let onClickFunction = this.props.showPopup && this.props.showPopup.bind(null, medicine);
     return (
         <div onClick={onClickFunction} className={"medicineDetails"}>
-          {medicine.medicineName}
-          <br/>
-          {medicine.dose + "\t" + medicine.unit}
+          <p>{medicine.medicineName}</p>
+          <p>{medicine.dose + "\t" + medicine.unit}</p>
         </div>
     )
   }

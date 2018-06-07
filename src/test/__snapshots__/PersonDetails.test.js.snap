@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given person object with name,gender and age gives all in "p" tag and wrapped around with "div" tag 1`] = `
+<div
+  className="PersonDetails"
+>
+  <p>
+    Cally Cardena
+  </p>
+  <p>
+    male
+  </p>
+  <p>
+    33 yrs
+  </p>
+</div>
+`;

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given medicine object with medicineName,dose and unit gives all in "p" tag and wrapped around with "div" tag 1`] = `
+<div
+  className="PersonDetails"
+>
+  <p />
+  <p />
+  <p>
+    undefined yrs
+  </p>
+</div>
+`;
