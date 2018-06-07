@@ -2,41 +2,59 @@ import React from "react";
 import moment from "moment/moment";
 import NewSchedulePopup from './NewSchedulePopup';
 import PersonDetails from './PersonDetails';
+import Medicine from './Medicine';
+
 import ScheduledMedicines from './ScheduledMedicines';
 import MedicinesToBeScheduled from './MedicinesToBeScheduled';
 import CurrentWeekDates from './CurrentWeekDates';
+
+import WeeklyTable from "./WeeklyTable";
 
 let initialEmptyMedicine = {
   medicineName: "", dose: 0,
   unit: "", dosage: ""
 };
 
-let schedules=[
-  [{
-    medicineName:"Dopamine 40mg/ml",
-    dose:40,
-    unit:"ml",
-    scheduledTime:new Date('June 4, 2018 01:30:00'),
-    status:"notAdministrated"
-  },{
-    medicineName:"Dopamine 40mg/ml",
-    dose:40,
-    unit:"ml",
-    scheduledTime:new Date('June 5, 2018 01:30:00'),
-    status:"administrated"
-  },{
-    medicineName:"Dopamine 40mg/ml",
-    dose:40,
-    unit:"ml",
-    scheduledTime:new Date('June 6, 2018 01:30:00'),
-    status:"toBeAdministrated"
-  }]
-];
+
+let scheduledMedicineData={medicineName:"Dopamine 40mg/ml",
+  dose:40,
+  unit:"ml",
+  schedules:[{scheduledTime:new Date('June 5, 2018 01:30:00'),
+    status:"notAdministrated"},{scheduledTime:new Date('June 7, 2018 01:30:00'),
+    status:"administrated"},{scheduledTime:new Date('June 8, 2018 01:30:00'),
+    status:"toBeAdministrated"}]
+};
+
+let scheduledMedicine=new Medicine(scheduledMedicineData);
+
+let scheduledMedicines=[scheduledMedicine];
+//
+// let schedules=[
+//   [{
+//     medicineName:"Dopamine 40mg/ml",
+//     dose:40,
+//     unit:"ml",
+//     scheduledTime:new Date('June 5, 2018 01:30:00'),
+//     status:"notAdministrated"
+//   },{
+//     medicineName:"Dopamine 40mg/ml",
+//     dose:40,
+//     unit:"ml",
+//     scheduledTime:new Date('June 6, 2018 01:30:00'),
+//     status:"administrated"
+//   },{
+//     medicineName:"Dopamine 40mg/ml",
+//     dose:40,
+//     unit:"ml",
+//     scheduledTime:new Date('June 7, 2018 01:30:00'),
+//     status:"toBeAdministrated"
+//   }]
+// ];
 
 function Titles(props) {
   return(
       <div className={"titles"}>
-        <PersonDetails person={props.patient}/>
+        <PersonDetails person={props.patient} className={"patientDetails"}/>
         <button onClick={props.showPopup}>+ add more</button>
         <p>{new Date().toDateString()}</p>
       </div>
@@ -57,14 +75,15 @@ class PatientMAR extends React.Component{
       currentWeek:{
         startingDate:moment().day(0).toDate(),
         endingDate:moment().day(6).toDate()
-      },
-      schedules:schedules
+      }
+      // schedules:schedules
     };
     this.showNewSchedulePopup=this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine=this.updateCurrentMedicine.bind(this);
     this.resetCurrentMedicine=this.resetCurrentMedicine.bind(this);
     this.pastWeek=this.pastWeek.bind(this);
     this.nextWeek=this.nextWeek.bind(this);
+    this.scheduledMedicines=scheduledMedicines;
   }
 
   showNewSchedulePopup(currentMedicineToPopup){
@@ -125,19 +144,21 @@ class PatientMAR extends React.Component{
             </p>
             <button onClick={this.nextWeek}>{">"}</button>
           </div>
-          <table className="medicineTable">
-            <tbody>
-            <tr>
-              <th>medicine</th>
-              {<CurrentWeekDates currentWeek={this.state.currentWeek}/>}
-            </tr>
-            <MedicinesToBeScheduled medicinesToBeScheduled={patient.medicinesToBeScheduled} showPopup={this.showNewSchedulePopup}/>
-            <ScheduledMedicines schedules={this.state.schedules} currentWeek={this.state.currentWeek}/>
-            </tbody>
-          </table>
+          <WeeklyTable currentWeek={this.state.currentWeek} title={"medicineName"} data={this.scheduledMedicines.concat(this.props.patient.medicinesToBeScheduled)}/>
+          {/*<table className="medicineTable">*/}
+            {/*<tbody>*/}
+            {/*<tr>*/}
+              {/*<th>medicine</th>*/}
+              {/*{<CurrentWeekDates currentWeek={this.state.currentWeek}/>}*/}
+            {/*</tr>*/}
+            {/*<MedicinesToBeScheduled medicinesToBeScheduled={patient.medicinesToBeScheduled} showPopup={this.showNewSchedulePopup}/>*/}
+            {/*<ScheduledMedicines schedules={this.state.schedules} currentWeek={this.state.currentWeek}/>*/}
+            {/*</tbody>*/}
+          {/*</table>*/}
         </div>
     )
   }
+
 }
 
 export default PatientMAR;

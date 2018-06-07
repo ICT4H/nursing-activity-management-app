@@ -16,7 +16,7 @@ class WeeklyTable extends Component {
   render() {
     let headerRow = [];
     headerRow.push(<th>{this.props.title ? this.props.title:""}</th>);
-    headerRow.concat(this.getCurrentWeekDates());
+    headerRow=headerRow.concat(this.getCurrentWeekDates());
     let resultantTableOfData=[];
 
 
@@ -40,13 +40,13 @@ class WeeklyTable extends Component {
       let row=[];
       row.push(<td>{object.getTitleOfRow()}</td>);
       for (let i = 0; i<7; i++){
-        let date=moment(startingDate).day(i).toDate().toDateString();
-        object.getDetailsFor(date);
+        let date=moment(startingDate).day(i).toDate();
+        row.push(<td>{object.getDetailsFor(date)}</td>);
       }
       allRows.push(<tr>{row}</tr>)
     });
 
-    return  <tr>{allRows}</tr>
+    return  allRows
   }
 }
 

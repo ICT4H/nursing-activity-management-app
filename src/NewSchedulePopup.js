@@ -28,7 +28,7 @@ class NewSchedulePopup extends React.Component {
         <div className={"popup"}>
           <div className={"popupContent"}>
             <p>Add New Medicine Schedule</p>
-            <PersonDetails person={this.props.patient}/>
+            <PersonDetails person={this.props.patient} className={"patientDetails"}/>
             <input
                 type={"text"} placeholder={"medicineName"} ref="medicineName"
                 value={this.props.medicine.medicineName} onChange={this.handleChange}/>

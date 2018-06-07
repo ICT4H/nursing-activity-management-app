@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PatientMAR from './PatientMAR'
+import Medicine from "./Medicine";
 let sampleStartingDate=new Date();
 
 let medicineData = {
@@ -9,6 +10,7 @@ let medicineData = {
   dosage: "twice a day",
   startingDate: sampleStartingDate,
   noOfDays: 3,
+  schedules:[]
 };
 
 
@@ -19,6 +21,7 @@ let medicineData2 = {
   dosage: "twice a day",
   startingDate: sampleStartingDate,
   noOfDays: 3,
+  schedules:[]
 };
 
 const patientDetails = {
@@ -26,7 +29,7 @@ const patientDetails = {
       name: "Cally Cardenas",
       gender:'male',
       age:33,
-      medicinesToBeScheduled:[medicineData,medicineData2],
+      medicinesToBeScheduled:[new Medicine(medicineData),new Medicine(medicineData2)],
 };
 
 
