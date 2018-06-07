@@ -1,5 +1,5 @@
 import React from "react";
-import {PatientDetails} from './utility'
+import PatientDetails from './PatientDetails'
 
 class NewSchedulePopup extends React.Component {
   constructor(props){

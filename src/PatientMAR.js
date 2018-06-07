@@ -1,7 +1,10 @@
 import React from "react";
 import moment from "moment/moment";
 import NewSchedulePopup from './NewSchedulePopup';
-import {PatientDetails,ScheduledMedicines,MedicinesTobeScheduled,CurrentWeekDates} from './utility';
+import PatientDetails from './PatientDetails';
+import ScheduledMedicines from './ScheduledMedicines';
+import MedicinesToBeScheduled from './MedicinesToBeScheduled';
+import CurrentWeekDates from './CurrentWeekDates';
 
 let initialEmptyMedicine = {
   medicineName: "", dose: 0,
@@ -128,7 +131,7 @@ class PatientMAR extends React.Component{
               <th>medicine</th>
               {<CurrentWeekDates currentWeek={this.state.currentWeek}/>}
             </tr>
-            <MedicinesTobeScheduled medicinesToBeScheduled={patient.medicinesToBeScheduled} showPopup={this.showNewSchedulePopup}/>
+            <MedicinesToBeScheduled medicinesToBeScheduled={patient.medicinesToBeScheduled} showPopup={this.showNewSchedulePopup}/>
             <ScheduledMedicines schedules={this.state.schedules} currentWeek={this.state.currentWeek}/>
             </tbody>
           </table>
