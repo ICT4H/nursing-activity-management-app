@@ -2,7 +2,7 @@
 
 exports[`Given person object with name,gender and age gives all in "p" tag and wrapped around with "div" tag 1`] = `
 <div
-  className="PersonDetails"
+  className="personDetails"
 >
   <p>
     Cally Cardena

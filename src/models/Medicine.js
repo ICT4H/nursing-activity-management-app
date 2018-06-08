@@ -4,9 +4,13 @@ function isSameDate(scheduledTime, givenDate) {
   return scheduledTime.getDate() === givenDate.getDate();
 }
 
+function defaultScheduleFormatter(schedule){
+  return <p>{schedule.scheduledTime.getHours() + ":" + schedule.scheduledTime.getMinutes()}</p>;
+}
+
 class Medicine {
   constructor(scheduledMedicineData,scheduleFormatter) {
-    this.scheduleFormatter = scheduleFormatter;
+    this.scheduleFormatter = scheduleFormatter||defaultScheduleFormatter;
     this.medicineName = scheduledMedicineData.medicineName;
     this.dose = scheduledMedicineData.dose;
     this.unit = scheduledMedicineData.unit;

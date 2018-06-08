@@ -2,44 +2,22 @@ import React from "react";
 import moment from "moment/moment";
 import NewSchedulePopup from './NewSchedulePopup';
 import PersonDetails from './PersonDetails';
-import Medicine from './Medicine';
-
 import WeeklyTable from "./WeeklyTable";
-
-
-function scheduleFormatter(schedule) {
-  return <p>{schedule.scheduledTime.getHours() + ":" + schedule.scheduledTime.getMinutes()}</p>
-}
+import {scheduledMedicineData, scheduledMedicineData2} from "./dummyData";
+import Medicine from "./models/Medicine";
 
 let initialEmptyMedicine = {
   medicineName: "", dose: 0,
   unit: "", dosage: ""
 };
 
+function scheduleFormatter(schedule) {
+  return <p>{schedule.scheduledTime.getHours() + ":" + schedule.scheduledTime.getMinutes()}</p>;
+}
 
-let scheduledMedicineData = {
-  medicineName: "Dopamine 40mg/ml",
-  dose: 40,
-  unit: "ml",
-  schedules: [{
-    scheduledTime: new Date('June 5, 2018 9:30:00'),
-    status: "notAdministrated"
-  }, {
-    scheduledTime: new Date('June 5, 2018 02:30:00'),
-    status: "notAdministrated"
-  }, {
-    scheduledTime: new Date('June 5, 2018 07:30:00'),
-    status: "notAdministrated"
-  }, {
-    scheduledTime: new Date('June 7, 2018 02:30:00'),
-    status: "administrated"
-  }, {
-    scheduledTime: new Date('June 8, 2018 02:30:00'),
-    status: "toBeAdministrated"
-  }]
-};
+let scheduledMedicine1 = new Medicine(scheduledMedicineData, scheduleFormatter);
+let scheduledMedicine2 = new Medicine(scheduledMedicineData2, scheduleFormatter);
 
-let scheduledMedicine = new Medicine(scheduledMedicineData,scheduleFormatter);
 
 function Titles(props) {
   return (
@@ -67,7 +45,8 @@ class PatientMAR extends React.Component {
         endingDate: moment().day(6).toDate()
       }
     };
-    this.scheduledMedicines = [scheduledMedicine];
+    this.medicinesToBeScheduled =
+        this.scheduledMedicines = [scheduledMedicine1, scheduledMedicine2];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine = this.updateCurrentMedicine.bind(this);
     this.resetCurrentMedicine = this.resetCurrentMedicine.bind(this);
@@ -139,7 +118,6 @@ class PatientMAR extends React.Component {
         </div>
     )
   }
-
 }
 
 export default PatientMAR;

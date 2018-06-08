@@ -69,12 +69,4 @@ function SelectingUnit (props){
 
   );
 }
-
-// function InputField(props) {
-//   return(
-//       <input
-//           type={props.type} placeholder={props.placeholder} ref={props.ref}
-//           value={props.value} onChange={props.onChange}/>
-//   )
-// }
 export default NewSchedulePopup;

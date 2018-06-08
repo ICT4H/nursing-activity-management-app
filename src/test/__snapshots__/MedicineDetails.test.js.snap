@@ -2,12 +2,14 @@
 
 exports[`Given medicine object with medicineName,dose and unit gives all in "p" tag and wrapped around with "div" tag 1`] = `
 <div
-  className="PersonDetails"
+  className="medicineDetails"
+  onClick={undefined}
 >
-  <p />
-  <p />
   <p>
-    undefined yrs
+    Paracetmol
+  </p>
+  <p>
+    2	table
   </p>
 </div>
 `;

@@ -17,7 +17,7 @@ test('Provided title and currentWeek having starting date should ' +
 test('Provided data as a list of objects having two methods as getTitleOfRow and getDetailsFor(givenDate)' +
     'should give table consisting row for each object', () => {
   const currentWeek = {
-    startingDate: moment().day(0).toDate()
+    startingDate: moment(new Date('June 5, 2018 9:30:00')).day(0).toDate()
   };
   let sampleObject={
     getTitleOfRow(){
