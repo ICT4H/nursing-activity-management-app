@@ -1,9 +1,12 @@
+import React from "react";
+
 function isSameDate(scheduledTime, givenDate) {
   return scheduledTime.getDate() === givenDate.getDate();
 }
 
 class Medicine {
-  constructor(scheduledMedicineData) {
+  constructor(scheduledMedicineData,scheduleFormatter) {
+    this.scheduleFormatter = scheduleFormatter;
     this.medicineName = scheduledMedicineData.medicineName;
     this.dose = scheduledMedicineData.dose;
     this.unit = scheduledMedicineData.unit;
@@ -11,19 +14,18 @@ class Medicine {
   }
 
   getTitleOfRow() {
-    return this.medicineName;
+    return (<div className={"medicineDetails"}>
+      <p>{this.medicineName}</p>
+      <p>{this.dose} {this.unit}</p>
+    </div>);
   }
 
   getDetailsFor(givenDate) {
-    let details = this.schedules.find((schedule) => isSameDate(schedule.scheduledTime, givenDate));
-    if (details) {
-      return this.getFormattedSchedule(details)
+    let schedules = this.schedules.filter((schedule) => isSameDate(schedule.scheduledTime, givenDate));
+    if (schedules) {
+      return <div>{schedules.map((s)=>this.scheduleFormatter(s))}</div>;
     }
-    return "";
-  }
-
-  getFormattedSchedule(schedule) {
-    return schedule.scheduledTime.getHours() + ":" + schedule.scheduledTime.getMinutes();
+    return <div/>;
   }
 }
 
