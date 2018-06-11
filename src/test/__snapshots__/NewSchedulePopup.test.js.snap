@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should have input fields medicineName, dose, unit with given values and save cancel buttons 1`] = `
+<div
+  className="popup"
+>
+  <div
+    className="popupContent"
+  >
+    <p>
+      Add New Medicine Schedule
+    </p>
+    <div
+      className="patientDetails"
+    >
+      <p>
+        Cally Cardenas
+      </p>
+      <p>
+        male
+      </p>
+      <p>
+        33 yrs
+      </p>
+    </div>
+    <input
+      onChange={[Function]}
+      placeholder="medicineName"
+      type="text"
+      value="Paracetmol"
+    />
+    <input
+      onChange={[Function]}
+      placeholder="dose"
+      type="text"
+      value={2}
+    />
+    <select>
+      <option
+        value=""
+      >
+        selectUnit
+      </option>
+      <option
+        value="Tablet"
+      >
+        Tablet
+      </option>
+      <option
+        value="Capsule"
+      >
+        Capsule
+      </option>
+      <option
+        value="ml"
+      >
+        ml
+      </option>
+      <option
+        value="mg"
+      >
+        mg
+      </option>
+      <option
+        value="Tablespoon"
+      >
+        Tablespoon
+      </option>
+    </select>
+    <div>
+      <button
+        className="button"
+        onClick={[Function]}
+        value="Save"
+      >
+        Save
+      </button>
+      <button
+        className="button"
+        onClick={[Function]}
+        value="Cancel"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
+`;

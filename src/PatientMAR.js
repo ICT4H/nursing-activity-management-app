@@ -45,8 +45,7 @@ class PatientMAR extends React.Component {
         endingDate: moment().day(6).toDate()
       }
     };
-    this.medicinesToBeScheduled =
-        this.scheduledMedicines = [scheduledMedicine1, scheduledMedicine2];
+    this.scheduledMedicines = [scheduledMedicine1, scheduledMedicine2];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine = this.updateCurrentMedicine.bind(this);
     this.resetCurrentMedicine = this.resetCurrentMedicine.bind(this);

@@ -23,7 +23,6 @@ class NewSchedulePopup extends React.Component {
     this.props.onChange(medicine);
   }
   render() {
-    console.log(this.props.medicine.medicineName);
     return (
         <div className={"popup"}>
           <div className={"popupContent"}>
@@ -50,8 +49,8 @@ class NewSchedulePopup extends React.Component {
 function SaveCancelButtons(props) {
   return(
       <div>
-        <button onClick={props.saveFn} className={"button"}>Save</button>
-        <button onClick={props.cancelFn} className={"button"}>Cancel</button>
+        <button onClick={props.saveFn} className={"button"} value={"Save"}>Save</button>
+        <button onClick={props.cancelFn} className={"button"} value={"Cancel"}>Cancel</button>
       </div>
       )
 }
