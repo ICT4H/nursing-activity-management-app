@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PatientMAR from './PatientMAR'
 import {patientDetails} from "./dummyData";
 

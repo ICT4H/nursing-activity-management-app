@@ -1,28 +1,33 @@
 import React from "react";
 import PersonDetails from './PersonDetails'
+import SelectOptions from "./SelectOptions";
 
 class NewSchedulePopup extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.handleChange=this.handleChange.bind(this);
-    this.hidePopup=this.hidePopup.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.hidePopup = this.hidePopup.bind(this);
+    this.allOptions = ["Tablet", "Capsule", "ml", "mg", "Tablespoon"];
   }
 
-  hidePopup(){
-    let popup=document.querySelector('.popup');
-    popup.style.display='none';
+  hidePopup() {
+    let popup = document.querySelector('.popup');
+    popup.style.display = 'none';
     this.props.resetInputFields();
     return true;
   }
 
-  handleChange(){
+  handleChange() {
     let medicine = {
-      medicineName:this.refs.medicineName.value,
-      dose:this.refs.dose.value
+      medicineName: this.refs.medicineName.value,
+      dose: this.refs.dose.value,
+      unit: this.refs.unit.value
     };
     this.props.onChange(medicine);
   }
+
   render() {
+    let medicine = this.props.medicine;
     return (
         <div className={"popup"}>
           <div className={"popupContent"}>
@@ -30,13 +35,14 @@ class NewSchedulePopup extends React.Component {
             <PersonDetails person={this.props.patient} className={"patientDetails"}/>
             <input
                 type={"text"} placeholder={"medicineName"} ref="medicineName"
-                value={this.props.medicine.medicineName} onChange={this.handleChange}/>
+                value={medicine.medicineName} onChange={this.handleChange}/>
 
             <input
                 type={"text"} placeholder={"dose"} ref="dose"
-                value={this.props.medicine.dose} onChange={this.handleChange}/>
+                value={medicine.dose} onChange={this.handleChange}/>
 
-            <SelectingUnit selectedUnit={this.props.medicine.unit}/>
+            <SelectOptions selectedValue={medicine.unit} ref={"unit"} options={this.allOptions}
+                           onChange={this.handleChange}/>
 
             <SaveCancelButtons saveFn={this.hidePopup} cancelFn={this.hidePopup}/>
           </div>
@@ -47,25 +53,11 @@ class NewSchedulePopup extends React.Component {
 
 
 function SaveCancelButtons(props) {
-  return(
+  return (
       <div>
         <button onClick={props.saveFn} className={"button"} value={"Save"}>Save</button>
         <button onClick={props.cancelFn} className={"button"} value={"Cancel"}>Cancel</button>
-      </div>
-      )
+      </div>)
 }
 
-function SelectingUnit (props){
-  return(
-      <select>
-        <option value="">selectUnit</option>
-        <option value="Tablet">Tablet</option>
-        <option value="Capsule">Capsule</option>
-        <option value="ml">ml</option>
-        <option value="mg">mg</option>
-        <option value="Tablespoon">Tablespoon</option>
-      </select>
-
-  );
-}
 export default NewSchedulePopup;

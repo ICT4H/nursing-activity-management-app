@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should function pastWeek called when clicked on pastWeek button 1`] = `
+<div
+  className={undefined}
+>
+  <button
+    className="pastWeek"
+    onClick={[Function]}
+  >
+    &lt;
+  </button>
+  <p>
+    03
+    -
+    09 Jun
+  </p>
+  <button
+    className="nextWeek"
+    onClick={undefined}
+  >
+    &gt;
+  </button>
+</div>
+`;
+
+exports[`Should have current week starting date and ending date 1`] = `
+<div
+  className={undefined}
+>
+  <button
+    className="pastWeek"
+    onClick={undefined}
+  >
+    &lt;
+  </button>
+  <p>
+    03
+    -
+    09 Jun
+  </p>
+  <button
+    className="nextWeek"
+    onClick={undefined}
+  >
+    &gt;
+  </button>
+</div>
+`;

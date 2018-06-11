@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given option should be selected default 1`] = `
+<select
+  onChange={undefined}
+  value="male"
+>
+  <option>
+    select Option
+  </option>
+  <option
+    value="male"
+  >
+    male
+  </option>
+  <option
+    value="female"
+  >
+    female
+  </option>
+</select>
+`;
+
+exports[`Should have all options from list of options provided 1`] = `
+<select
+  onChange={undefined}
+  value={undefined}
+>
+  <option>
+    select Option
+  </option>
+  <option
+    value="male"
+  >
+    male
+  </option>
+  <option
+    value="female"
+  >
+    female
+  </option>
+</select>
+`;

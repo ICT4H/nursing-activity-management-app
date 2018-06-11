@@ -1,34 +1,34 @@
 import Medicine from "./models/Medicine";
-import React from "react";
-let sampleStartingDate=new Date();
+
+let sampleStartingDate = new Date();
 
 let medicineData = {
   medicineName: "Paracetmol",
-  dose:1,
-  unit:'Tablet',
+  dose: 1,
+  unit: 'Tablet',
   dosage: "twice a day",
   startingDate: sampleStartingDate,
   noOfDays: 3,
-  schedules:[]
+  schedules: []
 };
 
 
 let medicineData2 = {
   medicineName: "Crosine",
-  dose:1,
-  unit:'Tablet',
+  dose: 1,
+  unit: 'Tablet',
   dosage: "twice a day",
   startingDate: sampleStartingDate,
   noOfDays: 3,
-  schedules:[]
+  schedules: []
 };
 
 const patientDetails = {
-  id:'GAN12345',
+  id: 'GAN12345',
   name: "Cally Cardenas",
-  gender:'male',
-  age:33,
-  medicinesToBeScheduled:[new Medicine(medicineData),new Medicine(medicineData2)],
+  gender: 'male',
+  age: 33,
+  medicinesToBeScheduled: [new Medicine(medicineData), new Medicine(medicineData2)],
 };
 
 
@@ -57,11 +57,11 @@ let scheduledMedicineData = {
 let scheduledMedicineData2 = {
   medicineName: "Metformin 850mg",
   dose: 1,
-  unit: "tablet",
+  unit: "Tablet",
   schedules: [{
     scheduledTime: new Date('June 2, 2018 02:30:00'),
     status: "toBeAdministrated"
-  },{
+  }, {
     scheduledTime: new Date('June 8, 2018 9:30:00'),
     status: "notAdministrated"
   }, {
@@ -76,4 +76,4 @@ let scheduledMedicineData2 = {
   }]
 };
 
-export {patientDetails,scheduledMedicineData,scheduledMedicineData2}
+export {patientDetails, scheduledMedicineData, scheduledMedicineData2}

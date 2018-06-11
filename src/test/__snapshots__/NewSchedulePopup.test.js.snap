@@ -35,11 +35,12 @@ exports[`Should have input fields medicineName, dose, unit with given values and
       type="text"
       value={2}
     />
-    <select>
-      <option
-        value=""
-      >
-        selectUnit
+    <select
+      onChange={[Function]}
+      value="Tablet"
+    >
+      <option>
+        select Option
       </option>
       <option
         value="Tablet"

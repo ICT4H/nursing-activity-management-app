@@ -55,6 +55,6 @@ class WeeklyTable extends Component {
 
 WeeklyTable.propTypes = {
   currentWeek: PropTypes.objectOf(PropTypes.instanceOf(Date)).isRequired,
-  date: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(PropTypes.object),
 };
 export default WeeklyTable
