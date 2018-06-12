@@ -1,20 +1,14 @@
 import React from "react";
 import PersonDetails from './PersonDetails'
 import SelectOptions from "./SelectOptions";
+import SaveCancelButtons from "./SaveCancelButtons";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.hidePopup = this.hidePopup.bind(this);
+    //todo: Might come from server using an API
     this.allOptions = ["Tablet", "Capsule", "ml", "mg", "Tablespoon"];
-  }
-
-  hidePopup() {
-    let popup = document.querySelector('.popup');
-    popup.style.display = 'none';
-    this.props.resetInputFields();
-    return true;
   }
 
   handleChange() {
@@ -29,35 +23,27 @@ class NewSchedulePopup extends React.Component {
   render() {
     let medicine = this.props.medicine;
     return (
-        <div className={"popup"}>
-          <div className={"popupContent"}>
+        <div className="popup">
+          <div className="popupContent">
             <p>Add New Medicine Schedule</p>
-            <PersonDetails person={this.props.patient} className={"patientDetails"}/>
+            <PersonDetails person={this.props.patient}
+                           className={"patientDetails"}/>
             <input
-                type={"text"} placeholder={"medicineName"} ref="medicineName"
+                type="text" placeholder="medicineName" ref="medicineName"
                 value={medicine.medicineName} onChange={this.handleChange}/>
 
             <input
-                type={"text"} placeholder={"dose"} ref="dose"
+                type="text" placeholder="dose" ref="dose"
                 value={medicine.dose} onChange={this.handleChange}/>
 
-            <SelectOptions selectedValue={medicine.unit} ref={"unit"} options={this.allOptions}
+            <SelectOptions selectedValue={medicine.unit} ref="unit" options={this.allOptions}
                            onChange={this.handleChange}/>
 
-            <SaveCancelButtons saveFn={this.hidePopup} cancelFn={this.hidePopup}/>
+            <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>
         </div>
     )
   }
-}
-
-
-function SaveCancelButtons(props) {
-  return (
-      <div>
-        <button onClick={props.saveFn} className={"button"} value={"Save"}>Save</button>
-        <button onClick={props.cancelFn} className={"button"} value={"Cancel"}>Cancel</button>
-      </div>)
 }
 
 export default NewSchedulePopup;

@@ -7,7 +7,6 @@ class App extends Component {
   render() {
     return (
         <div>
-          <script src="./moment.js"/>
           <div>
             <p>Medicine Administration Record</p>
           </div>

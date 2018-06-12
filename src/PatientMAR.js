@@ -42,14 +42,16 @@ class PatientMAR extends React.Component {
         endingDate: moment().day(6).toDate()
       }
     };
+    this.currentWeekData = [];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine = this.updateCurrentMedicine.bind(this);
     this.resetCurrentMedicine = this.resetCurrentMedicine.bind(this);
     this.pastWeek = this.pastWeek.bind(this);
     this.nextWeek = this.nextWeek.bind(this);
-    this.currentWeekData = [];
     this.prepareThisWeekData = this.prepareThisWeekData.bind(this);
-    this.prepareThisWeekData = this.prepareThisWeekData();
+    this.saveFn = this.saveFn.bind(this);
+    this.cancelFn = this.cancelFn.bind(this);
+    this.prepareThisWeekData();
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
@@ -58,21 +60,11 @@ class PatientMAR extends React.Component {
   }
 
   updateCurrentMedicine(medicine) {
-    let newState = {
-      currentMedicineToPopup: medicine,
-      currentWeek: this.state.currentWeek,
-      schedules: this.state.schedules
-    };
-    this.setState(newState);
+    this.setState({currentMedicineToPopup: medicine});
   }
 
   updateCurrentWeek(givenWeek) {
-    let newState = {
-      currentMedicineToPopup: this.state.currentMedicineToPopup,
-      currentWeek: givenWeek,
-      schedules: this.state.schedules
-    };
-    this.setState(newState);
+    this.setState({currentWeek: givenWeek});
   }
 
   resetCurrentMedicine() {
@@ -101,13 +93,30 @@ class PatientMAR extends React.Component {
     this.currentWeekData = scheduledMedicines.concat(medicinesToBeScheduled);
   }
 
+  hidePopup() {
+    let popup = document.querySelector('.popup');
+    popup.style.display = 'none';
+    this.resetCurrentMedicine();
+    return true;
+  }
+
+  saveFn() {
+    //todo: Save the medicines schedules
+    this.hidePopup();
+  }
+
+  cancelFn() {
+    //todo: Save the medicines
+    this.hidePopup();
+  }
+
   render() {
     let patient = this.props.patient;
     return (
         <div>
           <NewSchedulePopup medicine={this.state.currentMedicineToPopup}
                             patient={patient} onChange={this.updateCurrentMedicine}
-                            resetInputFields={this.resetCurrentMedicine}
+                            saveFn={this.saveFn} cancelFn={this.cancelFn}
           />
 
           <Titles patient={patient}

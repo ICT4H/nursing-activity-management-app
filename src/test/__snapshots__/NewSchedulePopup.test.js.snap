@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should have input fields medicineName, dose, unit with given values and save cancel buttons 1`] = `
+exports[`Should have input fields medicineName, dose, unit with given values 1`] = `
 <div
   className="popup"
 >
