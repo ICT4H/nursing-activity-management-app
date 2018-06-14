@@ -11,7 +11,8 @@ let medicineToPopup = {
   medicineName: "Paracetmol",
   dose: 2,
   unit: TAB,
-  frequency: BID
+  frequency: BID,
+  startingDate:new Date("June 8, 2018 2:30:00")
 };
 let patient = {
   name: "Cally Cardenas",
@@ -56,5 +57,11 @@ describe('NewSchedulePopup', () => {
 
   test('Should have input field with given dose as value', () => {
     expect(component.root.find(element => element.type === 'input' && element.props.placeholder === 'dose').props.value).toBe(medicineToPopup.dose);
+  });
+
+  test('Should have input field with given date as value', () => {
+    console.log(component.root.find(element => element.type === 'input' && element.props.placeholder === 'startingDate').props.value);
+    console.log(new Date("June 8, 2018 2:30:00"));
+    expect(component.root.find(element => element.type === 'input' && element.props.placeholder === 'startingDate').props.value).toBe(medicineToPopup.startingDate);
   });
 });

@@ -3,6 +3,7 @@ import PersonDetails from './PersonDetails'
 import SelectOptions from "./SelectOptions";
 import SaveCancelButtons from "./SaveCancelButtons";
 import {BID, CAP, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "./constants";
+import Timings from "./Timings";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -46,7 +47,8 @@ class NewSchedulePopup extends React.Component {
             <SelectOptions selectedValue={medicine.frequency} options={this.frequencies} className="chooseFrequency"
                            ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleChange}/>
 
-            <input type="date" ref="startingDate" onChange={this.handleChange}/>
+            <input type="date" ref="startingDate" placeholder="startingDate" onChange={this.handleChange} value={medicine.startingDate}/>
+            <Timings timings={medicine.timings}/>
 
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>

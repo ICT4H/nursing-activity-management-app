@@ -14,7 +14,7 @@ let initialEmptyMedicine = {
   unit: "", dosage: ""
 };
 
-function Titles(props) {
+function Headers(props) {
   return (
       <div className={"titles"}>
         <PersonDetails person={props.patient} className={"patientDetails"}/>
@@ -112,7 +112,7 @@ class PatientMAR extends React.Component {
                             saveFn={this.saveFn} cancelFn={this.hidePopup}
           />
 
-          <Titles patient={patient}
+          <Headers patient={patient}
                   showPopup={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
           <WeekControl className={"changeWeek"} pastWeek={this.pastWeek}
                        nextWeek={this.nextWeek} currentWeek={this.state.currentWeek}

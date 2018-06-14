@@ -110,8 +110,17 @@ exports[`NewSchedulePopup Should have input fields medicineName, dose, unit with
     </select>
     <input
       onChange={[Function]}
+      placeholder="startingDate"
       type="date"
+      value={2018-06-07T21:00:00.000Z}
     />
+    <div>
+      <button
+        onClick={[Function]}
+      >
+        + Add More Times
+      </button>
+    </div>
     <div>
       <button
         className="button"
