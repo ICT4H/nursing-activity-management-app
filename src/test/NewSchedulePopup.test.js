@@ -2,15 +2,16 @@ import React from 'react';
 import NewSchedulePopup from '../NewSchedulePopup';
 import renderer from 'react-test-renderer';
 import SaveCancelButtons from "../SaveCancelButtons";
-import SelectOptions from "../SelectOptions";
 import PersonDetails from "../PersonDetails";
+import {BID, TAB} from "../constants";
 
 
 let component;
 let medicineToPopup = {
   medicineName: "Paracetmol",
   dose: 2,
-  unit: "Tablet"
+  unit: TAB,
+  frequency: BID
 };
 let patient = {
   name: "Cally Cardenas",
@@ -37,8 +38,12 @@ describe('NewSchedulePopup', () => {
     expect(component.root.findByType(SaveCancelButtons).props.cancelFn).toBe(cancelFn);
   });
 
-  test('Should have SelectOptions with provided unit as selected value', () => {
-    expect(component.root.findByType(SelectOptions).props.selectedValue).toBe(medicineToPopup.unit);
+  test('Should have SelectOptions of className "choose unit" with provided unit as selected value', () => {
+    expect(component.root.findByProps({className : 'chooseUnit'}).props.selectedValue).toBe(medicineToPopup.unit);
+  });
+
+  test('Should have SelectOptions of className "choose frequency" with provided frequency as selected value', () => {
+    expect(component.root.findByProps({className : 'chooseFrequency'}).props.selectedValue).toBe(medicineToPopup.frequency);
   });
 
   test('Should have given patient details in it', () => {

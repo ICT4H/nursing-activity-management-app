@@ -2,6 +2,7 @@
 
 exports[`Given option should be selected default 1`] = `
 <select
+  className="selectOption"
   onChange={undefined}
   value="male"
 >
@@ -23,6 +24,7 @@ exports[`Given option should be selected default 1`] = `
 
 exports[`Should have all options from list of options provided 1`] = `
 <select
+  className="selectOption"
   onChange={undefined}
   value={undefined}
 >

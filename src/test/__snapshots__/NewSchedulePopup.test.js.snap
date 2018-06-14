@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should have input fields medicineName, dose, unit with given values 1`] = `
+exports[`NewSchedulePopup Should have input fields medicineName, dose, unit with given values 1`] = `
 <div
   className="popup"
 >
@@ -36,38 +36,82 @@ exports[`Should have input fields medicineName, dose, unit with given values 1`]
       value={2}
     />
     <select
+      className="chooseUnit"
       onChange={[Function]}
-      value="Tablet"
+      value="TABLETS"
     >
       <option>
-        select Option
+        CHOOSE UNIT
       </option>
       <option
-        value="Tablet"
+        value="TABLETS"
       >
-        Tablet
+        TABLETS
       </option>
       <option
-        value="Capsule"
+        value="CAPSULES"
       >
-        Capsule
+        CAPSULES
       </option>
       <option
-        value="ml"
+        value="ML"
       >
-        ml
+        ML
       </option>
       <option
-        value="mg"
+        value="MG"
       >
-        mg
+        MG
       </option>
       <option
-        value="Tablespoon"
+        value="TEASPOON"
       >
-        Tablespoon
+        TEASPOON
+      </option>
+      <option
+        value="TABLESPOON"
+      >
+        TABLESPOON
       </option>
     </select>
+    <select
+      className="chooseFrequency"
+      onChange={[Function]}
+      value="TWICE A DAY"
+    >
+      <option>
+        CHOOSE FREQUENCY
+      </option>
+      <option
+        value="ONCE A DAY"
+      >
+        ONCE A DAY
+      </option>
+      <option
+        value="TWICE A DAY"
+      >
+        TWICE A DAY
+      </option>
+      <option
+        value="THRICE A DAY"
+      >
+        THRICE A DAY
+      </option>
+      <option
+        value="FOUR TIMES A DAY"
+      >
+        FOUR TIMES A DAY
+      </option>
+      <option
+        value="ON ALTERNATE DAYS"
+      >
+        ON ALTERNATE DAYS
+      </option>
+    </select>
+    <input
+      onChange={[Function]}
+      type="date"
+    />
     <div>
       <button
         className="button"

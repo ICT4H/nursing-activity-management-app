@@ -30,32 +30,6 @@ exports[`Provided data as a list of objects having two methods as getTitleOfRow 
           Sat Jun 09 2018
         </th>
       </tr>
-      <tr>
-        <td>
-          titleOfRow
-        </td>
-        <td>
-          Sun Jun 03 2018 09:30:00 GMT+0530 (IST)
-        </td>
-        <td>
-          Mon Jun 04 2018 09:30:00 GMT+0530 (IST)
-        </td>
-        <td>
-          Tue Jun 05 2018 09:30:00 GMT+0530 (IST)
-        </td>
-        <td>
-          Wed Jun 06 2018 09:30:00 GMT+0530 (IST)
-        </td>
-        <td>
-          Thu Jun 07 2018 09:30:00 GMT+0530 (IST)
-        </td>
-        <td>
-          Fri Jun 08 2018 09:30:00 GMT+0530 (IST)
-        </td>
-        <td>
-          Sat Jun 09 2018 09:30:00 GMT+0530 (IST)
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>

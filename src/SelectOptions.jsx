@@ -8,8 +8,8 @@ class SelectOptions extends Component {
 
   render() {
     return (
-        <select value={this.props.selectedValue} onChange={this.props.onChange}>
-          <option>select Option</option>
+        <select value={this.props.selectedValue} onChange={this.props.onChange} className={this.props.className}>
+          <option>{this.props.chooseMsg||""}</option>
           {
             this.getAllOptions()
           }

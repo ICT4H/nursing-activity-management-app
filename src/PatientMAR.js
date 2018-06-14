@@ -6,15 +6,13 @@ import WeeklyTable from "./WeeklyTable";
 import {scheduledMedicineData, scheduledMedicineData2} from "./dummyData";
 import Medicine from "./models/Medicine";
 import WeekControl from "./WeekControl";
+import ScheduleFormatter from "./ScheduleFormatter";
 
 let initialEmptyMedicine = {
   medicineName: "", dose: 0,
+  startingDate:"",
   unit: "", dosage: ""
 };
-
-function scheduleFormatter(schedule) {
-  return <p>{schedule.scheduledTime.getHours() + ":" + schedule.scheduledTime.getMinutes()}</p>;
-}
 
 function Titles(props) {
   return (
@@ -50,7 +48,7 @@ class PatientMAR extends React.Component {
     this.nextWeek = this.nextWeek.bind(this);
     this.prepareThisWeekData = this.prepareThisWeekData.bind(this);
     this.saveFn = this.saveFn.bind(this);
-    this.cancelFn = this.cancelFn.bind(this);
+    this.hidePopup = this.hidePopup.bind(this);
     this.prepareThisWeekData();
   }
 
@@ -87,8 +85,8 @@ class PatientMAR extends React.Component {
 
   prepareThisWeekData() {
     let scheduledMedicines = [];
-    scheduledMedicines.push(new Medicine(scheduledMedicineData, scheduleFormatter, this.showNewSchedulePopup.bind(null, scheduledMedicineData)));
-    scheduledMedicines.push(new Medicine(scheduledMedicineData2, scheduleFormatter, this.showNewSchedulePopup.bind(null, scheduledMedicineData2)));
+    scheduledMedicines.push(new Medicine(scheduledMedicineData, ScheduleFormatter, this.showNewSchedulePopup.bind(null, scheduledMedicineData)));
+    scheduledMedicines.push(new Medicine(scheduledMedicineData2, ScheduleFormatter, this.showNewSchedulePopup.bind(null, scheduledMedicineData2)));
     let medicinesToBeScheduled = this.props.patient.medicinesToBeScheduled.map((medData) => new Medicine(medData, null, this.showNewSchedulePopup.bind(null, medData)))
     this.currentWeekData = scheduledMedicines.concat(medicinesToBeScheduled);
   }
@@ -105,18 +103,13 @@ class PatientMAR extends React.Component {
     this.hidePopup();
   }
 
-  cancelFn() {
-    //todo: Save the medicines
-    this.hidePopup();
-  }
-
   render() {
     let patient = this.props.patient;
     return (
         <div>
           <NewSchedulePopup medicine={this.state.currentMedicineToPopup}
                             patient={patient} onChange={this.updateCurrentMedicine}
-                            saveFn={this.saveFn} cancelFn={this.cancelFn}
+                            saveFn={this.saveFn} cancelFn={this.hidePopup}
           />
 
           <Titles patient={patient}
@@ -125,7 +118,7 @@ class PatientMAR extends React.Component {
                        nextWeek={this.nextWeek} currentWeek={this.state.currentWeek}
           />
           <WeeklyTable currentWeek={this.state.currentWeek} title={"medicineName"}
-                       data={this.currentWeekData}/>
+                       weekData={this.currentWeekData}/>
         </div>
     )
   }

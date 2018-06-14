@@ -20,7 +20,7 @@ class WeeklyTable extends Component {
     let resultantTableOfData = [];
 
 
-    if (this.props.data && true) {
+    if (this.props.weekData && true) {
       resultantTableOfData = this.getRowForEachDataObject();
     }
 
@@ -38,12 +38,12 @@ class WeeklyTable extends Component {
     let startingDate = this.props.currentWeek.startingDate;
     let allRows = [];
 
-    this.props.data.forEach((object) => {
+    this.props.weekData.forEach((rowData) => {
       let row = [];
-      row.push(<td>{object.getTitleOfRow()}</td>);
+      row.push(<td>{rowData.getTitleOfRow()}</td>);
       for (let i = 0; i < 7; i++) {
         let date = moment(startingDate).day(i).toDate();
-        row.push(<td>{object.getDetailsFor(date)}</td>);
+        row.push(<td>{rowData.getDetailsFor(date)}</td>);
       }
       allRows.push(<tr>{row}</tr>)
     });

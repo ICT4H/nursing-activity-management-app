@@ -1,12 +1,13 @@
 import Medicine from "./models/Medicine";
+import {TOBEADMINISTRATED, ADMINISTRATED, NOTADMINISTRATED, TAB, ML, BID} from "./constants";
 
 let sampleStartingDate = new Date();
 
 let medicineData = {
   medicineName: "Paracetmol",
   dose: 1,
-  unit: 'Tablet',
-  dosage: "twice a day",
+  unit: TAB,
+  frequency: BID,
   startingDate: sampleStartingDate,
   noOfDays: 3,
   schedules: []
@@ -16,8 +17,8 @@ let medicineData = {
 let medicineData2 = {
   medicineName: "Crosine",
   dose: 1,
-  unit: 'Tablet',
-  dosage: "twice a day",
+  unit: TAB,
+  frequency: BID,
   startingDate: sampleStartingDate,
   noOfDays: 3,
   schedules: []
@@ -35,44 +36,46 @@ const patientDetails = {
 let scheduledMedicineData = {
   medicineName: "Dopamine 40mg/ml",
   dose: 40,
-  unit: "ml",
+  unit: ML,
+  scheduleTimes:[new Date('June 5, 2018 2:30:00')],
   schedules: [{
     scheduledTime: new Date('June 5, 2018 9:30:00'),
-    status: "notAdministrated"
+    status: TOBEADMINISTRATED
   }, {
     scheduledTime: new Date('June 5, 2018 02:30:00'),
-    status: "notAdministrated"
+    status: NOTADMINISTRATED
   }, {
     scheduledTime: new Date('June 5, 2018 07:30:00'),
-    status: "notAdministrated"
+    status: NOTADMINISTRATED
   }, {
     scheduledTime: new Date('June 7, 2018 02:30:00'),
-    status: "administrated"
+    status: ADMINISTRATED
   }, {
     scheduledTime: new Date('June 8, 2018 02:30:00'),
-    status: "toBeAdministrated"
+    status: TOBEADMINISTRATED
   }]
 };
 
 let scheduledMedicineData2 = {
   medicineName: "Metformin 850mg",
   dose: 1,
-  unit: "Tablet",
+  unit: TAB,
+  scheduleTimes:[new Date('June 8, 2018 2:30:00')],
   schedules: [{
     scheduledTime: new Date('June 2, 2018 02:30:00'),
-    status: "toBeAdministrated"
+    status: TOBEADMINISTRATED
   }, {
     scheduledTime: new Date('June 8, 2018 9:30:00'),
-    status: "notAdministrated"
+    status: NOTADMINISTRATED
   }, {
     scheduledTime: new Date('June 9, 2018 02:30:00'),
-    status: "notAdministrated"
+    status: NOTADMINISTRATED
   }, {
     scheduledTime: new Date('June 12, 2018 07:30:00'),
-    status: "notAdministrated"
+    status: NOTADMINISTRATED
   }, {
     scheduledTime: new Date('June 14, 2018 02:30:00'),
-    status: "administrated"
+    status: ADMINISTRATED
   }]
 };
 

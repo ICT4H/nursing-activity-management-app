@@ -11,13 +11,16 @@ function defaultScheduleFormatter(schedule) {
 }
 
 class Medicine {
-  constructor(scheduledMedicineData, scheduleFormatter, onClickOfTitle) {
+  constructor(medicineData, scheduleFormatter, onClickOfTitle) {
     this.onClickOfTitle = onClickOfTitle;
     this.scheduleFormatter = scheduleFormatter || defaultScheduleFormatter;
-    this.medicineName = scheduledMedicineData.medicineName;
-    this.dose = scheduledMedicineData.dose;
-    this.unit = scheduledMedicineData.unit;
-    this.schedules = scheduledMedicineData.schedules;
+    this.medicineName = medicineData.medicineName;
+    this.dose = medicineData.dose;
+    this.unit = medicineData.unit;
+    this.schedules = medicineData.schedules;
+    this.frequency = medicineData.frequency;
+    this.startingDate = medicineData.startingDate;
+    this.scheduleTimes=medicineData.scheduleTimes;
   }
 
   getTitleOfRow() {
@@ -30,7 +33,7 @@ class Medicine {
   getDetailsFor(givenDate) {
     let schedules = this.schedules.filter((schedule) => isSameDate(schedule.scheduledTime, givenDate));
     if (schedules) {
-      return <div>{schedules.map((s) => this.scheduleFormatter(s))}</div>;
+      return <div>{schedules.map((s) => < this.scheduleFormatter schedule={s} />)}</div>;
     }
     return <div/>;
   }
