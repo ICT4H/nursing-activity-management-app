@@ -1,9 +1,9 @@
 import React from 'react';
-import NewSchedulePopup from '../NewSchedulePopup';
+import NewSchedulePopup from '../src/NewSchedulePopup';
 import renderer from 'react-test-renderer';
-import SaveCancelButtons from "../SaveCancelButtons";
-import PersonDetails from "../PersonDetails";
-import {BID, TAB} from "../constants";
+import SaveCancelButtons from "../src/SaveCancelButtons";
+import PersonDetails from "../src/PersonDetails";
+import {BID, TAB} from "../src/constants";
 
 
 let component;

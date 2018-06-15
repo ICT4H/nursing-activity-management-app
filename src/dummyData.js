@@ -1,7 +1,7 @@
 import Medicine from "./models/Medicine";
 import {TOBEADMINISTRATED, ADMINISTRATED, NOTADMINISTRATED, TAB, ML, BID} from "./constants";
 
-let sampleStartingDate = new Date();
+let sampleStartingDate = new Date("June 14, 2018 02:30:00");
 
 let medicineData = {
   medicineName: "Paracetmol",
@@ -79,4 +79,10 @@ let scheduledMedicineData2 = {
   }]
 };
 
-export {patientDetails, scheduledMedicineData, scheduledMedicineData2}
+let initialEmptyMedicine = {
+  medicineName: "", dose: 0,
+  startingDate:"",
+  unit: "", dosage: "",frequency:""
+};
+
+export {patientDetails, scheduledMedicineData, scheduledMedicineData2, initialEmptyMedicine}

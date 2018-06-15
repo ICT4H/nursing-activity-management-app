@@ -1,5 +1,5 @@
 import React from 'react';
-import WeeklyTable from '../WeeklyTable';
+import WeeklyTable from '../src/WeeklyTable';
 import renderer from 'react-test-renderer';
 import moment from "moment";
 

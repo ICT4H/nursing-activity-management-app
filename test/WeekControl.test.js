@@ -1,5 +1,5 @@
 import React from 'react';
-import WeekControl from '../WeekControl';
+import WeekControl from '../src/WeekControl';
 import renderer from 'react-test-renderer';
 import moment from "moment/moment";
 
@@ -8,7 +8,11 @@ test('Should have current week starting date and ending date', () => {
     startingDate: moment(new Date('June 5, 2018 9:30:00')).day(0).toDate(),
     endingDate: moment(new Date('June 5, 2018 9:30:00')).day(6).toDate()
   };
-  let component=renderer.create(<WeekControl currentWeek={currentWeek}/>);
+  const mockPastWeekFn = jest.fn();
+  const mockNextWeekFn = jest.fn();
+
+  let component=renderer.create(<WeekControl currentWeek={currentWeek} className="WeekControl"
+                                             pastWeek={mockPastWeekFn} nextWeek={mockNextWeekFn}/>);
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -19,8 +23,10 @@ test('Should function pastWeek called when clicked on pastWeek button', () => {
     endingDate: moment(new Date('June 5, 2018 9:30:00')).day(6).toDate()
   };
   const mockPastWeekFn = jest.fn();
+  const mockNextWeekFn = jest.fn();
 
-  let component=renderer.create(<WeekControl currentWeek={currentWeek} pastWeek={mockPastWeekFn}/>);
+  let component=renderer.create(<WeekControl currentWeek={currentWeek} className="WeekControl"
+                                             pastWeek={mockPastWeekFn} nextWeek={mockNextWeekFn}/>);
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 

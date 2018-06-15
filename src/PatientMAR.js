@@ -3,23 +3,17 @@ import moment from "moment/moment";
 import NewSchedulePopup from './NewSchedulePopup';
 import PersonDetails from './PersonDetails';
 import WeeklyTable from "./WeeklyTable";
-import {scheduledMedicineData, scheduledMedicineData2} from "./dummyData";
+import {initialEmptyMedicine, scheduledMedicineData, scheduledMedicineData2} from "./dummyData";
 import Medicine from "./models/Medicine";
 import WeekControl from "./WeekControl";
 import ScheduleFormatter from "./ScheduleFormatter";
-
-let initialEmptyMedicine = {
-  medicineName: "", dose: 0,
-  startingDate:"",
-  unit: "", dosage: ""
-};
 
 function Headers(props) {
   return (
       <div className={"titles"}>
         <PersonDetails person={props.patient} className={"patientDetails"}/>
         <button onClick={props.showPopup}>+ add more</button>
-        <p>{new Date().toDateString()}</p>
+        <p>{props.today.toDateString()}</p>
       </div>
   )
 }
@@ -37,8 +31,9 @@ class PatientMAR extends React.Component {
       currentMedicineToPopup: initialEmptyMedicine,
       currentWeek: {
         startingDate: moment().day(0).toDate(),
-        endingDate: moment().day(6).toDate()
-      }
+        endingDate: moment().day(6).toDate(),
+      },
+      today:props.today||new Date()
     };
     this.currentWeekData = [];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
@@ -112,7 +107,7 @@ class PatientMAR extends React.Component {
                             saveFn={this.saveFn} cancelFn={this.hidePopup}
           />
 
-          <Headers patient={patient}
+          <Headers patient={patient} today={this.state.today}
                   showPopup={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
           <WeekControl className={"changeWeek"} pastWeek={this.pastWeek}
                        nextWeek={this.nextWeek} currentWeek={this.state.currentWeek}

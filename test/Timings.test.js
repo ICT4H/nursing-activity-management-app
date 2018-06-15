@@ -1,5 +1,5 @@
 import React from 'react';
-import Timings from '../Timings';
+import Timings from '../src/Timings';
 import renderer from 'react-test-renderer';
 
 test('Should have button to add more time', () => {

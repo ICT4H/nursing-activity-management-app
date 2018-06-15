@@ -1,5 +1,5 @@
 import React from 'react';
-import ScheduleFormatter from '../ScheduleFormatter';
+import ScheduleFormatter from '../src/ScheduleFormatter';
 import renderer from 'react-test-renderer';
 
 test('Should have time of given schedule', () => {

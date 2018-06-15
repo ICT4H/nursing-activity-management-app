@@ -1,11 +1,14 @@
 import React from 'react';
-import SelectOptions from '../SelectOptions';
+import SelectOptions from '../src/SelectOptions';
 import renderer from 'react-test-renderer';
 
 test('Should have all options from list of options provided', () => {
   let options=["male","female"];
+  let selectedValue = 'male';
+  const mockHandleChange = jest.fn();
   const component = renderer.create(
-      <SelectOptions options={options} className="selectOption" chooseMsg="select Option"/>,
+      <SelectOptions options={options} className="selectOption" selectedValue={selectedValue}
+                     chooseMsg="select Option" onChange={mockHandleChange}/>,
   );
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
@@ -14,9 +17,10 @@ test('Should have all options from list of options provided', () => {
 test('Given option should be selected default', () => {
   let options=["male","female"];
   let selectedValue="male";
+  const mockHandleChange = jest.fn();
   const component = renderer.create(
       <SelectOptions options={options} className="selectOption"
-                     selectedValue={selectedValue} chooseMsg="select Option"/>,
+                     selectedValue={selectedValue} chooseMsg="select Option" onChange={mockHandleChange}/>,
   );
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
