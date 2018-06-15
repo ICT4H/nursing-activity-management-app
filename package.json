@@ -12,7 +12,8 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --hot",
     "build": "webpack",
-    "test": "node_modules/jest/bin/jest.js"
+    "test": "node_modules/jest/bin/jest.js",
+    "coverage":"node_modules/jest/bin/jest.js --coverage"
   },
   "devDependencies": {
     "babel-jest": "^23.0.1",
