@@ -5,6 +5,10 @@ import SaveCancelButtons from "../src/SaveCancelButtons";
 import PersonDetails from "../src/PersonDetails";
 import {BID, TAB} from "../src/constants";
 
+import {configure, mount} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16';
+
+configure({adapter: new Adapter()});
 
 let component;
 let medicineToPopup = {
@@ -12,7 +16,7 @@ let medicineToPopup = {
   dose: 2,
   unit: TAB,
   frequency: BID,
-  startingDate:new Date("June 8, 2018 2:30:00")
+  startingDate: new Date("June 8, 2018 2:30:00")
 };
 let patient = {
   name: "Cally Cardenas",
@@ -29,22 +33,17 @@ beforeEach(() => {
 });
 
 describe('NewSchedulePopup', () => {
-  test('Should have input fields medicineName, dose, unit with given values', () => {
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-
   test('Should have save cancel buttons', () => {
     expect(component.root.findByType(SaveCancelButtons).props.saveFn).toBe(saveFn);
     expect(component.root.findByType(SaveCancelButtons).props.cancelFn).toBe(cancelFn);
   });
 
   test('Should have SelectOptions of className "choose unit" with provided unit as selected value', () => {
-    expect(component.root.findByProps({className : 'chooseUnit'}).props.selectedValue).toBe(medicineToPopup.unit);
+    expect(component.root.findByProps({className: 'chooseUnit'}).props.selectedValue).toBe(medicineToPopup.unit);
   });
 
   test('Should have SelectOptions of className "choose frequency" with provided frequency as selected value', () => {
-    expect(component.root.findByProps({className : 'chooseFrequency'}).props.selectedValue).toBe(medicineToPopup.frequency);
+    expect(component.root.findByProps({className: 'chooseFrequency'}).props.selectedValue).toBe(medicineToPopup.frequency);
   });
 
   test('Should have given patient details in it', () => {
@@ -52,16 +51,33 @@ describe('NewSchedulePopup', () => {
   });
 
   test('Should have input field with given medicine name as value', () => {
-    expect(component.root.find(element => element.type === 'input' && element.props.placeholder === 'medicineName').props.value).toBe(medicineToPopup.medicineName);
+    let element = component.root.findByProps({placeholder: 'medicineName'});
+    expect(element.props.value).toBe(medicineToPopup.medicineName);
+    expect(element.type).toBe('input');
   });
 
   test('Should have input field with given dose as value', () => {
-    expect(component.root.find(element => element.type === 'input' && element.props.placeholder === 'dose').props.value).toBe(medicineToPopup.dose);
+    let element = component.root.findByProps({placeholder: 'dose'});
+    component.root.findByProps({placeholder: 'dose'});
+    expect(element.props.value).toBe(medicineToPopup.dose);
+    expect(element.type).toBe('input');
   });
 
   test('Should have input field with given date as value', () => {
-    console.log(component.root.find(element => element.type === 'input' && element.props.placeholder === 'startingDate').props.value);
-    console.log(new Date("June 8, 2018 2:30:00"));
-    expect(component.root.find(element => element.type === 'input' && element.props.placeholder === 'startingDate').props.value).toBe(medicineToPopup.startingDate);
+    let element = component.root.findByProps({placeholder: 'startingDate'});
+    expect(element.props.value).toBe(medicineToPopup.startingDate);
+    expect(element.type).toBe('input');
+  });
+
+  test('Should call onChange function with changed input values', () => {
+    const onChangeMock = jest.fn();
+    component = mount(<NewSchedulePopup medicine={medicineToPopup}
+                                        patient={patient} onChange={onChangeMock}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    let medicineNameInput = component.findWhere(element => element.type() === 'input'
+        && element.prop('value') === medicineToPopup.medicineName);
+    medicineNameInput.simulate('change');
+
+    expect(onChangeMock).toBeCalled();
   });
 });

@@ -3,7 +3,6 @@ import PersonDetails from './PersonDetails'
 import SelectOptions from "./SelectOptions";
 import SaveCancelButtons from "./SaveCancelButtons";
 import {BID, CAP, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "./constants";
-import Timings from "./Timings";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -11,7 +10,7 @@ class NewSchedulePopup extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     //todo: Might come from server using an API
     this.medicineUnits = [TAB, CAP, ML, MG, TSP, TBSP];
-    this.frequencies = [QD,BID,TID,QID,QOD];
+    this.frequencies = [QD, BID, TID, QID, QOD];
   }
 
   handleChange() {
@@ -19,8 +18,8 @@ class NewSchedulePopup extends React.Component {
       medicineName: this.refs.medicineName.value,
       dose: this.refs.dose.value,
       unit: this.refs.unit.value,
-      frequency:this.refs.frequency.value,
-      startingDate:this.refs.startingDate.value
+      frequency: this.refs.frequency.value,
+      startingDate: this.refs.startingDate.value
     };
     this.props.onChange(medicine);
   }
@@ -38,7 +37,7 @@ class NewSchedulePopup extends React.Component {
                 value={medicine.medicineName} onChange={this.handleChange}/>
 
             <input
-                type="text" placeholder="dose" ref="dose"
+                type="number" placeholder="dose" ref="dose"
                 value={medicine.dose} onChange={this.handleChange}/>
 
             <SelectOptions selectedValue={medicine.unit} ref="unit" options={this.medicineUnits}
@@ -47,9 +46,8 @@ class NewSchedulePopup extends React.Component {
             <SelectOptions selectedValue={medicine.frequency} options={this.frequencies} className="chooseFrequency"
                            ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleChange}/>
 
-            <input type="date" ref="startingDate" placeholder="startingDate" onChange={this.handleChange} value={medicine.startingDate}/>
-            <Timings timings={medicine.timings}/>
-
+            <input type="date" ref="startingDate" placeholder="startingDate" onChange={this.handleChange}
+                   value={medicine.startingDate}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>
         </div>

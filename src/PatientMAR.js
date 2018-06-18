@@ -33,7 +33,7 @@ class PatientMAR extends React.Component {
         startingDate: moment().day(0).toDate(),
         endingDate: moment().day(6).toDate(),
       },
-      today:props.today||new Date()
+      today: props.today || new Date()
     };
     this.currentWeekData = [];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
@@ -44,12 +44,22 @@ class PatientMAR extends React.Component {
     this.prepareThisWeekData = this.prepareThisWeekData.bind(this);
     this.saveFn = this.saveFn.bind(this);
     this.hidePopup = this.hidePopup.bind(this);
-    this.prepareThisWeekData();
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
     this.setState({currentMedicineToPopup: currentMedicineToPopup});
     makePopupVisible();
+  }
+
+  componentDidMount() {
+    let today = this.state.today;
+    this.setState({
+      currentWeek: {
+        startingDate: moment(today).day(0).toDate(),
+        endingDate: moment(today).day(6).toDate()
+      }
+    });
+    this.prepareThisWeekData();
   }
 
   updateCurrentMedicine(medicine) {
@@ -108,7 +118,7 @@ class PatientMAR extends React.Component {
           />
 
           <Headers patient={patient} today={this.state.today}
-                  showPopup={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
+                   showPopup={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
           <WeekControl className={"changeWeek"} pastWeek={this.pastWeek}
                        nextWeek={this.nextWeek} currentWeek={this.state.currentWeek}
           />

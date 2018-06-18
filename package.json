@@ -13,7 +13,7 @@
     "start": "webpack-dev-server --mode development --hot",
     "build": "webpack",
     "test": "node_modules/jest/bin/jest.js",
-    "coverage":"node_modules/jest/bin/jest.js --coverage"
+    "coverage": "node_modules/jest/bin/jest.js --coverage"
   },
   "devDependencies": {
     "babel-jest": "^23.0.1",
@@ -21,6 +21,8 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.11",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.1.0",
     "style-loader": "^0.21.0",

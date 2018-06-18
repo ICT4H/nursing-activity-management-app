@@ -37,7 +37,7 @@ let scheduledMedicineData = {
   medicineName: "Dopamine 40mg/ml",
   dose: 40,
   unit: ML,
-  scheduleTimes:[new Date('June 5, 2018 2:30:00')],
+  scheduleTimes: [new Date('June 5, 2018 2:30:00')],
   schedules: [{
     scheduledTime: new Date('June 5, 2018 9:30:00'),
     status: TOBEADMINISTRATED
@@ -60,7 +60,7 @@ let scheduledMedicineData2 = {
   medicineName: "Metformin 850mg",
   dose: 1,
   unit: TAB,
-  scheduleTimes:[new Date('June 8, 2018 2:30:00')],
+  scheduleTimes: [new Date('June 8, 2018 2:30:00')],
   schedules: [{
     scheduledTime: new Date('June 2, 2018 02:30:00'),
     status: TOBEADMINISTRATED
@@ -81,8 +81,8 @@ let scheduledMedicineData2 = {
 
 let initialEmptyMedicine = {
   medicineName: "", dose: 0,
-  startingDate:"",
-  unit: "", dosage: "",frequency:""
+  startingDate: new Date('June 8, 2018 2:30:00'),
+  unit: "", dosage: "", frequency: ""
 };
 
 export {patientDetails, scheduledMedicineData, scheduledMedicineData2, initialEmptyMedicine}
