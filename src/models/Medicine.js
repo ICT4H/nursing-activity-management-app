@@ -1,13 +1,10 @@
 import React from "react";
+import {defaultScheduleFormatter} from "../utils/utility";
 
 function isSameDate(scheduledTime, givenDate) {
   let isSameDay = scheduledTime.getDate() === givenDate.getDate();
   let isSameMonth = scheduledTime.getMonth() === givenDate.getMonth();
   return isSameDay && isSameMonth;
-}
-
-function defaultScheduleFormatter(schedule) {
-  return <p>{schedule.scheduledTime.getHours() + ":" + schedule.scheduledTime.getMinutes()}</p>;
 }
 
 class Medicine {

@@ -6,7 +6,7 @@ import PersonDetails from "../src/PersonDetails";
 import {BID, TAB} from "../src/constants";
 
 import {mount} from 'enzyme'
-import {getFormattedDate} from "../src/Utils/DateUtils";
+import {getFormattedDate} from "../src/utils/DateUtils";
 
 let component;
 let medicineToPopup = {

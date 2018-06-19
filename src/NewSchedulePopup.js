@@ -3,7 +3,7 @@ import PersonDetails from './PersonDetails'
 import SelectOptions from "./SelectOptions";
 import SaveCancelButtons from "./SaveCancelButtons";
 import {BID, CAP, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "./constants";
-import {getFormattedDate} from "./Utils/DateUtils";
+import {getFormattedDate} from "./utils/DateUtils";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
