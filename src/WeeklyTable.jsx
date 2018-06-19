@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import moment from "moment/moment";
 import PropTypes from 'prop-types';
+import {addDays, isInBetween} from "./utils/DateUtils";
 
 class WeeklyTable extends Component {
   getCurrentWeekDates() {
     let currentWeekDates = [];
     let startingDate = this.props.currentWeek.startingDate;
+    let endingDate = this.props.currentWeek.endingDate;
 
-    for (let i = 0; i < 7; i++) {
-      currentWeekDates.push(<th key={'day' + i}>{moment(startingDate).day(i).toDate().toDateString()}</th>);
+    for (let i = startingDate; isInBetween(i, startingDate, endingDate); i = addDays(i, 1)) {
+      currentWeekDates.push(<th>{i.toDateString()}</th>)
     }
     return currentWeekDates;
   }
@@ -36,14 +37,14 @@ class WeeklyTable extends Component {
 
   getRowForEachDataObject() {
     let startingDate = this.props.currentWeek.startingDate;
+    let endingDate = this.props.currentWeek.endingDate;
     let allRows = [];
 
     this.props.weekData.forEach((rowData) => {
       let row = [];
       row.push(<td>{rowData.getTitleOfRow()}</td>);
-      for (let i = 0; i < 7; i++) {
-        let date = moment(startingDate).day(i).toDate();
-        row.push(<td>{rowData.getDetailsFor(date)}</td>);
+      for (let i = startingDate; isInBetween(i, startingDate, endingDate); i = addDays(i, 1)) {
+        row.push(<td>{rowData.getDetailsFor(i)}</td>);
       }
       allRows.push(<tr>{row}</tr>)
     });

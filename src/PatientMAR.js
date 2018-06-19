@@ -20,6 +20,7 @@ function Headers(props) {
 }
 
 function makePopupVisible() {
+  //Why css part is in js?
   let popup = document.querySelector('.popup');
   popup.style.display = 'block';
   return true;
@@ -88,6 +89,7 @@ class PatientMAR extends React.Component {
   }
 
   hidePopup() {
+    //Why css part is in js?
     let popup = document.querySelector('.popup');
     popup.style.display = 'none';
     this.resetCurrentMedicine();
@@ -121,7 +123,7 @@ class PatientMAR extends React.Component {
 }
 
 PatientMAR.propTypes = {
-  today:PropTypes.instanceOf(Date).isRequired
+  today: PropTypes.instanceOf(Date).isRequired
 };
 
 
