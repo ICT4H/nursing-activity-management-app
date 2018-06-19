@@ -7,6 +7,7 @@ import {BID, TAB} from "../src/constants";
 
 import {configure, mount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16';
+import {getFormattedDate} from "../src/Utils/DateUtils";
 
 configure({adapter: new Adapter()});
 
@@ -65,8 +66,8 @@ describe('NewSchedulePopup', () => {
 
   test('Should have input field with given date as value', () => {
     let element = component.root.findByProps({placeholder: 'startingDate'});
-    expect(element.props.value).toBe(medicineToPopup.startingDate);
     expect(element.type).toBe('input');
+    expect(element.props.value).toBe(getFormattedDate(medicineToPopup.startingDate));
   });
 
   test('Should call onChange function with changed input values', () => {

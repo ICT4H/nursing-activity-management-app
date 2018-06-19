@@ -2,6 +2,7 @@ import Medicine from "./models/Medicine";
 import {TOBEADMINISTRATED, ADMINISTRATED, NOTADMINISTRATED, TAB, ML, BID} from "./constants";
 
 let sampleStartingDate = new Date("June 14, 2018 02:30:00");
+let sampleEndingDate = new Date("June 15, 2018 02:30:00");
 
 let medicineData = {
   medicineName: "Paracetmol",
@@ -9,6 +10,7 @@ let medicineData = {
   unit: TAB,
   frequency: BID,
   startingDate: sampleStartingDate,
+  endingDate: sampleEndingDate,
   noOfDays: 3,
   schedules: []
 };
@@ -20,6 +22,7 @@ let medicineData2 = {
   unit: TAB,
   frequency: BID,
   startingDate: sampleStartingDate,
+  endingDate: sampleEndingDate,
   noOfDays: 3,
   schedules: []
 };
@@ -80,9 +83,11 @@ let scheduledMedicineData2 = {
 };
 
 let initialEmptyMedicine = {
-  medicineName: "", dose: 0,
+  medicineName: "", dose: 1,
+  unit:TAB,
+  frequency: BID,
   startingDate: new Date('June 8, 2018 2:30:00'),
-  unit: "", dosage: "", frequency: ""
+  endingDate: new Date('June 8, 2018 2:30:00')
 };
 
 export {patientDetails, scheduledMedicineData, scheduledMedicineData2, initialEmptyMedicine}

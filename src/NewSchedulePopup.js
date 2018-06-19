@@ -3,6 +3,7 @@ import PersonDetails from './PersonDetails'
 import SelectOptions from "./SelectOptions";
 import SaveCancelButtons from "./SaveCancelButtons";
 import {BID, CAP, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "./constants";
+import {getFormattedDate} from "./Utils/DateUtils";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class NewSchedulePopup extends React.Component {
       dose: this.refs.dose.value,
       unit: this.refs.unit.value,
       frequency: this.refs.frequency.value,
-      startingDate: this.refs.startingDate.value
+      startingDate: this.refs.startingDate.value,
+      endingDate: this.refs.endingDate.value
     };
     this.props.onChange(medicine);
   }
@@ -37,7 +39,7 @@ class NewSchedulePopup extends React.Component {
                 value={medicine.medicineName} onChange={this.handleChange}/>
 
             <input
-                type="number" placeholder="dose" ref="dose"
+                type="number" placeholder="dose" ref="dose" min={1}
                 value={medicine.dose} onChange={this.handleChange}/>
 
             <SelectOptions selectedValue={medicine.unit} ref="unit" options={this.medicineUnits}
@@ -47,7 +49,9 @@ class NewSchedulePopup extends React.Component {
                            ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleChange}/>
 
             <input type="date" ref="startingDate" placeholder="startingDate" onChange={this.handleChange}
-                   value={medicine.startingDate}/>
+                   value={getFormattedDate(medicine.startingDate)}/>
+            <input type="date" ref="endingDate" placeholder="endingDate" onChange={this.handleChange}
+                   value={getFormattedDate(medicine.endingDate)}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>
         </div>

@@ -7,6 +7,7 @@ import {initialEmptyMedicine, scheduledMedicineData, scheduledMedicineData2} fro
 import Medicine from "./models/Medicine";
 import WeekControl from "./WeekControl";
 import ScheduleFormatter from "./ScheduleFormatter";
+import PropTypes from "prop-types";
 
 function Headers(props) {
   return (
@@ -30,10 +31,10 @@ class PatientMAR extends React.Component {
     this.state = {
       currentMedicineToPopup: initialEmptyMedicine,
       currentWeek: {
-        startingDate: moment().day(0).toDate(),
-        endingDate: moment().day(6).toDate(),
+        startingDate: moment(props.today).day(0).toDate(),
+        endingDate: moment(props.today).day(6).toDate(),
       },
-      today: props.today || new Date()
+      today: props.today
     };
     this.currentWeekData = [];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
@@ -41,25 +42,15 @@ class PatientMAR extends React.Component {
     this.resetCurrentMedicine = this.resetCurrentMedicine.bind(this);
     this.pastWeek = this.pastWeek.bind(this);
     this.nextWeek = this.nextWeek.bind(this);
-    this.prepareThisWeekData = this.prepareThisWeekData.bind(this);
+    this.getThisWeekData = this.getThisWeekData.bind(this);
     this.saveFn = this.saveFn.bind(this);
     this.hidePopup = this.hidePopup.bind(this);
+    this.getThisWeekData();
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
     this.setState({currentMedicineToPopup: currentMedicineToPopup});
     makePopupVisible();
-  }
-
-  componentDidMount() {
-    let today = this.state.today;
-    this.setState({
-      currentWeek: {
-        startingDate: moment(today).day(0).toDate(),
-        endingDate: moment(today).day(6).toDate()
-      }
-    });
-    this.prepareThisWeekData();
   }
 
   updateCurrentMedicine(medicine) {
@@ -88,7 +79,7 @@ class PatientMAR extends React.Component {
     this.updateCurrentWeek(nextWeek);
   }
 
-  prepareThisWeekData() {
+  getThisWeekData() {
     let scheduledMedicines = [];
     scheduledMedicines.push(new Medicine(scheduledMedicineData, ScheduleFormatter, this.showNewSchedulePopup.bind(null, scheduledMedicineData)));
     scheduledMedicines.push(new Medicine(scheduledMedicineData2, ScheduleFormatter, this.showNewSchedulePopup.bind(null, scheduledMedicineData2)));
@@ -128,5 +119,10 @@ class PatientMAR extends React.Component {
     )
   }
 }
+
+PatientMAR.propTypes = {
+  today:PropTypes.instanceOf(Date).isRequired
+};
+
 
 export default PatientMAR;

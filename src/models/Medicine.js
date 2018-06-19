@@ -20,6 +20,7 @@ class Medicine {
     this.schedules = medicineData.schedules;
     this.frequency = medicineData.frequency;
     this.startingDate = medicineData.startingDate;
+    this.endingDate = medicineData.endingDate;
     this.scheduleTimes=medicineData.scheduleTimes;
   }
 
