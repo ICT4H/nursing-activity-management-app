@@ -5,11 +5,8 @@ import SaveCancelButtons from "../src/SaveCancelButtons";
 import PersonDetails from "../src/PersonDetails";
 import {BID, TAB} from "../src/constants";
 
-import {configure, mount} from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16';
+import {mount} from 'enzyme'
 import {getFormattedDate} from "../src/Utils/DateUtils";
-
-configure({adapter: new Adapter()});
 
 let component;
 let medicineToPopup = {

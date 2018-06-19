@@ -1,15 +1,13 @@
 import React from 'react';
 import ScheduleFormatter from '../src/ScheduleFormatter';
-import renderer from 'react-test-renderer';
+import {mount} from "enzyme";
 
 test('Should have time of given schedule', () => {
   let schedule = {scheduledTime:new Date("June 8, 2018 2:30:00")};
-  const component = renderer.create(
+  const component = mount(
       <ScheduleFormatter schedule={schedule}/>,
   );
-  expect(component.root.findByType("p").props.children).toBe("2:30");
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+  expect(component.findWhere(element=>element.hasClass("scheduleTime")).text()).toBe("2:30");
 });
 
 

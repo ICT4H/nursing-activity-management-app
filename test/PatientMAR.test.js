@@ -1,17 +1,12 @@
 import React from 'react';
 import PatientMAR from '../src/PatientMAR';
 import renderer from 'react-test-renderer';
-import {patientDetails} from "../src/dummyData";
-
-import {configure, mount} from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16';
 import NewSchedulePopup from "../src/NewSchedulePopup";
 import WeekControl from "../src/WeekControl";
 import WeeklyTable from "../src/WeeklyTable";
 import moment from "moment";
-
-configure({adapter: new Adapter()});
-
+import {patientDetails} from "../src/dummyData";
+import {mount} from "enzyme";
 
 let component;
 let tree;

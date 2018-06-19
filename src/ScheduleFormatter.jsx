@@ -3,14 +3,14 @@ import {ADMINISTRATED, NOTADMINISTRATED, TOBEADMINISTRATED} from "./constants";
 
 function FormatTime(time) {
   //AM and PM not showing currently (24 hours clock);
-  return <p>{time.getHours() + ":" + time.getMinutes()}</p>;
+  return <span className="scheduleTime">{time.getHours() + ":" + time.getMinutes()}</span>;
 }
 
 class ScheduleFormatter extends Component {
   render() {
     let schedule=this.props.schedule;
     return (<div className="schedule">
-      {FormatTime(schedule.scheduledTime)} {this.getScheduleStatus()}
+      <span>{FormatTime(schedule.scheduledTime)} {this.getScheduleStatus()}</span>
     </div>)
   }
 
