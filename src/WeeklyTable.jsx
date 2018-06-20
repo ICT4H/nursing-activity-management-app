@@ -5,8 +5,8 @@ import {addDays, isInBetween} from "./utils/DateUtils";
 class WeeklyTable extends Component {
   getCurrentWeekDates() {
     let currentWeekDates = [];
-    let startingDate = this.props.currentWeek.startingDate;
-    let endingDate = this.props.currentWeek.endingDate;
+    let startingDate = this.props.startingDate;
+    let endingDate = this.props.endingDate;
 
     for (let i = startingDate; isInBetween(i, startingDate, endingDate); i = addDays(i, 1)) {
       currentWeekDates.push(<th>{i.toDateString()}</th>)
@@ -36,8 +36,8 @@ class WeeklyTable extends Component {
   }
 
   getRowForEachDataObject() {
-    let startingDate = this.props.currentWeek.startingDate;
-    let endingDate = this.props.currentWeek.endingDate;
+    let startingDate = this.props.startingDate;
+    let endingDate = this.props.endingDate;
     let allRows = [];
 
     this.props.weekData.forEach((rowData) => {
@@ -55,7 +55,8 @@ class WeeklyTable extends Component {
 
 
 WeeklyTable.propTypes = {
-  currentWeek: PropTypes.objectOf(PropTypes.instanceOf(Date)).isRequired,
+  startingDate: PropTypes.instanceOf(Date).isRequired,
+  endingDate: PropTypes.instanceOf(Date).isRequired,
   data: PropTypes.arrayOf(PropTypes.object),
 };
 export default WeeklyTable

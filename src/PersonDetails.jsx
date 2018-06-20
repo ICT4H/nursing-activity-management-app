@@ -4,15 +4,15 @@ class PersonDetails extends Component {
   render() {
     let person = this.props.person;
     return (<div className={this.props.className}>
-      <p>
+      <div>
         {person.name}
-      </p>
-      <p>
+      </div>
+      <div>
         {person.gender}
-      </p>
-      <p>
+      </div>
+      <div>
         {person.age + " yrs"}
-      </p>
+      </div>
     </div>)
   }
 }

@@ -4,9 +4,10 @@ body {
     font-family: sans-serif;
 }
 
-.titles {
+.headers {
     display: flex;
     flex-direction: row;
+    margin: 1%;
     justify-content: space-around;
     border: black 1px solid;
 }
@@ -47,10 +48,15 @@ th, td {
     color: blue;
 }
 
-.changeWeek {
+.weekControl {
     display: flex;
     justify-content: center;
     margin: 2%;
+}
+
+.weekControl div {
+    color: #0074D9;
+    margin: 0 2%;
 }
 
 .schedule {

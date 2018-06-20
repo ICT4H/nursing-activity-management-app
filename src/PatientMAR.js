@@ -11,8 +11,8 @@ import PropTypes from "prop-types";
 
 function Headers(props) {
   return (
-      <div className={"titles"}>
-        <PersonDetails person={props.patient} className={"patientDetails"}/>
+      <div className="headers">
+        <PersonDetails person={props.patient} className="patientDetails"/>
         <button onClick={props.showPopup}>+ add more</button>
         <p>{props.today.toDateString()}</p>
       </div>
@@ -103,6 +103,7 @@ class PatientMAR extends React.Component {
 
   render() {
     let patient = this.props.patient;
+    const currentWeek = this.state.currentWeek;
     return (
         <div>
           <NewSchedulePopup medicine={this.state.currentMedicineToPopup}
@@ -112,11 +113,11 @@ class PatientMAR extends React.Component {
 
           <Headers patient={patient} today={this.state.today}
                    showPopup={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
-          <WeekControl className={"changeWeek"} pastWeek={this.pastWeek}
-                       nextWeek={this.nextWeek} currentWeek={this.state.currentWeek}
+          <WeekControl className="weekControl" pastWeek={this.pastWeek}
+                       nextWeek={this.nextWeek} currentWeek={currentWeek}
           />
-          <WeeklyTable currentWeek={this.state.currentWeek} title={"medicineName"}
-                       weekData={this.currentWeekData}/>
+          <WeeklyTable startingDate={currentWeek.startingDate} endingDate={currentWeek.endingDate}
+                       title={"medicineName"} weekData={this.currentWeekData}/>
         </div>
     )
   }
