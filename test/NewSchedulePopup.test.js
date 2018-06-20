@@ -3,7 +3,7 @@ import NewSchedulePopup from '../src/NewSchedulePopup';
 import renderer from 'react-test-renderer';
 import SaveCancelButtons from "../src/SaveCancelButtons";
 import PersonDetails from "../src/PersonDetails";
-import {BID, TAB} from "../src/constants";
+import {BID, TAB, TID} from "../src/constants";
 
 import {mount} from 'enzyme'
 import {getFormattedDate} from "../src/utils/DateUtils";
@@ -77,5 +77,17 @@ describe('NewSchedulePopup', () => {
     medicineNameInput.simulate('change');
 
     expect(onChangeMock).toBeCalled();
+  });
+
+  test('Should call onChange function with changed frequency value when frequency selected is changed', () => {
+    const onChangeMock = jest.fn();
+    component = mount(<NewSchedulePopup medicine={medicineToPopup}
+                                        patient={patient} onChange={onChangeMock}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    let selectInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
+    selectInput.simulate('change',{target:{value:TID}});
+
+    medicineToPopup.frequency=TID;
+    expect(onChangeMock).toBeCalledWith(medicineToPopup);
   });
 });

@@ -9,6 +9,7 @@ class NewSchedulePopup extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.handleFrequencyChange = this.handleFrequencyChange.bind(this);
     //todo: Might come from server using an API
     this.medicineUnits = [TAB, CAP, ML, MG, TSP, TBSP];
     this.frequencies = [QD, BID, TID, QID, QOD];
@@ -32,22 +33,18 @@ class NewSchedulePopup extends React.Component {
         <div className="popup">
           <div className="popupContent">
             <p>Add New Medicine Schedule</p>
-            <PersonDetails person={this.props.patient}
-                           className={"patientDetails"}/>
+            <PersonDetails person={this.props.patient} className={"patientDetails"}/>
             <input
                 type="text" placeholder="medicineName" ref="medicineName"
                 value={medicine.medicineName} onChange={this.handleChange}/>
-
             <input
                 type="number" placeholder="dose" ref="dose" min={1}
                 value={medicine.dose} onChange={this.handleChange}/>
-
             <SelectOptions selectedValue={medicine.unit} ref="unit" options={this.medicineUnits}
                            className="chooseUnit" onChange={this.handleChange} chooseMsg="CHOOSE UNIT"/>
 
             <SelectOptions selectedValue={medicine.frequency} options={this.frequencies} className="chooseFrequency"
-                           ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleChange}/>
-
+                           ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
             <input type="date" ref="startingDate" placeholder="startingDate" onChange={this.handleChange}
                    value={getFormattedDate(medicine.startingDate)}/>
             <input type="date" ref="endingDate" placeholder="endingDate" onChange={this.handleChange}
@@ -56,6 +53,19 @@ class NewSchedulePopup extends React.Component {
           </div>
         </div>
     )
+  }
+
+  handleFrequencyChange(event){
+    const medicine = this.props.medicine;
+    let resultantMedicine = {
+      medicineName: medicine.medicineName,
+      dose: medicine.dose,
+      unit: medicine.unit,
+      frequency: event.target.value,
+      startingDate: medicine.startingDate,
+      endingDate: medicine.endingDate
+    };
+    this.props.onChange(resultantMedicine);
   }
 }
 
