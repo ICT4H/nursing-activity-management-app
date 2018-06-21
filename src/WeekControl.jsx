@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import moment from "moment/moment";
 import PropTypes from "prop-types";
-import WeeklyTable from "./WeeklyTable";
 
 class WeekControl extends Component {
   render() {

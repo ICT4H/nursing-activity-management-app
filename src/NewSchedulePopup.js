@@ -4,11 +4,15 @@ import SelectOptions from "./SelectOptions";
 import SaveCancelButtons from "./SaveCancelButtons";
 import {BID, CAP, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "./constants";
 import {getFormattedDate} from "./utils/DateUtils";
-import {getResultantObject} from "./utils/utility";
+import {getResultantObject, mapFrequencyToNumber} from "./utils/utility";
+import AdministrateTimes from "./AdministrateTimes";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      noOfTimeInputs: mapFrequencyToNumber(props.medicine.frequency)
+    };
     this.handleMedicineNameChange = this.handleMedicineNameChange.bind(this);
     this.handleDoseChange = this.handleDoseChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -53,6 +57,7 @@ class NewSchedulePopup extends React.Component {
                    value={getFormattedDate(medicine.startingDate)}/>
             <input type="date" ref="endingDate" placeholder="endingDate" onChange={this.handleChange}
                    value={getFormattedDate(medicine.endingDate)}/>
+            <AdministrateTimes noOfTimeInputs={this.state.noOfTimeInputs}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>
         </div>
@@ -73,6 +78,7 @@ class NewSchedulePopup extends React.Component {
 
   handleFrequencyChange(event) {
     let changedFrequency = {frequency: event.target.value};
+    this.setState({noOfTimeInputs : mapFrequencyToNumber(event.target.value)});
     let resultantMedicine = getResultantObject(this.props.medicine, changedFrequency);
     this.props.onChange(resultantMedicine);
   }

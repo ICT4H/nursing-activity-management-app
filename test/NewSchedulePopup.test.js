@@ -84,10 +84,10 @@ describe('NewSchedulePopup', () => {
     component = mount(<NewSchedulePopup medicine={medicineToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
-    let selectInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
-    selectInput.simulate('change',{target:{value:QD}});
+    let frequencyInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
+    frequencyInput.simulate('change', {target: {value: QD}});
 
-    medicineToPopup.frequency=QD;
+    medicineToPopup.frequency = QD;
     expect(onChangeMock).toBeCalledWith(medicineToPopup);
   });
 
@@ -96,23 +96,40 @@ describe('NewSchedulePopup', () => {
     component = mount(<NewSchedulePopup medicine={medicineToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
-    let selectInput = component.find(`input [value=${medicineToPopup.dose}]`);
-    selectInput.simulate('change',{target:{value:4}});
+    let doseInput = component.find(`input [value=${medicineToPopup.dose}]`);
+    doseInput.simulate('change', {target: {value: 4}});
 
-    medicineToPopup.dose=4;
+    medicineToPopup.dose = 4;
     expect(onChangeMock).toBeCalledWith(medicineToPopup);
   });
 
-  test('Should call onChange function with medicine value when different medicine unit selected', () => {
+  test('Should call onChange function with changed medicine unit value when different medicine unit selected', () => {
     const onChangeMock = jest.fn();
     component = mount(<NewSchedulePopup medicine={medicineToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
-    let selectInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseUnit'));
-    selectInput.simulate('change',{target:{value:TAB}});
+    let medicineUnitInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseUnit'));
+    medicineUnitInput.simulate('change', {target: {value: TAB}});
 
-    medicineToPopup.unit=TAB;
+    medicineToPopup.unit = TAB;
     expect(onChangeMock).toBeCalledWith(medicineToPopup);
   });
 
+  test('Should change noOfTimeInputs to 1 when selected frequency value is QD', () => {
+    component = mount(<NewSchedulePopup medicine={medicineToPopup}
+                                        patient={patient} onChange={() => true}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    let frequencyInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
+    frequencyInput.simulate('change', {target: {value: QD}});
+    expect(component.state().noOfTimeInputs).toBe(1);
+  });
+
+  test('Should change noOfTimeInputs to 3 when selected frequency value is TID', () => {
+    component = mount(<NewSchedulePopup medicine={medicineToPopup}
+                                        patient={patient} onChange={() => true}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    let frequencyInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
+    frequencyInput.simulate('change', {target: {value: TID}});
+    expect(component.state().noOfTimeInputs).toBe(3);
+  });
 });
