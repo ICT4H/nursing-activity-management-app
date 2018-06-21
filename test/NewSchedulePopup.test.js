@@ -115,6 +115,33 @@ describe('NewSchedulePopup', () => {
     expect(onChangeMock).toBeCalledWith(medicineToPopup);
   });
 
+  test('Should call onChange function with changed startingDate when different startingDate is selected', () => {
+    const onChangeMock = jest.fn();
+    component = mount(<NewSchedulePopup medicine={medicineToPopup}
+                                        patient={patient} onChange={onChangeMock}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    let startingDateInput = component.find('#scheduleStartingDate');
+    const changedDateValue = "2017-02-12";
+    startingDateInput.simulate('change', {target: {value: changedDateValue}});
+
+    medicineToPopup.startingDate = new Date(changedDateValue);
+    expect(onChangeMock).toBeCalledWith(medicineToPopup);
+  });
+
+
+  test('Should call onChange function with changed startingDate when different startingDate is selected', () => {
+    const onChangeMock = jest.fn();
+    component = mount(<NewSchedulePopup medicine={medicineToPopup}
+                                        patient={patient} onChange={onChangeMock}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    let endingDateInput = component.find('#scheduleEndingDate');
+    const changedDateValue = "2018-06-21";
+    endingDateInput.simulate('change', {target: {value: changedDateValue}});
+
+    medicineToPopup.endingDate = new Date(changedDateValue);
+    expect(onChangeMock).toBeCalledWith(medicineToPopup);
+  });
+
   test('Should have className hidden when hidden prop is given as true', () => {
     component = mount(<NewSchedulePopup medicine={medicineToPopup} hidden={true}
                                         patient={patient} onChange={() => true}

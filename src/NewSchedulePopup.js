@@ -12,24 +12,13 @@ class NewSchedulePopup extends React.Component {
     super(props);
     this.handleMedicineNameChange = this.handleMedicineNameChange.bind(this);
     this.handleDoseChange = this.handleDoseChange.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.handleFrequencyChange = this.handleFrequencyChange.bind(this);
     this.handleMedicineUnitChange = this.handleMedicineUnitChange.bind(this);
+    this.handleStartingDateChange = this.handleStartingDateChange.bind(this);
+    this.handleEndingDateChange = this.handleEndingDateChange.bind(this);
     //todo: Might come from server using an API
     this.medicineUnits = [TAB, CAP, ML, MG, TSP, TBSP];
     this.frequencies = [QD, BID, TID, QID, QOD];
-  }
-
-  handleChange() {
-    let medicine = {
-      medicineName: this.refs.medicineName.value,
-      dose: this.refs.dose.value,
-      unit: this.refs.unit.value,
-      frequency: this.refs.frequency.value,
-      startingDate: this.refs.startingDate.value,
-      endingDate: this.refs.endingDate.value
-    };
-    this.props.onChange(medicine);
   }
 
   render() {
@@ -50,9 +39,10 @@ class NewSchedulePopup extends React.Component {
 
             <SelectOptions selectedValue={medicine.frequency} options={this.frequencies} className="chooseFrequency"
                            ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
-            <input type="date" id="startingDate" placeholder="startingDate" onChange={this.handleChange}
+            <input type="date" id="scheduleStartingDate" placeholder="startingDate"
+                   onChange={this.handleStartingDateChange}
                    value={getFormattedDate(medicine.startingDate)}/>
-            <input type="date" ref="endingDate" placeholder="endingDate" onChange={this.handleChange}
+            <input type="date" id="scheduleEndingDate" placeholder="endingDate" onChange={this.handleEndingDateChange}
                    value={getFormattedDate(medicine.endingDate)}/>
             <AdministrateTimes noOfTimeInputs={mapFrequencyToNumber(medicine.frequency)}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
@@ -79,8 +69,22 @@ class NewSchedulePopup extends React.Component {
     this.props.onChange(resultantMedicine);
   }
 
-  getClassName(){
-    return (this.props.hidden) ? "hidden":"newSchedulePopup";
+  handleStartingDateChange(event) {
+    let startingDate = new Date(event.target.value);
+    let changedStartingDate = {startingDate: startingDate};
+    let resultantMedicine = getResultantObject(this.props.medicine, changedStartingDate);
+    this.props.onChange(resultantMedicine);
+  }
+
+  handleEndingDateChange(event) {
+    let startingDate = new Date(event.target.value);
+    let changedEndingDate = {endingDate: startingDate};
+    let resultantMedicine = getResultantObject(this.props.medicine, changedEndingDate);
+    this.props.onChange(resultantMedicine);
+  }
+
+  getClassName() {
+    return (this.props.hidden) ? "hidden" : "newSchedulePopup";
   }
 
   handleMedicineUnitChange(event) {
