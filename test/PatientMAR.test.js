@@ -5,7 +5,7 @@ import NewSchedulePopup from "../src/NewSchedulePopup";
 import WeekControl from "../src/WeekControl";
 import WeeklyTable from "../src/WeeklyTable";
 import moment from "moment";
-import {patientDetails} from "../src/dummyData";
+import {initialEmptyMedicine, patientDetails} from "../src/dummyData";
 import {mount} from "enzyme";
 
 let component;
@@ -59,5 +59,38 @@ describe('PatientMAR', () => {
       startingDate: expectedStartingDate,
       endingDate: expectedEndingDate
     });
+  });
+
+  test('Initially shallHidePopup should be true', () => {
+    let sampleDate = new Date("June 14, 2018 02:30:00");
+    component = mount(<PatientMAR patient={patientDetails}
+                                  today={sampleDate}/>,);
+
+    const instanceOfPatientMAR = component.instance();
+
+    expect(instanceOfPatientMAR.state.shallHidePopup).toBe(true);
+  });
+
+  test('Should set shallHidePopup as false when showNewSchedulePopup function is called', () => {
+    let sampleDate = new Date("June 14, 2018 02:30:00");
+    component = mount(<PatientMAR patient={patientDetails}
+                                  today={sampleDate}/>,);
+
+    const instanceOfPatientMAR = component.instance();
+    instanceOfPatientMAR.showNewSchedulePopup(initialEmptyMedicine);
+
+    expect(instanceOfPatientMAR.state.shallHidePopup).toBe(false);
+  });
+
+  test('Should set shallHidePopup as true when hidePopup function is called', () => {
+    let sampleDate = new Date("June 14, 2018 02:30:00");
+    component = mount(<PatientMAR patient={patientDetails}
+                                  today={sampleDate}/>,);
+
+    const instanceOfPatientMAR = component.instance();
+    instanceOfPatientMAR.showNewSchedulePopup(initialEmptyMedicine);
+    instanceOfPatientMAR.hidePopup();
+
+    expect(instanceOfPatientMAR.state.shallHidePopup).toBe(true);
   });
 });

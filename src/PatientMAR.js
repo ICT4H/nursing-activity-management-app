@@ -19,12 +19,6 @@ function Headers(props) {
   )
 }
 
-function makePopupVisible() {
-  //Why css part is in js?
-  let popup = document.querySelector('.popup');
-  popup.style.display = 'block';
-  return true;
-}
 
 class PatientMAR extends React.Component {
   constructor(props) {
@@ -35,12 +29,12 @@ class PatientMAR extends React.Component {
         startingDate: moment(props.today).day(0).toDate(),
         endingDate: moment(props.today).day(6).toDate(),
       },
+      shallHidePopup: true,
       today: props.today
     };
     this.currentWeekData = [];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine = this.updateCurrentMedicine.bind(this);
-    this.resetCurrentMedicine = this.resetCurrentMedicine.bind(this);
     this.pastWeek = this.pastWeek.bind(this);
     this.nextWeek = this.nextWeek.bind(this);
     this.getThisWeekData = this.getThisWeekData.bind(this);
@@ -50,8 +44,8 @@ class PatientMAR extends React.Component {
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
-    this.setState({currentMedicineToPopup: currentMedicineToPopup});
-    makePopupVisible();
+    this.setState({shallHidePopup: false});
+    this.updateCurrentMedicine(currentMedicineToPopup);
   }
 
   updateCurrentMedicine(medicine) {
@@ -60,10 +54,6 @@ class PatientMAR extends React.Component {
 
   updateCurrentWeek(givenWeek) {
     this.setState({currentWeek: givenWeek});
-  }
-
-  resetCurrentMedicine() {
-    this.updateCurrentMedicine(initialEmptyMedicine);
   }
 
   pastWeek() {
@@ -89,11 +79,8 @@ class PatientMAR extends React.Component {
   }
 
   hidePopup() {
-    //Why css part is in js?
-    let popup = document.querySelector('.popup');
-    popup.style.display = 'none';
-    this.resetCurrentMedicine();
-    return true;
+    this.updateCurrentMedicine(initialEmptyMedicine);
+    this.setState({shallHidePopup: true})
   }
 
   saveFn() {
@@ -106,7 +93,7 @@ class PatientMAR extends React.Component {
     const currentWeek = this.state.currentWeek;
     return (
         <div>
-          <NewSchedulePopup medicine={this.state.currentMedicineToPopup}
+          <NewSchedulePopup medicine={this.state.currentMedicineToPopup} hidden={this.state.shallHidePopup}
                             patient={patient} onChange={this.updateCurrentMedicine}
                             saveFn={this.saveFn} cancelFn={this.hidePopup}
           />

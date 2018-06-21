@@ -3,7 +3,7 @@ import NewSchedulePopup from '../src/NewSchedulePopup';
 import renderer from 'react-test-renderer';
 import SaveCancelButtons from "../src/SaveCancelButtons";
 import PersonDetails from "../src/PersonDetails";
-import {BID, QD, TAB, TID} from "../src/constants";
+import {BID, QD, TAB} from "../src/constants";
 
 import {mount} from 'enzyme'
 import {getFormattedDate} from "../src/utils/DateUtils";
@@ -115,21 +115,35 @@ describe('NewSchedulePopup', () => {
     expect(onChangeMock).toBeCalledWith(medicineToPopup);
   });
 
-  test('Should change noOfTimeInputs to 1 when selected frequency value is QD', () => {
-    component = mount(<NewSchedulePopup medicine={medicineToPopup}
+  test('Should have className hidden when hidden prop is given as true', () => {
+    component = mount(<NewSchedulePopup medicine={medicineToPopup} hidden={true}
                                         patient={patient} onChange={() => true}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
-    let frequencyInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
-    frequencyInput.simulate('change', {target: {value: QD}});
-    expect(component.state().noOfTimeInputs).toBe(1);
+    component.hasClass('hidden');
   });
 
-  test('Should change noOfTimeInputs to 3 when selected frequency value is TID', () => {
-    component = mount(<NewSchedulePopup medicine={medicineToPopup}
+  test('Should change className to newSchedulePopup when hidden prop is changed to false', () => {
+    component = mount(<NewSchedulePopup medicine={medicineToPopup} hidden={true}
                                         patient={patient} onChange={() => true}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
-    let frequencyInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
-    frequencyInput.simulate('change', {target: {value: TID}});
-    expect(component.state().noOfTimeInputs).toBe(3);
+    component.hasClass('hidden');
+    component.setProps({hidden: false});
+    component.hasClass('newSchedulePopup');
+  });
+
+  test('Should have className newSchedulePopup when hidden prop is given as false', () => {
+    component = mount(<NewSchedulePopup medicine={medicineToPopup} hidden={false}
+                                        patient={patient} onChange={() => true}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.hasClass('newSchedulePopup');
+  });
+
+  test('Should have className hidden when hidden prop is changed to true', () => {
+    component = mount(<NewSchedulePopup medicine={medicineToPopup} hidden={false}
+                                        patient={patient} onChange={() => true}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.hasClass('newSchedulePopup');
+    component.setProps({hidden: true});
+    component.hasClass('hidden');
   });
 });

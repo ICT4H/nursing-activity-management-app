@@ -27,8 +27,7 @@ th, td {
     border: 2px solid black;
 }
 
-.popup {
-    display: none;
+.newSchedulePopup {
     position: fixed;
     z-index: 1; /* Sit on top */
     padding: 9%;
@@ -61,4 +60,8 @@ th, td {
 
 .schedule {
     font-size: 25px;
+}
+
+.hidden{
+    display: none;
 }

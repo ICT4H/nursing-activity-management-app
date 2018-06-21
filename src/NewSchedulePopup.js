@@ -10,9 +10,6 @@ import AdministrateTimes from "./AdministrateTimes";
 class NewSchedulePopup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      noOfTimeInputs: mapFrequencyToNumber(props.medicine.frequency)
-    };
     this.handleMedicineNameChange = this.handleMedicineNameChange.bind(this);
     this.handleDoseChange = this.handleDoseChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -38,7 +35,7 @@ class NewSchedulePopup extends React.Component {
   render() {
     let medicine = this.props.medicine;
     return (
-        <div className="popup">
+        <div className={this.getClassName()}>
           <div className="popupContent">
             <p>Add New Medicine Schedule</p>
             <PersonDetails person={this.props.patient} className={"patientDetails"}/>
@@ -53,11 +50,11 @@ class NewSchedulePopup extends React.Component {
 
             <SelectOptions selectedValue={medicine.frequency} options={this.frequencies} className="chooseFrequency"
                            ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
-            <input type="date" ref="startingDate" placeholder="startingDate" onChange={this.handleChange}
+            <input type="date" id="startingDate" placeholder="startingDate" onChange={this.handleChange}
                    value={getFormattedDate(medicine.startingDate)}/>
             <input type="date" ref="endingDate" placeholder="endingDate" onChange={this.handleChange}
                    value={getFormattedDate(medicine.endingDate)}/>
-            <AdministrateTimes noOfTimeInputs={this.state.noOfTimeInputs}/>
+            <AdministrateTimes noOfTimeInputs={mapFrequencyToNumber(medicine.frequency)}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>
         </div>
@@ -78,9 +75,12 @@ class NewSchedulePopup extends React.Component {
 
   handleFrequencyChange(event) {
     let changedFrequency = {frequency: event.target.value};
-    this.setState({noOfTimeInputs : mapFrequencyToNumber(event.target.value)});
     let resultantMedicine = getResultantObject(this.props.medicine, changedFrequency);
     this.props.onChange(resultantMedicine);
+  }
+
+  getClassName(){
+    return (this.props.hidden) ? "hidden":"newSchedulePopup";
   }
 
   handleMedicineUnitChange(event) {
