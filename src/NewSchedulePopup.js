@@ -6,6 +6,7 @@ import {BID, CAP, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "./constants";
 import {getFormattedDate} from "./utils/DateUtils";
 import {getResultantObject, mapFrequencyToNumber} from "./utils/utility";
 import AdministrateTimes from "./AdministrateTimes";
+import MedicationInput from "./MedicationInput";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -28,9 +29,7 @@ class NewSchedulePopup extends React.Component {
           <div className="popupContent">
             <p>Add New Medicine Schedule</p>
             <PersonDetails person={this.props.patient} className={"patientDetails"}/>
-            <input
-                type="text" placeholder="medicineName" ref="medicineName"
-                value={medicine.medicineName} onChange={this.handleMedicineNameChange}/>
+            <MedicationInput medicineName={medicine.medicineName} onChange={this.handleMedicineNameChange}/>
             <input
                 type="number" placeholder="dose" ref="dose" min={1}
                 value={medicine.dose} onChange={this.handleDoseChange}/>

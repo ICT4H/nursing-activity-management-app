@@ -5,8 +5,9 @@ import SaveCancelButtons from "../src/SaveCancelButtons";
 import PersonDetails from "../src/PersonDetails";
 import {BID, QD, TAB} from "../src/constants";
 
-import {mount} from 'enzyme'
+import {mount, shallow} from 'enzyme'
 import {getFormattedDate} from "../src/utils/DateUtils";
+import MedicationInput from "../src/MedicationInput";
 
 let component;
 let medicineToPopup = {
@@ -48,10 +49,12 @@ describe('NewSchedulePopup', () => {
     expect(component.root.findByType(PersonDetails).props.person).toBe(patient);
   });
 
-  test('Should have input field with given medicine name as value', () => {
-    let element = component.root.findByProps({placeholder: 'medicineName'});
-    expect(element.props.value).toBe(medicineToPopup.medicineName);
-    expect(element.type).toBe('input');
+  test('Should have MedicationInput component', () => {
+    component = shallow(<NewSchedulePopup medicine={medicineToPopup}
+                                          patient={patient} onChange={() => true}
+                                          saveFn={saveFn} cancelFn={cancelFn}/>)
+    let element = component.find(MedicationInput);
+    expect(element.props().medicineName).toBe(medicineToPopup.medicineName);
   });
 
   test('Should have input field with given dose as value', () => {
