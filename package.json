@@ -6,6 +6,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-table": "^6.8.6",
     "react-test-renderer": "^16.4.0"
   },
   "scripts": {
@@ -30,6 +31,11 @@
     "webpack-dev-server": "^3.1.4"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/test/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setupTests.js",
+    "verbose": true,
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    }
   }
 }

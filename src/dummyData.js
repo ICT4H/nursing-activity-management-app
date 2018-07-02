@@ -1,4 +1,3 @@
-import Medicine from "./models/Medicine";
 import {TOBEADMINISTRATED, ADMINISTRATED, NOTADMINISTRATED, TAB, ML, BID} from "./constants";
 
 let sampleStartingDate = new Date("June 14, 2018 02:30:00");
@@ -32,7 +31,7 @@ const patientDetails = {
   name: "Cally Cardenas",
   gender: 'male',
   age: 33,
-  medicinesToBeScheduled: [new Medicine(medicineData), new Medicine(medicineData2)],
+  medicinesToBeScheduled: [medicineData, medicineData2],
 };
 
 

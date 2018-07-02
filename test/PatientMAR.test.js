@@ -1,9 +1,9 @@
 import React from 'react';
+import ReactTable from 'react-table';
 import PatientMAR from '../src/PatientMAR';
 import renderer from 'react-test-renderer';
 import NewSchedulePopup from "../src/NewSchedulePopup";
 import WeekControl from "../src/WeekControl";
-import WeeklyTable from "../src/WeeklyTable";
 import moment from "moment";
 import {initialEmptyMedicine, patientDetails} from "../src/dummyData";
 import {mount} from "enzyme";
@@ -28,9 +28,9 @@ describe('PatientMAR', () => {
     expect(component.root.findByType(WeekControl).props.currentWeek);
   });
 
-  test('Should have WeeklyTable component with having property currentWeek and currentWeekData', () => {
-    expect(component.root.findByType(WeeklyTable).props.currentWeek);
-    expect(component.root.findByType(WeeklyTable).props.currentWeekData);
+  test('Should have ReactTable component with having property data', () => {
+    // expect(component.root.findByType(ReactTable).props.currentWeek);
+    expect(component.root.findByType(ReactTable).props.data).toBeTruthy();
   });
 
   test('Should change starting and ending dates of currentWeek on click of pastWeek button(button with symbol "<")', () => {

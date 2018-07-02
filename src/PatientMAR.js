@@ -1,21 +1,24 @@
 import React from "react";
 import moment from "moment/moment";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 import NewSchedulePopup from './NewSchedulePopup';
 import PersonDetails from './PersonDetails';
-import WeeklyTable from "./WeeklyTable";
-import {initialEmptyMedicine, scheduledMedicineData, scheduledMedicineData2} from "./dummyData";
-import Medicine from "./models/Medicine";
+import { initialEmptyMedicine, scheduledMedicineData, scheduledMedicineData2 } from "./dummyData";
+import { isInBetween, getFormattedDate, addDays } from "./utils/DateUtils";
+import { getSchedulesOf } from "./utils/utility";
 import WeekControl from "./WeekControl";
-import ScheduleFormatter from "./ScheduleFormatter";
+import Schedules from "./Schedules";
+import MedicineDetails from "./MedicineDetails";
 import PropTypes from "prop-types";
 
 function Headers(props) {
   return (
-      <div className="headers">
-        <PersonDetails person={props.patient} className="patientDetails"/>
-        <button onClick={props.showPopup}>+ add more</button>
-        <p>{props.today.toDateString()}</p>
-      </div>
+    <div className="headers">
+      <PersonDetails person={props.patient} className="patientDetails" />
+      <button onClick={props.showPopup}>+ add more</button>
+      <p>{props.today.toDateString()}</p>
+    </div>
   )
 }
 
@@ -44,16 +47,16 @@ class PatientMAR extends React.Component {
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
-    this.setState({shallHidePopup: false});
+    this.setState({ shallHidePopup: false });
     this.updateCurrentMedicine(currentMedicineToPopup);
   }
 
   updateCurrentMedicine(medicine) {
-    this.setState({currentMedicineToPopup: medicine});
+    this.setState({ currentMedicineToPopup: medicine });
   }
 
   updateCurrentWeek(givenWeek) {
-    this.setState({currentWeek: givenWeek});
+    this.setState({ currentWeek: givenWeek });
   }
 
   pastWeek() {
@@ -72,15 +75,15 @@ class PatientMAR extends React.Component {
 
   getThisWeekData() {
     let scheduledMedicines = [];
-    scheduledMedicines.push(new Medicine(scheduledMedicineData, ScheduleFormatter, this.showNewSchedulePopup.bind(null, scheduledMedicineData)));
-    scheduledMedicines.push(new Medicine(scheduledMedicineData2, ScheduleFormatter, this.showNewSchedulePopup.bind(null, scheduledMedicineData2)));
-    let medicinesToBeScheduled = this.props.patient.medicinesToBeScheduled.map((medData) => new Medicine(medData, null, this.showNewSchedulePopup.bind(null, medData)))
+    scheduledMedicines.push(scheduledMedicineData);
+    scheduledMedicines.push(scheduledMedicineData2);
+    let medicinesToBeScheduled = this.props.patient.medicinesToBeScheduled;
     this.currentWeekData = scheduledMedicines.concat(medicinesToBeScheduled);
   }
 
   hidePopup() {
     this.updateCurrentMedicine(initialEmptyMedicine);
-    this.setState({shallHidePopup: true})
+    this.setState({ shallHidePopup: true })
   }
 
   saveFn() {
@@ -88,24 +91,52 @@ class PatientMAR extends React.Component {
     this.hidePopup();
   }
 
+  getCurrentWeekColumns() {
+    let startingDate = this.state.currentWeek.startingDate;
+    let endingDate = this.state.currentWeek.endingDate;
+    let columns = [];
+    let medicineDetailColumn = {
+      Header: "MedicineDetails",
+      id:"MedicineDetails",
+      accessor: d => <MedicineDetails medicine={d}/>
+    };
+    columns.push(medicineDetailColumn);
+    for (let date = startingDate; isInBetween(date, startingDate, endingDate); date = addDays(date, 1)) {
+      let formattedDate = getFormattedDate(date);
+      let column = {
+        Header: formattedDate,
+        id: formattedDate,
+        accessor: d => <Schedules schedules={getSchedulesOf(date, d.schedules)} />
+      }
+      columns.push(column);
+    }
+    return columns;
+  }
+
   render() {
     let patient = this.props.patient;
     const currentWeek = this.state.currentWeek;
     return (
-        <div>
-          <NewSchedulePopup medicine={this.state.currentMedicineToPopup} hidden={this.state.shallHidePopup}
-                            patient={patient} onChange={this.updateCurrentMedicine}
-                            saveFn={this.saveFn} cancelFn={this.hidePopup}
-          />
+      <div>
+        <NewSchedulePopup medicine={this.state.currentMedicineToPopup} hidden={this.state.shallHidePopup}
+          patient={patient} onChange={this.updateCurrentMedicine}
+          saveFn={this.saveFn} cancelFn={this.hidePopup}
+        />
 
-          <Headers patient={patient} today={this.state.today}
-                   showPopup={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
-          <WeekControl className="weekControl" pastWeek={this.pastWeek}
-                       nextWeek={this.nextWeek} currentWeek={currentWeek}
-          />
-          <WeeklyTable startingDate={currentWeek.startingDate} endingDate={currentWeek.endingDate}
-                       title={"medicineName"} weekData={this.currentWeekData}/>
-        </div>
+        <Headers patient={patient} today={this.state.today}
+          showPopup={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)} />
+        <ReactTable
+          data={this.currentWeekData}
+          columns={this.getCurrentWeekColumns()}
+          className="-highlight"
+          PaginationComponent={() => <WeekControl className="weekControl" pastWeek={this.pastWeek}
+            nextWeek={this.nextWeek} currentWeek={currentWeek}
+          />}
+          minRows={this.currentWeekData.length}
+          showPaginationTop={true}
+          showPaginationBottom={false}
+        />
+      </div>
     )
   }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import {BID, QD, QID, QOD, TID} from "../constants";
+import { BID, QD, QID, QOD, TID } from "../constants";
 
 const defaultScheduleFormatter = function (schedule) {
   return <p>{schedule.scheduledTime.getHours() + ":" + schedule.scheduledTime.getMinutes()}</p>;
@@ -15,4 +15,10 @@ const mapFrequencyToNumber = function (frequency) {
   };
   return frequencyNumberMapping[frequency] || 0;
 };
-export {defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber}
+import { isSameDate } from "./DateUtils";
+const getSchedulesOf = function (date, schedules) {
+  return schedules.filter(schedule => {
+    return isSameDate(date, schedule.scheduledTime)
+  });
+}
+export { defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf }
