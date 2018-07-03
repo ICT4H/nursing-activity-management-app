@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {SYMBOLSHEXCODE} from "./constants";
+import moment from "moment";
 
 function FormatTime(time) {
-  //AM and PM not showing currently (24 hours clock);
-  return <span className="scheduleTime">{time.getHours() + ":" + time.getMinutes()}</span>;
+  return <span className="scheduleTime">{moment(time).format("h:mm A")}</span>;
 }
 
 class ScheduleFormatter extends Component {

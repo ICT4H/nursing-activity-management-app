@@ -8,7 +8,7 @@ test('Should have time of given schedule', () => {
   const component = mount(
       <ScheduleFormatter schedule={schedule}/>,
   );
-  expect(component.findWhere(element=>element.hasClass("scheduleTime")).text()).toBe("2:30");
+  expect(component.findWhere(element=>element.hasClass("scheduleTime")).text()).toBe("2:30 AM");
 });
 
 test('Should have symbol of clock when schedule status is to be administered', () => {
