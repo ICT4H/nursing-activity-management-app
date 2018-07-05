@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectOptions from '../src/SelectOptions';
+import SelectOptions from '../../src/components/SelectOptions';
 import renderer from 'react-test-renderer';
 
 test('Should have all options from list of options provided', () => {

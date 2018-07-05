@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SYMBOLSHEXCODE} from "./constants";
+import {SYMBOLSHEXCODE} from "../constants";
 import moment from "moment";
 
 function FormatTime(time) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import SaveCancelButtons from '../src/SaveCancelButtons';
+import SaveCancelButtons from '../../src/components/SaveCancelButtons';
 import renderer from 'react-test-renderer';
 
 

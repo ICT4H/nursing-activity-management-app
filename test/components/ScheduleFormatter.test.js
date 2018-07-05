@@ -1,7 +1,7 @@
 import React from 'react';
-import ScheduleFormatter from '../src/ScheduleFormatter';
+import ScheduleFormatter from '../../src/components/ScheduleFormatter';
 import {mount} from "enzyme";
-import {ADMINISTRATED, NOTADMINISTRATED, SYMBOLSHEXCODE, TOBEADMINISTRATED} from "../src/constants";
+import {ADMINISTRATED, NOTADMINISTRATED, SYMBOLSHEXCODE, TOBEADMINISTRATED} from "../../src/constants";
 
 test('Should have time of given schedule', () => {
   let schedule = {scheduledTime:new Date("June 8, 2018 2:30:00")};

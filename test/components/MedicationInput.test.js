@@ -1,5 +1,5 @@
 import React from 'react';
-import MedicationInput from '../src/MedicationInput';
+import MedicationInput from '../../src/components/MedicationInput';
 import {mount, shallow} from "enzyme";
 
 describe('MedicationInput',()=>{

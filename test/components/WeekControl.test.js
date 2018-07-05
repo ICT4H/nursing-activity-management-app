@@ -1,5 +1,5 @@
 import React from 'react';
-import WeekControl from '../src/WeekControl';
+import WeekControl from '../../src/components/WeekControl';
 import renderer from 'react-test-renderer';
 import moment from "moment/moment";
 

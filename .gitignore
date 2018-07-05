@@ -25,4 +25,4 @@ package-lock.json
 .idea
 .vscode
 spike/*
-/test/__snapshots__/*
+/test/**/__snapshots__/*

@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import PatientMAR from '../src/PatientMAR';
+import PatientMAR from '../../src/components/PatientMAR';
 import renderer from 'react-test-renderer';
-import NewSchedulePopup from "../src/NewSchedulePopup";
-import WeekControl from "../src/WeekControl";
+import NewSchedulePopup from "../../src/components/NewSchedulePopup";
+import WeekControl from "../../src/components/WeekControl";
 import moment from "moment";
-import {initialEmptyMedicine, patientDetails} from "../src/dummyData";
+import {initialEmptyMedicine, patientDetails} from "../../src/Data/dummyData";
 import {mount} from "enzyme";
 
 let component;

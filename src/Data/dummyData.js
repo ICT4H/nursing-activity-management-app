@@ -1,4 +1,4 @@
-import {TOBEADMINISTRATED, ADMINISTRATED, NOTADMINISTRATED, TAB, ML, BID} from "./constants";
+import {TOBEADMINISTRATED, ADMINISTRATED, NOTADMINISTRATED, TAB, ML, BID} from "../constants";
 
 const patientDetails = {
   id: 'GAN12345',

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import PatientMAR from './PatientMAR'
-import {patientDetails} from "./dummyData";
+import PatientMAR from './components/PatientMAR'
+import {patientDetails} from "./Data/dummyData";
 
 
 class App extends Component {

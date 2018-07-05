@@ -1,5 +1,5 @@
 import React from 'react';
-import AdministrateTimes from '../src/AdministrateTimes';
+import AdministrateTimes from '../../src/components/AdministrateTimes';
 import {mount} from "enzyme";
 
 

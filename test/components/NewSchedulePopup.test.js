@@ -1,13 +1,13 @@
 import React from 'react';
-import NewSchedulePopup from '../src/NewSchedulePopup';
+import NewSchedulePopup from '../../src/components/NewSchedulePopup';
 import renderer from 'react-test-renderer';
-import SaveCancelButtons from "../src/SaveCancelButtons";
-import PersonDetails from "../src/PersonDetails";
-import {BID, QD, TAB} from "../src/constants";
+import SaveCancelButtons from "../../src/components/SaveCancelButtons";
+import PersonDetails from "../../src/components/PersonDetails";
+import {BID, QD, TAB} from "../../src/constants";
 
 import {mount, shallow} from 'enzyme'
-import {getFormattedDate} from "../src/utils/DateUtils";
-import MedicationInput from "../src/MedicationInput";
+import {getFormattedDate} from "../../src/utils/DateUtils";
+import MedicationInput from "../../src/components/MedicationInput";
 
 let component;
 let medicineToPopup = {

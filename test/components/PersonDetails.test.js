@@ -1,5 +1,5 @@
 import React from 'react';
-import PersonDetails from '../src/PersonDetails';
+import PersonDetails from '../../src/components/PersonDetails';
 import renderer from 'react-test-renderer';
 
 test('Given person object with name,gender and age gives all in "p" tag and wrapped around with "div" tag', () => {
