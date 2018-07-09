@@ -3,10 +3,10 @@ import PersonDetails from './PersonDetails'
 import SelectOptions from "./SelectOptions";
 import SaveCancelButtons from "./SaveCancelButtons";
 import {BID, CAP, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "../constants";
-import {getFormattedDate} from "../utils/DateUtils";
 import {getResultantObject, mapFrequencyToNumber} from "../utils/utility";
 import AdministrateTimes from "./AdministrateTimes";
 import MedicationInput from "./MedicationInput";
+import DateUtils from "../utils/DateUtils";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -40,9 +40,9 @@ class NewSchedulePopup extends React.Component {
                            ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
             <input type="date" id="scheduleStartingDate" placeholder="startingDate"
                    onChange={this.handleStartingDateChange}
-                   value={getFormattedDate(medicine.startingDate)}/>
+                   value={DateUtils.getFormattedDate(medicine.startingDate)}/>
             <input type="date" id="scheduleEndingDate" placeholder="endingDate" onChange={this.handleEndingDateChange}
-                   value={getFormattedDate(medicine.endingDate)}/>
+                   value={DateUtils.getFormattedDate(medicine.endingDate)}/>
             <AdministrateTimes noOfTimeInputs={mapFrequencyToNumber(medicine.frequency)}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>

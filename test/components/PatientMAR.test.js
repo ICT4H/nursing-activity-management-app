@@ -4,9 +4,9 @@ import PatientMAR from '../../src/components/PatientMAR';
 import renderer from 'react-test-renderer';
 import NewSchedulePopup from "../../src/components/NewSchedulePopup";
 import WeekControl from "../../src/components/WeekControl";
-import moment from "moment";
 import {initialEmptyMedicine, patientDetails} from "../../src/Data/dummyData";
 import {mount} from "enzyme";
+import DateUtils from "../../src/utils/DateUtils";
 
 let component;
 let tree;
@@ -33,32 +33,24 @@ describe('PatientMAR', () => {
     expect(component.root.findByType(ReactTable).props.data).toBeTruthy();
   });
 
-  test('Should change starting and ending dates of currentWeek on click of pastWeek button(button with symbol "<")', () => {
+  test('Should change starting and ending dates of currentWeek on click of goToPastWeek button(button with symbol "<")', () => {
     let sampleDate = new Date("June 14, 2018 02:30:00");
     component = mount(<PatientMAR patient={patientDetails}
                                   today={sampleDate}/>,);
+    component.setState({currentWeek:{startingDate:sampleDate}});
     let pastWeekButton = component.find('button').find(".pastWeek");
     pastWeekButton.simulate('click');
-    let expectedStartingDate = moment(sampleDate).day(-7).toDate();
-    let expectedEndingDate = moment(sampleDate).day(-1).toDate();
-    expect(component.state('currentWeek')).toEqual({
-      startingDate: expectedStartingDate,
-      endingDate: expectedEndingDate
-    });
+    expect(component.state('currentWeek')).toEqual(DateUtils.getPastWeekStatingAndEndingDates(sampleDate));
   });
 
-  test('Should change starting and ending dates of currentWeek on click of nextWeek button(button with symbol ">")', () => {
+  test('Should change starting and ending dates of currentWeek on click of goToNextWeek button(button with symbol ">")', () => {
     let sampleDate = new Date("June 14, 2018 02:30:00");
     component = mount(<PatientMAR patient={patientDetails}
                                   today={sampleDate}/>,);
-    let pastWeekButton = component.find('button').find(".nextWeek");
-    pastWeekButton.simulate('click');
-    let expectedStartingDate = moment(sampleDate).day(7).toDate();
-    let expectedEndingDate = moment(sampleDate).day(13).toDate();
-    expect(component.state('currentWeek')).toEqual({
-      startingDate: expectedStartingDate,
-      endingDate: expectedEndingDate
-    });
+    component.setState({currentWeek:{startingDate:sampleDate}});
+    let nextWeekButton = component.find('button').find(".nextWeek");
+    nextWeekButton.simulate('click');
+    expect(component.state('currentWeek')).toEqual(DateUtils.getNextWeekStatingAndEndingDates(sampleDate));
   });
 
   test('Initially shallHidePopup should be true', () => {

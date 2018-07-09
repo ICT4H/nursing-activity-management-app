@@ -12,12 +12,12 @@ test('Should have current week starting date and ending date', () => {
   const mockNextWeekFn = jest.fn();
 
   let component=renderer.create(<WeekControl currentWeek={currentWeek} className="WeekControl"
-                                             pastWeek={mockPastWeekFn} nextWeek={mockNextWeekFn}/>);
+                                             goToPastWeek={mockPastWeekFn} goToNextWeek={mockNextWeekFn}/>);
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
 
-test('Should function pastWeek called when clicked on pastWeek button', () => {
+test('Should function goToPastWeek called when clicked on goToPastWeek button', () => {
   const currentWeek = {
     startingDate: moment(new Date('June 5, 2018 9:30:00')).day(0).toDate(),
     endingDate: moment(new Date('June 5, 2018 9:30:00')).day(6).toDate()
@@ -26,11 +26,11 @@ test('Should function pastWeek called when clicked on pastWeek button', () => {
   const mockNextWeekFn = jest.fn();
 
   let component=renderer.create(<WeekControl currentWeek={currentWeek} className="WeekControl"
-                                             pastWeek={mockPastWeekFn} nextWeek={mockNextWeekFn}/>);
+                                             goToPastWeek={mockPastWeekFn} goToNextWeek={mockNextWeekFn}/>);
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 
-  let pastWeekButton = (tree.children.find((c)=>c.className="pastWeek"));
+  let pastWeekButton = (tree.children.find((c)=>c.className="goToPastWeek"));
   expect(mockPastWeekFn.mock.calls.length).toBe(0);
   pastWeekButton.props.onClick();
   expect(mockPastWeekFn.mock.calls.length).toBe(1);

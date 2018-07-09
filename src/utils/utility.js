@@ -1,8 +1,9 @@
 import React from "react";
-import { BID, QD, QID, QOD, TID } from "../constants";
+import DateUtils from "./DateUtils";
+import {QD, QOD, BID, TID, QID} from "../constants";
 
 const defaultScheduleFormatter = function (schedule) {
-  return <p>{schedule.scheduledTime.getHours() + ":" + schedule.scheduledTime.getMinutes()}</p>;
+  return <p>{DateUtils.formatTime(schedule.scheduledTime)}</p>;
 };
 
 const getResultantObject = function (objectToMergeWith, changeInObject) {
@@ -15,10 +16,9 @@ const mapFrequencyToNumber = function (frequency) {
   };
   return frequencyNumberMapping[frequency] || 0;
 };
-import { isSameDate } from "./DateUtils";
 const getSchedulesOf = function (date, schedules) {
   return schedules.filter(schedule => {
-    return isSameDate(date, schedule.scheduledTime)
+    return DateUtils.isSameDate(date, schedule.scheduledTime)
   });
-}
-export { defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf }
+};
+export {defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf}

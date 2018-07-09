@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import {SYMBOLSHEXCODE} from "../constants";
-import moment from "moment";
-
-function FormatTime(time) {
-  return <span className="scheduleTime">{moment(time).format("h:mm A")}</span>;
-}
+import DateUtils from "../utils/DateUtils";
 
 class ScheduleFormatter extends Component {
   render() {
     let schedule = this.props.schedule;
     return (<div className="schedule">
-      <span>{FormatTime(schedule.scheduledTime)} {this.getScheduleStatus()}</span>
+      <span>
+        <span className="scheduleTime">{DateUtils.formatTime(schedule.scheduledTime)}</span>
+        {this.getScheduleStatus()}</span>
     </div>)
   }
 

@@ -1,16 +1,15 @@
 import React from "react";
-import moment from "moment/moment";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import NewSchedulePopup from './NewSchedulePopup';
 import PersonDetails from './PersonDetails';
 import {initialEmptyMedicine, scheduledMedicineData, scheduledMedicineData2} from "../Data/dummyData";
-import {isInBetween, getFormattedDate, addDays} from "../utils/DateUtils";
 import {getSchedulesOf} from "../utils/utility";
 import WeekControl from "./WeekControl";
 import Schedules from "./Schedules";
 import MedicineDetails from "./MedicineDetails";
 import PropTypes from "prop-types";
+import DateUtils from "../utils/DateUtils";
 
 function Headers(props) {
   return (
@@ -28,22 +27,23 @@ class PatientMAR extends React.Component {
     super(props);
     this.state = {
       currentMedicineToPopup: initialEmptyMedicine,
-      currentWeek: {
-        startingDate: moment(props.today).day(0).toDate(),
-        endingDate: moment(props.today).day(6).toDate(),
-      },
       shallHidePopup: true,
       today: props.today
     };
     this.currentWeekData = [];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine = this.updateCurrentMedicine.bind(this);
-    this.pastWeek = this.pastWeek.bind(this);
-    this.nextWeek = this.nextWeek.bind(this);
+    this.goToPastWeek = this.goToPastWeek.bind(this);
+    this.goToNextWeek = this.goToNextWeek.bind(this);
     this.getThisWeekData = this.getThisWeekData.bind(this);
     this.saveFn = this.saveFn.bind(this);
     this.hidePopup = this.hidePopup.bind(this);
+  }
+
+  componentWillMount() {
     this.getThisWeekData();
+    let currentWeek = DateUtils.getWeekStatingAndEndingDates(this.props.today);
+    this.setState({currentWeek:currentWeek})
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
@@ -55,22 +55,14 @@ class PatientMAR extends React.Component {
     this.setState({currentMedicineToPopup: medicine});
   }
 
-  updateCurrentWeek(givenWeek) {
-    this.setState({currentWeek: givenWeek});
+  goToPastWeek() {
+    let pastWeek = DateUtils.getPastWeekStatingAndEndingDates(this.state.currentWeek.startingDate);
+    this.setState({currentWeek: pastWeek});
   }
 
-  pastWeek() {
-    let pastWeek = {};
-    pastWeek.startingDate = moment(this.state.currentWeek.startingDate).day(-7).toDate();
-    pastWeek.endingDate = moment(pastWeek.startingDate).day(6).toDate();
-    this.updateCurrentWeek(pastWeek);
-  }
-
-  nextWeek() {
-    let nextWeek = {};
-    nextWeek.startingDate = moment(this.state.currentWeek.startingDate).day(7).toDate();
-    nextWeek.endingDate = moment(nextWeek.startingDate).day(6).toDate();
-    this.updateCurrentWeek(nextWeek);
+  goToNextWeek() {
+    let nextWeek = DateUtils.getNextWeekStatingAndEndingDates(this.state.currentWeek.startingDate);
+    this.setState({currentWeek: nextWeek});
   }
 
   getThisWeekData() {
@@ -97,11 +89,11 @@ class PatientMAR extends React.Component {
     let medicineDetailColumn = {
       Header: "MedicineDetails",
       id: "MedicineDetails",
-      accessor: d => <MedicineDetails medicine={d} onClick={this.showNewSchedulePopup.bind(null,d)}/>
+      accessor: d => <MedicineDetails medicine={d} onClick={this.showNewSchedulePopup.bind(null, d)}/>
     };
     columns.push(medicineDetailColumn);
-    for (let date = startingDate; isInBetween(date, startingDate, endingDate); date = addDays(date, 1)) {
-      let formattedDate = getFormattedDate(date);
+    for (let date = startingDate; DateUtils.isInBetween(date, startingDate, endingDate); date = DateUtils.addDays(date, 1)) {
+      let formattedDate = DateUtils.getDateAndDay(date);
       let column = {
         Header: formattedDate,
         id: formattedDate,
@@ -128,8 +120,8 @@ class PatientMAR extends React.Component {
               data={this.currentWeekData}
               columns={this.getCurrentWeekColumns()}
               className="-highlight"
-              PaginationComponent={() => <WeekControl className="weekControl" pastWeek={this.pastWeek}
-                                                      nextWeek={this.nextWeek} currentWeek={currentWeek}
+              PaginationComponent={() => <WeekControl className="weekControl" goToPastWeek={this.goToPastWeek}
+                                                      goToNextWeek={this.goToNextWeek} currentWeek={currentWeek}
               />}
               minRows={this.currentWeekData.length}
               showPaginationTop={true}

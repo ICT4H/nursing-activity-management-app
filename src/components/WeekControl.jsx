@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import moment from "moment/moment";
 import PropTypes from "prop-types";
+import DateUtils from "../utils/DateUtils";
 
 class WeekControl extends Component {
   render() {
     const currentWeek = this.props.currentWeek;
     return (
         <div className={this.props.className}>
-          <button onClick={this.props.pastWeek} className={"pastWeek"}>{"<"}</button>
-          <div>{moment(currentWeek.startingDate).format('DD')}-
-            {moment(currentWeek.endingDate).format('DD MMM')}
+          <button onClick={this.props.goToPastWeek} className={"pastWeek"}>{"<"}</button>
+          <div>
+            {DateUtils.formatWeekStartEndDate(currentWeek)}
           </div>
-          <button onClick={this.props.nextWeek} className={"nextWeek"}>{">"}</button>
+          <button onClick={this.props.goToNextWeek} className={"nextWeek"}>{">"}</button>
         </div>
     )
   }

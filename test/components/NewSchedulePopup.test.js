@@ -4,10 +4,9 @@ import renderer from 'react-test-renderer';
 import SaveCancelButtons from "../../src/components/SaveCancelButtons";
 import PersonDetails from "../../src/components/PersonDetails";
 import {BID, QD, TAB} from "../../src/constants";
-
-import {mount, shallow} from 'enzyme'
-import {getFormattedDate} from "../../src/utils/DateUtils";
+import {mount, shallow} from 'enzyme';
 import MedicationInput from "../../src/components/MedicationInput";
+import DateUtils from "../../src/utils/DateUtils";
 
 let component;
 let medicineToPopup = {
@@ -67,7 +66,7 @@ describe('NewSchedulePopup', () => {
   test('Should have input field with given date as value', () => {
     let element = component.root.findByProps({placeholder: 'startingDate'});
     expect(element.type).toBe('input');
-    expect(element.props.value).toBe(getFormattedDate(medicineToPopup.startingDate));
+    expect(element.props.value).toBe(DateUtils.getFormattedDate(medicineToPopup.startingDate));
   });
 
   test('Should call onChange function with changed input values', () => {

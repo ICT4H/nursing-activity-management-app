@@ -1,4 +1,4 @@
-import {TOBEADMINISTRATED, ADMINISTRATED, NOTADMINISTRATED, TAB, ML, BID} from "../constants";
+import {ML, BID, NOTADMINISTRATED, ADMINISTRATED, TOBEADMINISTRATED, TAB,} from "../constants";
 
 const patientDetails = {
   id: 'GAN12345',
@@ -19,7 +19,7 @@ let scheduledMedicineData = {
   }, {
     scheduledTime: new Date('June 5, 2018 15:30:00'),
     status: NOTADMINISTRATED
-  },{
+  }, {
     scheduledTime: new Date('June 6, 2018 9:30:00'),
     status: NOTADMINISTRATED
   }, {
@@ -34,7 +34,7 @@ let scheduledMedicineData = {
   }, {
     scheduledTime: new Date('June 8, 2018 9:30:00'),
     status: TOBEADMINISTRATED
-  },{
+  }, {
     scheduledTime: new Date('June 8, 2018 14:30:00'),
     status: TOBEADMINISTRATED
   }]

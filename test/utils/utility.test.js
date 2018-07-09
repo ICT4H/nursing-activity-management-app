@@ -9,7 +9,7 @@ describe('defaultScheduleFormatter', () => {
       scheduledTime: new Date("June 8, 2018 2:30:00")
     };
     let result = defaultScheduleFormatter(schedule);
-    expect(result).toEqual(<p>2:30</p>)
+    expect(result).toEqual(<p>2:30 AM</p>)
   });
 });
 describe('getResultantObject', () => {
