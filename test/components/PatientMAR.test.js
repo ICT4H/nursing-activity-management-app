@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import PatientMAR from '../../src/components/PatientMAR';
-import renderer from 'react-test-renderer';
 import NewSchedulePopup from "../../src/components/NewSchedulePopup";
 import WeekControl from "../../src/components/WeekControl";
 import {initialEmptyMedicine, patientDetails} from "../../src/Data/dummyData";
@@ -9,28 +8,33 @@ import {mount} from "enzyme";
 import DateUtils from "../../src/utils/DateUtils";
 
 let component;
-let tree;
+let today;
 
 beforeEach(() => {
-  component = renderer.create(
-      <PatientMAR patient={patientDetails} today={new Date("June 14, 2018 02:30:00")}/>,
+  today = new Date("June 14, 2018 02:30:00");
+  component = mount(
+      <PatientMAR patient={patientDetails} today={today}/>,
   );
-  tree = component.toJSON();
 
 });
 
 describe('PatientMAR', () => {
   test('Should have NewSchedulePopup with having patient as property', () => {
-    expect(component.root.findByType(NewSchedulePopup).props.patient).toBe(patientDetails);
+    expect(component.find('NewSchedulePopup').prop('patient')).toBe(patientDetails);
   });
 
   test('Should have WeekControl component with having property currentWeek', () => {
-    expect(component.root.findByType(WeekControl).props.currentWeek);
+    expect(component.find('WeekControl').prop('currentWeek'));
   });
 
   test('Should have ReactTable component with having property data', () => {
-    // expect(component.root.findByType(ReactTable).props.currentWeek);
-    expect(component.root.findByType(ReactTable).props.data).toBeTruthy();
+    // expect(component.find('ReactTable').props.currentWeek);
+    expect(component.find('ReactTable').prop('data')).toBeTruthy();
+  });
+
+  test('Should have Headers component with having property patient and today (date)', () => {
+    expect(component.find('Headers').prop('today')).toEqual(today);
+    expect(component.find('Headers').prop('patient')).toEqual(patientDetails);
   });
 
   test('Should change starting and ending dates of currentWeek on click of goToPastWeek button(button with symbol "<")', () => {

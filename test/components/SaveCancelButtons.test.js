@@ -17,6 +17,6 @@ test('Should be a div with given saveFn as on click of save button && cancelFn a
   let component = renderer.create(<SaveCancelButtons saveFn={saveFn} cancelFn={cancelFn}/>);
   let findSaveButton = element => element.type === "button" && element.props.value === "Save";
   let findCancelButton = element => element.type === "button" && element.props.value === "Cancel";
-  expect(component.root.find(findSaveButton));
-  expect(component.root.find(findCancelButton));
+  expect(component.root.find(findSaveButton)).toBeTruthy();
+  expect(component.root.find(findCancelButton)).toBeTruthy();
 });

@@ -2,7 +2,6 @@ import React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import NewSchedulePopup from './NewSchedulePopup';
-import PersonDetails from './PersonDetails';
 import {initialEmptyMedicine, scheduledMedicineData, scheduledMedicineData2} from "../Data/dummyData";
 import {getSchedulesOf} from "../utils/utility";
 import WeekControl from "./WeekControl";
@@ -10,17 +9,7 @@ import Schedules from "./Schedules";
 import MedicineDetails from "./MedicineDetails";
 import PropTypes from "prop-types";
 import DateUtils from "../utils/DateUtils";
-
-function Headers(props) {
-  return (
-      <div className="headers">
-        <PersonDetails person={props.patient} className="patientDetails"/>
-        <button onClick={props.showPopup}>+ add more</button>
-        <p>{props.today.toDateString()}</p>
-      </div>
-  )
-}
-
+import Headers from "./Headers";
 
 class PatientMAR extends React.Component {
   constructor(props) {
@@ -43,7 +32,7 @@ class PatientMAR extends React.Component {
   componentWillMount() {
     this.getThisWeekData();
     let currentWeek = DateUtils.getWeekStatingAndEndingDates(this.props.today);
-    this.setState({currentWeek:currentWeek})
+    this.setState({currentWeek: currentWeek})
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
@@ -115,7 +104,7 @@ class PatientMAR extends React.Component {
           />
 
           <Headers patient={patient} today={this.state.today}
-                   showPopup={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
+                   onClickOfButton={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
           <ReactTable
               data={this.currentWeekData}
               columns={this.getCurrentWeekColumns()}
