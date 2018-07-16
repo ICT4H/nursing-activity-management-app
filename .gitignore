@@ -26,3 +26,4 @@ package-lock.json
 .vscode
 spike/*
 /test/**/__snapshots__/*
+/dist

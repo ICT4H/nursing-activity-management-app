@@ -7,6 +7,7 @@ import {getResultantObject, mapFrequencyToNumber} from "../utils/utility";
 import AdministrateTimes from "./AdministrateTimes";
 import MedicationInput from "./MedicationInput";
 import DateUtils from "../utils/DateUtils";
+import DosingInstructions from "./DosingInstructions";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -30,12 +31,9 @@ class NewSchedulePopup extends React.Component {
             <p>Add New Medicine Schedule</p>
             <PersonDetails person={this.props.patient} className={"patientDetails"}/>
             <MedicationInput medicineName={medicine.medicineName} onChange={this.handleMedicineNameChange}/>
-            <input
-                type="number" placeholder="dose" ref="dose" min={1}
-                value={medicine.dose} onChange={this.handleDoseChange}/>
-            <SelectOptions selectedValue={medicine.unit} ref="unit" options={this.medicineUnits}
-                           className="chooseUnit" onChange={this.handleMedicineUnitChange} chooseMsg="CHOOSE UNIT"/>
-
+            <DosingInstructions medicineUnits={this.medicineUnits} handleMedicineUnitChange={this.handleMedicineUnitChange}
+                                doseUnit={medicine.unit} doseValue={medicine.dose} handleDoseChange = {this.handleDoseChange}
+            />
             <SelectOptions selectedValue={medicine.frequency} options={this.frequencies} className="chooseFrequency"
                            ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
             <input type="date" id="scheduleStartingDate" placeholder="startingDate"
