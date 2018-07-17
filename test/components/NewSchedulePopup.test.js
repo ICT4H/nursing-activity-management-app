@@ -122,7 +122,7 @@ describe('NewSchedulePopup', () => {
     component = mount(<NewSchedulePopup medicine={medicineToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
-    let startingDateInput = component.find('#scheduleStartingDate');
+    let startingDateInput = component.find('#dosingPeriodStartingDate');
     const changedDateValue = "2017-02-12";
     startingDateInput.simulate('change', {target: {value: changedDateValue}});
 
@@ -136,7 +136,7 @@ describe('NewSchedulePopup', () => {
     component = mount(<NewSchedulePopup medicine={medicineToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
-    let endingDateInput = component.find('#scheduleEndingDate');
+    let endingDateInput = component.find('#dosingPeriodEndingDate');
     const changedDateValue = "2018-06-21";
     endingDateInput.simulate('change', {target: {value: changedDateValue}});
 

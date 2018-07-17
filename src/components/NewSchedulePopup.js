@@ -6,8 +6,8 @@ import {BID, CAP, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "../constants"
 import {getResultantObject, mapFrequencyToNumber} from "../utils/utility";
 import AdministrateTimes from "./AdministrateTimes";
 import MedicationInput from "./MedicationInput";
-import DateUtils from "../utils/DateUtils";
 import DosingInstructions from "./DosingInstructions";
+import DosingPeriod from "./DosingPeriod";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -31,16 +31,17 @@ class NewSchedulePopup extends React.Component {
             <p>Add New Medicine Schedule</p>
             <PersonDetails person={this.props.patient} className={"patientDetails"}/>
             <MedicationInput medicineName={medicine.medicineName} onChange={this.handleMedicineNameChange}/>
-            <DosingInstructions medicineUnits={this.medicineUnits} handleMedicineUnitChange={this.handleMedicineUnitChange}
-                                doseUnit={medicine.unit} doseValue={medicine.dose} handleDoseChange = {this.handleDoseChange}
+            <DosingInstructions medicineUnits={this.medicineUnits}
+                                handleMedicineUnitChange={this.handleMedicineUnitChange}
+                                doseUnit={medicine.unit} doseValue={medicine.dose}
+                                handleDoseChange={this.handleDoseChange}
             />
             <SelectOptions selectedValue={medicine.frequency} options={this.frequencies} className="chooseFrequency"
                            ref="frequency" chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
-            <input type="date" id="scheduleStartingDate" placeholder="startingDate"
-                   onChange={this.handleStartingDateChange}
-                   value={DateUtils.getFormattedDate(medicine.startingDate)}/>
-            <input type="date" id="scheduleEndingDate" placeholder="endingDate" onChange={this.handleEndingDateChange}
-                   value={DateUtils.getFormattedDate(medicine.endingDate)}/>
+            <DosingPeriod handleStartingDateChange={this.handleStartingDateChange}
+                          handleEndingDateChange={this.handleEndingDateChange}
+                          startingDate={medicine.startingDate} endingDate={medicine.endingDate}
+            />
             <AdministrateTimes noOfTimeInputs={mapFrequencyToNumber(medicine.frequency)}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>
