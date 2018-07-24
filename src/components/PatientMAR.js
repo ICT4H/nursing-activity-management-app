@@ -2,14 +2,15 @@ import React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import NewSchedulePopup from './NewSchedulePopup';
-import {initialEmptyMedicine, scheduledMedicineData, scheduledMedicineData2} from "../Data/dummyData";
-import {getSchedulesOf} from "../utils/utility";
+import {initialEmptyMedicine} from "../Data/dummyData";
+import {getSchedulesOf, groupByMedicineOrder} from "../utils/utility";
 import WeekControl from "./WeekControl";
 import Schedules from "./Schedules";
 import MedicineDetails from "./MedicineDetails";
 import PropTypes from "prop-types";
 import DateUtils from "../utils/DateUtils";
 import Headers from "./Headers";
+import 'whatwg-fetch';
 
 class PatientMAR extends React.Component {
   constructor(props) {
@@ -17,9 +18,10 @@ class PatientMAR extends React.Component {
     this.state = {
       currentMedicineToPopup: initialEmptyMedicine,
       shallHidePopup: true,
-      today: props.today
+      today: props.today,
+      patientUuid: props.patientUuid,
+      currentWeekData: []
     };
-    this.currentWeekData = [];
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine = this.updateCurrentMedicine.bind(this);
     this.goToPastWeek = this.goToPastWeek.bind(this);
@@ -55,10 +57,14 @@ class PatientMAR extends React.Component {
   }
 
   getThisWeekData() {
-    let scheduledMedicines = [];
-    scheduledMedicines.push(scheduledMedicineData);
-    scheduledMedicines.push(scheduledMedicineData2);
-    this.currentWeekData = scheduledMedicines;
+    fetch(`/openmrs/ws/rest/v1/ipd/schedules/patient/${this.state.patientUuid}`, {credentials: "include"}).then((res) => {
+      res.json().then((schedules) => {
+        let currentWeekData = groupByMedicineOrder(schedules);
+        this.setState({currentWeekData});
+      });
+    }).catch((err) => {
+      // console.log(err);
+    });
   }
 
   hidePopup() {
@@ -106,13 +112,13 @@ class PatientMAR extends React.Component {
           <Headers patient={patient} today={this.state.today}
                    onClickOfButton={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
           <ReactTable
-              data={this.currentWeekData}
+              data={this.state.currentWeekData}
               columns={this.getCurrentWeekColumns()}
               className="-highlight"
               PaginationComponent={() => <WeekControl className="weekControl" goToPastWeek={this.goToPastWeek}
                                                       goToNextWeek={this.goToNextWeek} currentWeek={currentWeek}
               />}
-              minRows={this.currentWeekData.length}
+              minRows={this.state.currentWeekData.length}
               showPaginationTop={true}
               showPaginationBottom={false}
           />

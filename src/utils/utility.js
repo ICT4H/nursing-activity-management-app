@@ -1,6 +1,6 @@
 import React from "react";
 import DateUtils from "./DateUtils";
-import {QD, QOD, BID, TID, QID} from "../constants";
+import {BID, QD, QID, QOD, TID} from "../constants";
 
 const defaultScheduleFormatter = function (schedule) {
   return <p>{DateUtils.formatTime(schedule.scheduledTime)}</p>;
@@ -21,4 +21,20 @@ const getSchedulesOf = function (date, schedules) {
     return DateUtils.isSameDate(date, schedule.scheduledTime)
   });
 };
-export {defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf}
+
+const groupByMedicineOrder = function (schedules) {
+  let medicines = [];
+  schedules.forEach((schedule) => {
+    let medicineIndex = medicines.findIndex(medicine => medicine.order.uuid === schedule.order.uuid);
+    if (medicines[medicineIndex]) {
+      medicines[medicineIndex].schedules.push(schedule);
+    } else {
+      let newMedicine = schedule.drug || {};
+      newMedicine.order = schedule.order;
+      newMedicine.schedules = [schedule];
+      medicines.push(newMedicine)
+    }
+  });
+  return medicines;
+};
+export {defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf, groupByMedicineOrder}
