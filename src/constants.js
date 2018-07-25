@@ -12,5 +12,5 @@ export const ADMINISTRATED = "ADMINISTRATED",
       scheduled: 0X23F0,
       NOTADMINISTRATED: 0X26A0
     },
-    STARTOFWEEK = 1
+    START_OF_WEEK = 2
 ;

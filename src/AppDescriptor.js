@@ -1,8 +1,8 @@
-import {STARTOFWEEK} from "./constants";
+import {START_OF_WEEK} from "./constants";
 
 class AppDescriptor {
   static getStartWeekConfig() {
-    return STARTOFWEEK;
+    return START_OF_WEEK;
   }
 }
 export default AppDescriptor;
