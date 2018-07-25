@@ -2,21 +2,21 @@ import React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import NewSchedulePopup from './NewSchedulePopup';
-import {initialEmptyMedicine} from "../Data/dummyData";
+import {initialEmptyDrug} from "../Data/dummyData";
 import {getSchedulesOf, groupByMedicineOrder} from "../utils/utility";
 import WeekControl from "./WeekControl";
 import Schedules from "./Schedules";
-import MedicineDetails from "./MedicineDetails";
+import DrugDetails from "./DrugDetails";
 import PropTypes from "prop-types";
 import DateUtils from "../utils/DateUtils";
 import Headers from "./Headers";
-import 'whatwg-fetch';
+import FetchData from "../Data/FetchData";
 
 class PatientMAR extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentMedicineToPopup: initialEmptyMedicine,
+      currentDrugToPopup: initialEmptyDrug,
       shallHidePopup: true,
       today: props.today,
       patientUuid: props.patientUuid,
@@ -32,9 +32,9 @@ class PatientMAR extends React.Component {
   }
 
   componentWillMount() {
-    this.getThisWeekData();
     let currentWeek = DateUtils.getWeekStatingAndEndingDates(this.props.today);
-    this.setState({currentWeek: currentWeek})
+    this.setState({currentWeek: currentWeek});
+    this.getThisWeekData(currentWeek);
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
@@ -43,32 +43,31 @@ class PatientMAR extends React.Component {
   }
 
   updateCurrentMedicine(medicine) {
-    this.setState({currentMedicineToPopup: medicine});
+    this.setState({currentDrugToPopup: medicine});
   }
 
   goToPastWeek() {
     let pastWeek = DateUtils.getPastWeekStatingAndEndingDates(this.state.currentWeek.startingDate);
+    this.getThisWeekData(pastWeek);
     this.setState({currentWeek: pastWeek});
   }
 
   goToNextWeek() {
     let nextWeek = DateUtils.getNextWeekStatingAndEndingDates(this.state.currentWeek.startingDate);
+    this.getThisWeekData(nextWeek);
     this.setState({currentWeek: nextWeek});
   }
 
-  getThisWeekData() {
-    fetch(`/openmrs/ws/rest/v1/ipd/schedules/patient/${this.state.patientUuid}`, {credentials: "include"}).then((res) => {
-      res.json().then((schedules) => {
-        let currentWeekData = groupByMedicineOrder(schedules);
-        this.setState({currentWeekData});
-      });
-    }).catch((err) => {
-      // console.log(err);
-    });
+  getThisWeekData(currentWeek) {
+    let callBack = function  (schedules){
+      let currentWeekData = groupByMedicineOrder(schedules);
+      this.setState({currentWeekData});
+    };
+    FetchData.fetchDataForPatient(this.state.patientUuid,currentWeek.startingDate, currentWeek.endingDate, callBack.bind(this));
   }
 
   hidePopup() {
-    this.updateCurrentMedicine(initialEmptyMedicine);
+    this.updateCurrentMedicine(initialEmptyDrug);
     this.setState({shallHidePopup: true})
   }
 
@@ -82,9 +81,9 @@ class PatientMAR extends React.Component {
     let endingDate = this.state.currentWeek.endingDate;
     let columns = [];
     let medicineDetailColumn = {
-      Header: "MedicineDetails",
-      id: "MedicineDetails",
-      accessor: d => <MedicineDetails medicine={d} onClick={this.showNewSchedulePopup.bind(null, d)}/>
+      Header: "DrugDetails",
+      id: "DrugDetails",
+      accessor: d => <DrugDetails medicine={d} onClick={this.showNewSchedulePopup.bind(null, d)}/>
     };
     columns.push(medicineDetailColumn);
     for (let date = startingDate; DateUtils.isInBetween(date, startingDate, endingDate); date = DateUtils.addDays(date, 1)) {
@@ -104,13 +103,13 @@ class PatientMAR extends React.Component {
     const currentWeek = this.state.currentWeek;
     return (
         <div>
-          <NewSchedulePopup medicine={this.state.currentMedicineToPopup} hidden={this.state.shallHidePopup}
+          <NewSchedulePopup drug={this.state.currentDrugToPopup} hidden={this.state.shallHidePopup}
                             patient={patient} onChange={this.updateCurrentMedicine}
                             saveFn={this.saveFn} cancelFn={this.hidePopup}
           />
 
           <Headers patient={patient} today={this.state.today}
-                   onClickOfButton={this.showNewSchedulePopup.bind(this, this.state.currentMedicineToPopup)}/>
+                   onClickOfButton={this.showNewSchedulePopup.bind(this, this.state.currentDrugToPopup)}/>
           <ReactTable
               data={this.state.currentWeekData}
               columns={this.getCurrentWeekColumns()}

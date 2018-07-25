@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import PatientMAR from '../../src/components/PatientMAR';
 import NewSchedulePopup from "../../src/components/NewSchedulePopup";
 import WeekControl from "../../src/components/WeekControl";
-import {initialEmptyMedicine, patientDetails} from "../../src/Data/dummyData";
+import {initialEmptyDrug, patientDetails} from "../../src/Data/dummyData";
 import {mount} from "enzyme";
 import DateUtils from "../../src/utils/DateUtils";
 
@@ -73,7 +73,7 @@ describe('PatientMAR', () => {
                                   today={sampleDate}/>,);
 
     const instanceOfPatientMAR = component.instance();
-    instanceOfPatientMAR.showNewSchedulePopup(initialEmptyMedicine);
+    instanceOfPatientMAR.showNewSchedulePopup(initialEmptyDrug);
 
     expect(instanceOfPatientMAR.state.shallHidePopup).toBe(false);
   });
@@ -84,7 +84,7 @@ describe('PatientMAR', () => {
                                   today={sampleDate}/>,);
 
     const instanceOfPatientMAR = component.instance();
-    instanceOfPatientMAR.showNewSchedulePopup(initialEmptyMedicine);
+    instanceOfPatientMAR.showNewSchedulePopup(initialEmptyDrug);
     instanceOfPatientMAR.hidePopup();
 
     expect(instanceOfPatientMAR.state.shallHidePopup).toBe(true);

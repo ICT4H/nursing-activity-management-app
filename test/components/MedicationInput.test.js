@@ -9,10 +9,10 @@ describe('MedicationInput',()=>{
   });
 
   test('Should have input element with given medicine name as value', () => {
-    const medicineName = "Paracetmol";
-    let component=mount(<MedicationInput medicineName={medicineName}/>);
+    const drugName = "Paracetmol";
+    let component=mount(<MedicationInput drugName={drugName}/>);
     let element = component.find('input');
-    expect(element.prop('value')).toBe(medicineName);
+    expect(element.prop('value')).toBe(drugName);
   });
 
   test('Should have label as MedicineName', () => {

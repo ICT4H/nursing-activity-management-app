@@ -1,7 +1,7 @@
 import React from 'react';
 import ScheduleFormatter from '../../src/components/ScheduleFormatter';
 import {mount} from "enzyme";
-import {ADMINISTRATED, NOTADMINISTRATED, SYMBOLSHEXCODE, TOBEADMINISTRATED} from "../../src/constants";
+import {ADMINISTRATED, NOTADMINISTRATED, SYMBOLSHEXCODE, SCHEDULED} from "../../src/constants";
 
 test('Should have time of given schedule', () => {
   let schedule = {scheduledTime:new Date("June 8, 2018 2:30:00")};
@@ -12,11 +12,11 @@ test('Should have time of given schedule', () => {
 });
 
 test('Should have symbol of clock when schedule status is to be administered', () => {
-  let schedule = {scheduledTime:new Date("June 8, 2018 2:30:00"),status:TOBEADMINISTRATED};
+  let schedule = {scheduledTime:new Date("June 8, 2018 2:30:00"),status:SCHEDULED};
   const component = mount(
       <ScheduleFormatter schedule={schedule}/>,
   );
-  const clockSymbol = String.fromCharCode(SYMBOLSHEXCODE.TOBEADMINISTRATED);
+  const clockSymbol = String.fromCharCode(SYMBOLSHEXCODE.scheduled);
   expect(component.findWhere(element=>element.hasClass("scheduleStatus")).text()).toBe(clockSymbol);
 });
 

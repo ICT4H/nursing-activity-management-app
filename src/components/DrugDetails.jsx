@@ -1,5 +1,5 @@
 import React from 'react';
-class MedicineDetails extends React.Component {
+class DrugDetails extends React.Component {
     render(){
         const medicine=this.props.medicine;
         return (<div className={"medicineDetails"} onClick={this.props.onClick}>
@@ -8,4 +8,4 @@ class MedicineDetails extends React.Component {
     </div>)
     }
 }
-export default MedicineDetails;
+export default DrugDetails;
