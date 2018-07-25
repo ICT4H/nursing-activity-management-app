@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import PatientMAR from '../../src/components/PatientMAR';
 import NewSchedulePopup from "../../src/components/NewSchedulePopup";
 import WeekControl from "../../src/components/WeekControl";
-import {initialEmptyDrug, patientDetails} from "../../src/Data/dummyData";
+import {initialEmptyDrug, patientDetails} from "../../src/data/dummyData";
 import {mount} from "enzyme";
 import DateUtils from "../../src/utils/DateUtils";
 

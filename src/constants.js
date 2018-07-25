@@ -1,3 +1,5 @@
+const hostURL = "https://localhost/openmrs/";
+const RESTWS_V1 = "ws/rest/v1/";
 export const ADMINISTRATED = "ADMINISTRATED",
     NOTADMINISTRATED = "NOTADMINISTRATED",
     SCHEDULED = "scheduled",
@@ -12,5 +14,7 @@ export const ADMINISTRATED = "ADMINISTRATED",
       scheduled: 0X23F0,
       NOTADMINISTRATED: 0X26A0
     },
-    START_OF_WEEK = 2
+    START_OF_WEEK = 2,
+    hostFullURL = hostURL + RESTWS_V1,
+    ipdSchedulesUrl =hostFullURL+"ipd/schedules/"
 ;

@@ -63,7 +63,9 @@ class PatientMAR extends React.Component {
       let currentWeekData = groupByMedicineOrder(schedules);
       this.setState({currentWeekData});
     };
-    FetchData.fetchDataForPatient(this.state.patientUuid,currentWeek.startingDate, currentWeek.endingDate, callBack.bind(this));
+    let startDate = DateUtils.getFormattedDate(currentWeek.startingDate);
+    let endDate = DateUtils.getFormattedDate(currentWeek.endingDate);
+    FetchData.fetchDataForPatient(this.state.patientUuid,startDate, endDate, callBack.bind(this));
   }
 
   hidePopup() {
