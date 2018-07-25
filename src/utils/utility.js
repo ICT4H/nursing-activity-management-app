@@ -22,19 +22,28 @@ const getSchedulesOf = function (date, schedules) {
   });
 };
 
+function getScheduleShortDetails(schedule) {
+  return {
+    scheduledTime: schedule.scheduledTime,
+    status: schedule.status
+  };
+}
+
 const groupByMedicineOrder = function (schedules) {
   let medicines = [];
   schedules.forEach((schedule) => {
     let medicineIndex = medicines.findIndex(medicine => medicine.order.uuid === schedule.order.uuid);
     if (medicines[medicineIndex]) {
-      medicines[medicineIndex].schedules.push(schedule);
+      let scheduleDetails = getScheduleShortDetails(schedule);
+      medicines[medicineIndex].schedules.push(scheduleDetails);
     } else {
       let newMedicine = schedule.drug || {};
+      let scheduleDetails = getScheduleShortDetails(schedule);
+      newMedicine.schedules = [scheduleDetails];
       newMedicine.order = schedule.order;
-      newMedicine.schedules = [schedule];
       medicines.push(newMedicine)
     }
   });
   return medicines;
 };
-export {defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf, groupByMedicineOrder}
+export {defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf, groupByMedicineOrder, getScheduleShortDetails}

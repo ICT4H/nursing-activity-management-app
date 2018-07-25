@@ -83,7 +83,7 @@ class PatientMAR extends React.Component {
     let medicineDetailColumn = {
       Header: "DrugDetails",
       id: "DrugDetails",
-      accessor: d => <DrugDetails medicine={d} onClick={this.showNewSchedulePopup.bind(null, d)}/>
+      accessor: d => <DrugDetails drug={d} onClick={this.showNewSchedulePopup.bind(null, d)}/>
     };
     columns.push(medicineDetailColumn);
     for (let date = startingDate; DateUtils.isInBetween(date, startingDate, endingDate); date = DateUtils.addDays(date, 1)) {

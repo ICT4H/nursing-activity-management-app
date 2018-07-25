@@ -1,11 +1,13 @@
 import React from 'react';
+
 class DrugDetails extends React.Component {
-    render(){
-        const medicine=this.props.medicine;
-        return (<div className={"medicineDetails"} onClick={this.props.onClick}>
-      <p>{medicine.drugName}</p>
-      <p>{medicine.dose} {medicine.doseUnits}</p>
+  render() {
+    const drug = this.props.drug;
+    return (<div className={"drugDetails"} onClick={this.props.onClick}>
+      <p>{drug.drugName}</p>
+      <p>{drug.dose} {drug.doseUnits}</p>
     </div>)
-    }
+  }
 }
+
 export default DrugDetails;
