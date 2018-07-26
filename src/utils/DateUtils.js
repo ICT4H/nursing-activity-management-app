@@ -1,5 +1,4 @@
 import moment from "moment";
-import AppDescriptor from "../AppDescriptor";
 
 class DateUtils {
   static getFormattedDate(date) {

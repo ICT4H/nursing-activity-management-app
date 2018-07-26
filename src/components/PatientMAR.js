@@ -12,16 +12,21 @@ import DateUtils from "../utils/DateUtils";
 import Headers from "./Headers";
 import FetchData from "../Data/FetchData";
 import AppDescriptor from "../AppDescriptor";
+import StandingInstructionsPanel from "./StandingInstructionsPanel";
+import {NEW_DRUGS} from "../data/dummyData";
 
 class PatientMAR extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentDrugToPopup: initialEmptyDrug,
+      currentDrugToPopup: {},
       shallHidePopup: true,
       today: props.today,
       patientUuid: props.patientUuid,
-      currentWeekData: []
+      currentWeekData: {
+        schedules: [],
+        drugs: {}
+      }
     };
     this.showNewSchedulePopup = this.showNewSchedulePopup.bind(this);
     this.updateCurrentMedicine = this.updateCurrentMedicine.bind(this);
@@ -34,7 +39,10 @@ class PatientMAR extends React.Component {
 
   componentWillMount() {
     let currentWeek = this.getCurrentWeekDates();
-    this.setState({currentWeek: currentWeek});
+    let currentDrugToPopup = initialEmptyDrug;
+    currentDrugToPopup.startingDate = this.state.today;
+    currentDrugToPopup.endingDate = this.state.today;
+    this.setState({currentWeek: currentWeek, currentDrugToPopup: currentDrugToPopup});
     this.getThisWeekData(currentWeek);
   }
 
@@ -66,7 +74,14 @@ class PatientMAR extends React.Component {
 
   getThisWeekData(currentWeek) {
     let callBack = function (schedules) {
-      let currentWeekData = groupByMedicineOrder(schedules);
+      let currentWeekSchedules = groupByMedicineOrder(schedules);
+      let currentWeekData = {
+        schedules: currentWeekSchedules,
+        drugs: {
+          new: NEW_DRUGS
+        }
+
+      };
       this.setState({currentWeekData});
     };
     let startDate = DateUtils.getFormattedDate(currentWeek.startingDate);
@@ -80,6 +95,7 @@ class PatientMAR extends React.Component {
   }
 
   saveFn() {
+    console.log(this.state.currentDrugToPopup);
     //todo: Save the medicines schedules
     this.hidePopup();
   }
@@ -118,17 +134,21 @@ class PatientMAR extends React.Component {
 
           <Headers patient={patient} today={this.state.today}
                    onClickOfButton={this.showNewSchedulePopup.bind(this, this.state.currentDrugToPopup)}/>
-          <ReactTable
-              data={this.state.currentWeekData}
-              columns={this.getCurrentWeekColumns()}
-              className="-highlight"
-              PaginationComponent={() => <WeekControl className="weekControl" goToPastWeek={this.goToPastWeek}
-                                                      goToNextWeek={this.goToNextWeek} currentWeek={currentWeek}
-              />}
-              minRows={this.state.currentWeekData.length}
-              showPaginationTop={true}
-              showPaginationBottom={false}
-          />
+          <div className="patientScreen">
+            <ReactTable
+                data={this.state.currentWeekData.schedules}
+                columns={this.getCurrentWeekColumns()}
+                className="-highlight"
+                PaginationComponent={() => <WeekControl className="weekControl" goToPastWeek={this.goToPastWeek}
+                                                        goToNextWeek={this.goToNextWeek} currentWeek={currentWeek}
+                />}
+                minRows={this.state.currentWeekData.schedules.length}
+                showPaginationTop={true}
+                showPaginationBottom={false}
+            />
+            <StandingInstructionsPanel drugs={this.state.currentWeekData.drugs.new} className="InstructionPanel"
+                                       action={this.showNewSchedulePopup} actionName="createSchedule"/>
+          </div>
         </div>
     )
   }

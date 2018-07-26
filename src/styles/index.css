@@ -62,12 +62,24 @@ th, td {
     font-size: 25px;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
-.schedules{
+.schedules {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.patientScreen {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+.InstructionPanel {
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
 }

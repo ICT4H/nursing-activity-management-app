@@ -18,6 +18,7 @@ class NewSchedulePopup extends React.Component {
     this.handleMedicineUnitChange = this.handleMedicineUnitChange.bind(this);
     this.handleStartingDateChange = this.handleStartingDateChange.bind(this);
     this.handleEndingDateChange = this.handleEndingDateChange.bind(this);
+    this.handleTimingChanges = this.handleTimingChanges.bind(this);
     //todo: Might come from server using an API
     this.medicineUnits = [TAB, CAP, ML, MG, TSP, TBSP];
     this.frequencies = [QD, BID, TID, QID, QOD];
@@ -42,7 +43,7 @@ class NewSchedulePopup extends React.Component {
                           handleEndingDateChange={this.handleEndingDateChange}
                           startingDate={drug.startingDate} endingDate={drug.endingDate}
             />
-            <AdministrateTimes noOfTimeInputs={mapFrequencyToNumber(drug.frequency)}/>
+            <AdministrateTimes noOfTimeInputs={mapFrequencyToNumber(drug.frequency)} handleTimeChange={this.handleTimingChanges}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>
         </div>
@@ -88,6 +89,11 @@ class NewSchedulePopup extends React.Component {
   handleMedicineUnitChange(event) {
     let changedMedicineUnit = {unit: event.target.value};
     let resultantDrug = getResultantObject(this.props.drug, changedMedicineUnit);
+    this.props.onChange(resultantDrug);
+  }
+
+  handleTimingChanges(timings) {
+    let resultantDrug = getResultantObject(this.props.drug, {timings:timings});
     this.props.onChange(resultantDrug);
   }
 }

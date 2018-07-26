@@ -1,4 +1,4 @@
-import {BID, TAB,} from "../constants";
+import {BID, QD, TAB} from "../constants";
 
 const patientDetails = {
   id: 'GAN12345',
@@ -8,10 +8,22 @@ const patientDetails = {
 };
 let initialEmptyDrug = {
   drugName: "", dose: 1,
-  unit: TAB,
-  frequency: BID,
+  unit: "",
+  frequency: "",
   startingDate: new Date('June 8, 2018 2:30:00'),
   endingDate: new Date('June 8, 2018 2:30:00')
 };
 
-export {patientDetails, initialEmptyDrug}
+const NEW_DRUGS = [{
+  drugName: "Paracetmol",
+  dose:1,
+  unit: TAB,
+  frequency: QD
+}, {
+  drugName: "Crosine",
+  dose:1,
+  unit: TAB,
+  frequency: QD
+}];
+
+export {patientDetails, initialEmptyDrug, NEW_DRUGS}

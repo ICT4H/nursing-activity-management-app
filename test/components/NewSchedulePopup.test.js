@@ -14,7 +14,8 @@ let drugToPopup = {
   dose: 2,
   unit: TAB,
   frequency: BID,
-  startingDate: new Date("June 8, 2018 2:30:00")
+  startingDate: new Date("June 8, 2018 2:30:00"),
+  timings:[]
 };
 let patient = {
   name: "Cally Cardenas",
@@ -174,5 +175,18 @@ describe('NewSchedulePopup', () => {
     component.hasClass('newSchedulePopup');
     component.setProps({hidden: true});
     component.hasClass('hidden');
+  });
+
+  test('Should call onChange function with changed time in administrativeTimes', () => {
+    const onChangeMock = jest.fn();
+    component = mount(<NewSchedulePopup drug={drugToPopup}
+                                        patient={patient} onChange={onChangeMock}
+                                        saveFn={saveFn} cancelFn={cancelFn}/>);
+    let administrativeTimes = component.find('.administrateTime');
+    const firstTimingInput = administrativeTimes.at(0);
+    const changedTimeValue = "12-30-PM";
+    firstTimingInput.simulate('change', {target: {value: changedTimeValue}});
+    drugToPopup.timings[0] = changedTimeValue;
+    expect(onChangeMock).toBeCalledWith(drugToPopup);
   });
 });
