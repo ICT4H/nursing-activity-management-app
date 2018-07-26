@@ -138,7 +138,7 @@ class PatientMAR extends React.Component {
             <ReactTable
                 data={this.state.currentWeekData.schedules}
                 columns={this.getCurrentWeekColumns()}
-                className="-highlight"
+                className="-highlight medicineTable"
                 PaginationComponent={() => <WeekControl className="weekControl" goToPastWeek={this.goToPastWeek}
                                                         goToNextWeek={this.goToNextWeek} currentWeek={currentWeek}
                 />}
