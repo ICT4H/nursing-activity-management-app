@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import DateUtils from "../utils/DateUtils";
 import Headers from "./Headers";
 import FetchData from "../Data/FetchData";
+import AppDescriptor from "../AppDescriptor";
 
 class PatientMAR extends React.Component {
   constructor(props) {
@@ -32,9 +33,14 @@ class PatientMAR extends React.Component {
   }
 
   componentWillMount() {
-    let currentWeek = DateUtils.getWeekStatingAndEndingDates(this.props.today);
+    let currentWeek = this.getCurrentWeekDates();
     this.setState({currentWeek: currentWeek});
     this.getThisWeekData(currentWeek);
+  }
+
+  getCurrentWeekDates() {
+    let startOfWeek = AppDescriptor.getStartWeekConfig() || 2;
+    return DateUtils.getWeekStatingAndEndingDates(this.props.today, startOfWeek);
   }
 
   showNewSchedulePopup(currentMedicineToPopup) {
@@ -59,13 +65,13 @@ class PatientMAR extends React.Component {
   }
 
   getThisWeekData(currentWeek) {
-    let callBack = function  (schedules){
+    let callBack = function (schedules) {
       let currentWeekData = groupByMedicineOrder(schedules);
       this.setState({currentWeekData});
     };
     let startDate = DateUtils.getFormattedDate(currentWeek.startingDate);
     let endDate = DateUtils.getFormattedDate(currentWeek.endingDate);
-    FetchData.fetchDataForPatient(this.state.patientUuid,startDate, endDate, callBack.bind(this));
+    FetchData.fetchDataForPatient(this.state.patientUuid, startDate, endDate, callBack.bind(this));
   }
 
   hidePopup() {

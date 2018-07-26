@@ -38,13 +38,12 @@ class DateUtils {
     return week;
   }
 
-  static getWeekStatingAndEndingDates (givenDate) {
+  static getWeekStatingAndEndingDates (givenDate,configValue) {
     let week = {};
-    let startOfWeek = AppDescriptor.getStartWeekConfig() || 2;
-    let startingDate = moment(givenDate).day(startOfWeek-1);
-    //TODO:Test this logic and in case of startOfWeek is 7 or greater or blank it should fall back to default which is monday here
+    configValue = (configValue<7&&configValue>0 ? configValue : 2);
+    let startingDate = moment(givenDate).day(configValue-1);
     if (moment(startingDate).isAfter(givenDate)) {
-      startingDate = moment(givenDate).day(startOfWeek-7);
+      startingDate = moment(givenDate).day(configValue-7);
     }
     week.startingDate = startingDate.toDate();
     week.endingDate = moment(startingDate).add(6, "days").toDate();

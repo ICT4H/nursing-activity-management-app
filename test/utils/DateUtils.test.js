@@ -98,5 +98,104 @@ describe('DateUtils', () => {
       let result = DateUtils.getDateAndDay(sampleDate);
       expect(result).toEqual("9 Jul, Mon");
     })
+  });
+  describe('getWeekStatingAndEndingDates',()=>{
+    it('should give date of last sunday as current week startingDate when config value is 1 and given date is of monday', function () {
+      let sampleDate = new Date("July 23, 2018 02:30:00");
+      const configValue = 1;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 22, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give date of last sunday as current week startingDate when config value is 1 and given date is of other than sunday', function () {
+      let sampleDate = new Date("July 28, 2018 02:30:00");
+      const configValue = 1;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 22, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give given date as current week startingDate when config value is 1 and given date is sunday', function () {
+      let sampleDate = new Date("July 22, 2018 02:30:00");
+      const configValue = 1;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 22, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give date of week according to config value as current week startingDate', function () {
+      let sampleDate = new Date("July 28, 2018 02:30:00");
+      const configValue = 4;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 25, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give date of upcoming saturday as current week endingDate when config value is 1', function () {
+      let sampleDate = new Date("July 23, 2018 02:30:00");
+      const configValue = 1;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 28, 2018 02:30:00");
+      expect(currentWeek.endingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give given date as current week endingDate when config value is 1 and given date is saturday', function () {
+      let sampleDate = new Date("July 28, 2018 02:30:00");
+      const configValue = 1;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 28, 2018 02:30:00");
+      expect(currentWeek.endingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give date of week according to config value as current week endingDate', function () {
+      let sampleDate = new Date("July 28, 2018 02:30:00");
+      const configValue = 4;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 31, 2018 02:30:00");
+      expect(currentWeek.endingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give date of last monday as current week startingDate when config value is greater than 7', function () {
+      let sampleDate = new Date("July 28, 2018 02:30:00");
+      const configValue = 8;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 23, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give given date as current week startingDate when config value is greater than 7 and given date is monday', function () {
+      let sampleDate = new Date("July 23, 2018 02:30:00");
+      const configValue = 9;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 23, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give given date as current week startingDate when config value is 0 and given date is monday', function () {
+      let sampleDate = new Date("July 23, 2018 02:30:00");
+      const configValue = 0;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 23, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
+    it('should give given date as current week startingDate when config value is negative and given date is monday', function () {
+      let sampleDate = new Date("July 23, 2018 02:30:00");
+      const configValue = -1;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 23, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
+
+    it('should give given date as current week startingDate when config value other than 1 to 7 and given date is monday', function () {
+      let sampleDate = new Date("July 23, 2018 02:30:00");
+      const configValue = -9;
+      let currentWeek = DateUtils.getWeekStatingAndEndingDates(sampleDate,configValue);
+      const expectedStartDate = new Date("July 23, 2018 02:30:00");
+      expect(currentWeek.startingDate).toEqual(expectedStartDate);
+    });
+
   })
 });
