@@ -3,7 +3,8 @@ import {
   getResultantObject,
   getScheduleShortDetails,
   groupByMedicineOrder,
-  mapFrequencyToNumber
+  mapFrequencyToNumber,
+  mapScheduleToDrug
 } from "../../src/utils/utility";
 import React from "react";
 import {BID, QD, QID, QOD, TID} from "../../src/constants";
@@ -89,6 +90,36 @@ describe('utility', () => {
       expect(scheduleShortDetails).toEqual(expected);
     });
   });
+  describe('mapScheduleToDrug', () => {
+    it('should give drug info and add short details of schedule in schedules', function () {
+      const scheduledTime = new Date("July 25, 2018 2:30:00");
+      const schedule = {
+        drug: {
+          drugName: "sampleDrug",
+          dose: 2,
+          doseUnits: "once a day"
+        },
+        order: {
+          uuid: "ORDER-2"
+        },
+        scheduledTime: scheduledTime,
+        status: "scheduled"
+      };
+      const scheduleShortDetails = getScheduleShortDetails(schedule);
+      const mappedDrug = mapScheduleToDrug(schedule);
+
+      const expected = {
+        drugName: "sampleDrug",
+        dose: 2,
+        doseUnits: "once a day",
+        order: {
+          uuid: "ORDER-2"
+        },
+        schedules: [scheduleShortDetails]
+      };
+      expect(mappedDrug).toEqual(expected);
+    });
+  });
   describe('groupByMedicineOrder', () => {
     it('Should get one medicine with only one schedule in list when only one schedule is given', () => {
       const schedules = [{
@@ -108,7 +139,7 @@ describe('utility', () => {
         dose: 2,
         doseUnits: "once a day",
         order: schedules[0].order,
-        schedules:expectedSchedulesList
+        schedules: expectedSchedulesList
       }];
 
       const result = groupByMedicineOrder(schedules);
@@ -137,7 +168,7 @@ describe('utility', () => {
         },
         scheduledTime: new Date("July 25, 2018 2:30:00")
       }];
-      let expectedSchedulesList = [getScheduleShortDetails(schedules[0]),getScheduleShortDetails(schedules[1])];
+      let expectedSchedulesList = [getScheduleShortDetails(schedules[0]), getScheduleShortDetails(schedules[1])];
       const expected = [{
         drugName: "sampleDrug",
         dose: 2,

@@ -29,21 +29,26 @@ function getScheduleShortDetails(schedule) {
   };
 }
 
+function mapScheduleToDrug(schedule) {
+  let newDrug = schedule.drug || {};
+  let scheduleDetails = getScheduleShortDetails(schedule);
+  newDrug.schedules = [scheduleDetails];
+  newDrug.order = schedule.order;
+  return newDrug;
+}
+
 const groupByMedicineOrder = function (schedules) {
-  let medicines = [];
+  let drugs = [];
   schedules.forEach((schedule) => {
-    let medicineIndex = medicines.findIndex(medicine => medicine.order.uuid === schedule.order.uuid);
-    if (medicines[medicineIndex]) {
+    let medicineIndex = drugs.findIndex(drug => drug.order.uuid === schedule.order.uuid);
+    if (drugs[medicineIndex]) {
       let scheduleDetails = getScheduleShortDetails(schedule);
-      medicines[medicineIndex].schedules.push(scheduleDetails);
+      drugs[medicineIndex].schedules.push(scheduleDetails);
     } else {
-      let newMedicine = schedule.drug || {};
-      let scheduleDetails = getScheduleShortDetails(schedule);
-      newMedicine.schedules = [scheduleDetails];
-      newMedicine.order = schedule.order;
-      medicines.push(newMedicine)
+      let newDrug = mapScheduleToDrug(schedule);
+      drugs.push(newDrug)
     }
   });
-  return medicines;
+  return drugs;
 };
-export {defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf, groupByMedicineOrder, getScheduleShortDetails}
+export {defaultScheduleFormatter, getResultantObject, mapFrequencyToNumber, getSchedulesOf, groupByMedicineOrder, getScheduleShortDetails, mapScheduleToDrug}
