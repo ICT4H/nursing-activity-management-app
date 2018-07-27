@@ -1,7 +1,10 @@
-jest.mock('whatwg-fetch');
 import FetchData from "../../src/data/FetchData";
-import {ipdSchedulesUrl} from "../../src/constants";
+import {hostFullURL, ipdSchedulesUrl} from "../../src/constants";
 
+beforeEach(() => {
+  jest.clearAllMocks();
+  jest.mock('whatwg-fetch');
+});
 describe('FetchData', () => {
   describe('buildUrl', () => {
     it('should build url with given urlString and params', function () {
@@ -12,15 +15,31 @@ describe('FetchData', () => {
 
     });
   });
-  describe('fetchDataForPatient', () => {
-    it('should ', function () {
+  describe('fetchSchedulesForPatient', () => {
+    it('should call fetch method with schedules url and headers', function () {
       let startDate = "12";
       let endDate = "13";
       const patientUuid = "123";
       let urlString = ipdSchedulesUrl + "patient/" + patientUuid;
       let url = FetchData.buildUrl(urlString, {startDate, endDate});
 
-      FetchData.fetchDataForPatient(patientUuid,startDate,endDate,()=>{});
+      FetchData.fetchSchedulesForPatient(patientUuid,startDate,endDate,()=>{});
+
+      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(fetch).toBeCalledWith(url,{credentials: "include",headers: {"Accept": "application/json", "Content-Type": "application/json"}});
+
+    });
+  });
+
+  describe('fetchPrescribedDrugsForPatient', () => {
+    it('should call fetch method with drugOrder url and headers', function () {
+      let startDate = "12";
+      let endDate = "13";
+      const patientUuid = "123";
+      let urlString = hostFullURL + "bahmnicore/drugOrders/active";
+      let url = FetchData.buildUrl(urlString, {patientUuid});
+
+      FetchData.fetchPrescribedDrugsForPatient(patientUuid,startDate,endDate,()=>{});
 
       expect(fetch).toHaveBeenCalledTimes(1);
       expect(fetch).toBeCalledWith(url,{credentials: "include",headers: {"Accept": "application/json", "Content-Type": "application/json"}});

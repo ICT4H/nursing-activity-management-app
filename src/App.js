@@ -10,7 +10,7 @@ class App extends Component {
           <div>
             <p>Medicine Administration Record</p>
           </div>
-          <PatientMAR patient={patientDetails} today={new Date()} patientUuid="a81c9847-bfef-41f3-8bc2-8abfe11e3a6a"/>
+          <PatientMAR patient={patientDetails} today={new Date()}/>
         </div>
     );
   }

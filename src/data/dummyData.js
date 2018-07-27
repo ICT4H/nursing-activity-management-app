@@ -1,10 +1,11 @@
-import {BID, QD, TAB} from "../constants";
+import {QD, TAB} from "../constants";
 
 const patientDetails = {
   id: 'GAN12345',
   name: "Cally Cardenas",
   gender: 'male',
   age: 33,
+  patientUuid :"a81c9847-bfef-41f3-8bc2-8abfe11e3a6a"
 };
 let initialEmptyDrug = {
   drugName: "", dose: 1,

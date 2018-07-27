@@ -1,8 +1,10 @@
 import {
   defaultScheduleFormatter,
+  filterScheduledDrugs,
   getResultantObject,
   getScheduleShortDetails,
   groupByMedicineOrder,
+  mapDrugOrdersToDrugs,
   mapFrequencyToNumber,
   mapScheduleToDrug
 } from "../../src/utils/utility";
@@ -226,5 +228,267 @@ describe('utility', () => {
       expect(result).toEqual(expected);
     })
 
-  })
+  });
+
+  describe('filterScheduledDrugs', () => {
+    it('should give empty list when there is only one drugOrder and it is scheduled', function () {
+      const firstSchedule = {
+        drug: {
+          drugName: "sampleDrug",
+          dose: 2,
+          doseUnits: "once a day"
+        },
+        order: {
+          uuid: "ORDER-1"
+        },
+        scheduledTime: new Date("July 24, 2018 2:30:00")
+      };
+      const scheduleDetails = getScheduleShortDetails(firstSchedule);
+      const scheduledDrug = {
+        drugName: "sampleDrug",
+        dose: 2,
+        doseUnits: "once a day",
+        order: {
+          uuid: "9c33cdf6-c805-4c85-94c8-f43df0997e5e"
+        },
+        schedules: [scheduleDetails]
+      };
+      const drugOrder = {
+        uuid: "9c33cdf6-c805-4c85-94c8-f43df0997e5e",
+        orderNumber: "ORD-323",
+        orderType: "Drug Order",
+        drug: {
+          drugName: "sampleDrug"
+        },
+        dosingInstructions: {
+          dose: 2,
+          doseUnits: "once a day",
+        }
+      };
+      let filteredDrugs = filterScheduledDrugs([drugOrder], [scheduledDrug]);
+      expect(filteredDrugs).toEqual([]);
+    });
+
+    it('should give only one drugOrder when there is two drugOrder and one of it is scheduled', function () {
+      const firstSchedule = {
+        drug: {
+          drugName: "sampleDrug",
+          dose: 2,
+          doseUnits: "once a day"
+        },
+        order: {
+          uuid: "ORDER-1"
+        },
+        scheduledTime: new Date("July 24, 2018 2:30:00")
+      };
+      const scheduleDetails = getScheduleShortDetails(firstSchedule);
+      const scheduledDrug = {
+        drugName: "sampleDrug",
+        dose: 2,
+        doseUnits: "once a day",
+        order: {
+          uuid: "9c33cdf6-c805-4c85-94c8-f43df0997e5e"
+        },
+        schedules: [scheduleDetails]
+      };
+      const drugOrder = {
+        uuid: "9c33cdf6-c805-4c85-94c8-f43df0997e5e",
+        orderNumber: "ORD-323",
+        orderType: "Drug Order",
+        drug: {
+          drugName: "sampleDrug"
+        },
+        dosingInstructions: {
+          dose: 2,
+          doseUnits: "once a day",
+        }
+      };
+      const anotherDrugOrder = {
+        uuid: "f701be5b-40bb-4828-b1ea-7262d3b25246",
+        orderNumber: "ORD-319",
+        orderType: "Drug Order",
+        drug: {
+          drugName: "sampleDrug"
+        },
+        dosingInstructions: {
+          dose: 2,
+          doseUnits: "once a day",
+        }
+      };
+      let filteredDrugs = filterScheduledDrugs([drugOrder, anotherDrugOrder], [scheduledDrug]);
+      expect(filteredDrugs).toEqual([anotherDrugOrder]);
+    });
+  });
+
+  describe('mapDrugOrdersToDrugs', () => {
+    it('should drug details from drug orders', function () {
+      const drugOrder = {
+        "visit": {
+          "uuid": "a998f8d6-e56c-49ed-b44c-1dcb4f07cde4",
+          "startDateTime": 1529997089000
+        },
+        "provider": {
+          "uuid": "c1c26908-3f10-11e4-adec-0800271c1b75",
+          "name": "Super Man",
+          "encounterRoleUuid": null
+        },
+        "orderAttributes": null,
+        "retired": false,
+        "creatorName": "Super Man",
+        "orderReasonConcept": null,
+        "orderReasonText": null,
+        "dosingInstructionType": "org.openmrs.module.bahmniemrapi.drugorder.dosinginstructions.FlexibleDosingInstructions",
+        "previousOrderUuid": null,
+        "concept": {
+          "uuid": "62b91692-0641-45b1-9233-3c9609c6b6a8",
+          "name": "Paracetamol 500mg",
+          "dataType": "N/A",
+          "shortName": "Paracetamol 500mg",
+          "conceptClass": "Misc",
+          "hiNormal": null,
+          "lowNormal": null,
+          "set": false,
+          "mappings": []
+        },
+        "uuid": "9c33cdf6-c805-4c85-94c8-f43df0997e5e",
+        "orderGroup": null,
+        "autoExpireDate": 1532928774000,
+        "scheduledDate": 1532669575000,
+        "dateStopped": null,
+        "instructions": null,
+        "dateActivated": 1532669575000,
+        "commentToFulfiller": null,
+        "orderNumber": "ORD-323",
+        "careSetting": "OUTPATIENT",
+        "orderType": "Drug Order",
+        "effectiveStartDate": 1532669575000,
+        "effectiveStopDate": 1532928774000,
+        "sortWeight": null,
+        "dosingInstructions": {
+          "dose": 1,
+          "doseUnits": "Tablet(s)",
+          "route": "Oral",
+          "frequency": "Twice a day",
+          "asNeeded": false,
+          "administrationInstructions": "{\"instructions\":\"As directed\"}",
+          "quantity": 6,
+          "quantityUnits": "Tablet(s)",
+          "numberOfRefills": null
+        },
+        "durationUnits": "Day(s)",
+        "drugNonCoded": null,
+        "drug": {
+          "name": "Paracetamol 500mg",
+          "uuid": "d9c230a5-89d8-4e4d-b08b-2af3b1234c80",
+          "form": "Tablet",
+          "strength": null
+        },
+        "action": "NEW",
+        "duration": 3
+      };
+      const anotherDrugOrder = {
+        "visit": {
+          "uuid": "a998f8d6-e56c-49ed-b44c-1dcb4f07cde4",
+          "startDateTime": 1529997089000
+        },
+        "provider": {
+          "uuid": "c1c26908-3f10-11e4-adec-0800271c1b75",
+          "name": "Super Man",
+          "encounterRoleUuid": null
+        },
+        "orderAttributes": null,
+        "retired": false,
+        "creatorName": "Super Man",
+        "orderReasonConcept": null,
+        "orderReasonText": null,
+        "dosingInstructionType": "org.openmrs.module.bahmniemrapi.drugorder.dosinginstructions.FlexibleDosingInstructions",
+        "previousOrderUuid": "991cb825-4c3c-40fd-8b7e-18527c7cb74f",
+        "concept": {
+          "uuid": "62b91692-0641-45b1-9233-3c9609c6b6a8",
+          "name": "Paracetamol 500mg",
+          "dataType": "N/A",
+          "shortName": "Paracetamol 500mg",
+          "conceptClass": "Misc",
+          "hiNormal": null,
+          "lowNormal": null,
+          "set": false,
+          "mappings": []
+        },
+        "uuid": "f7f59542-0aca-4a49-abaf-bb3fe751e598",
+        "orderGroup": null,
+        "autoExpireDate": 1532668806000,
+        "scheduledDate": 1532496007000,
+        "dateStopped": null,
+        "instructions": null,
+        "dateActivated": 1532323476000,
+        "commentToFulfiller": null,
+        "orderNumber": "ORD-322",
+        "careSetting": "OUTPATIENT",
+        "orderType": "Drug Order",
+        "effectiveStartDate": 1532496007000,
+        "effectiveStopDate": 1532668806000,
+        "sortWeight": null,
+        "dosingInstructions": {
+          "dose": 1,
+          "doseUnits": "Tablet(s)",
+          "route": "Oral",
+          "frequency": "Twice a day",
+          "asNeeded": false,
+          "administrationInstructions": "{\"instructions\":\"As directed\"}",
+          "quantity": 4,
+          "quantityUnits": "Tablet(s)",
+          "numberOfRefills": null
+        },
+        "durationUnits": "Day(s)",
+        "drugNonCoded": null,
+        "drug": {
+          "name": "Paracetamol 500mg",
+          "uuid": "d9c230a5-89d8-4e4d-b08b-2af3b1234c80",
+          "form": "Tablet",
+          "strength": null
+        },
+        "action": "REVISE",
+        "duration": 2
+      };
+      const firstMappedDrug = {
+        order: {
+          "uuid": "9c33cdf6-c805-4c85-94c8-f43df0997e5e",
+          "autoExpireDate": 1532928774000,
+          "scheduledDate": 1532669575000,
+          "instructions": null,
+          "orderNumber": "ORD-323",
+        },
+        drugName : "Paracetamol 500mg",
+        uuid : "d9c230a5-89d8-4e4d-b08b-2af3b1234c80",
+        dose:1,
+        doseUnits:"Tablet(s)",
+        route : "Oral",
+        frequency : "Twice a day",
+        startingDate : new Date(1532669575000),
+        endingDate : new Date(1532928774000),
+        administrationInstructions : "{\"instructions\":\"As directed\"}",
+      };
+      const secondMappedDrug = {
+        order: {
+          "uuid": "f7f59542-0aca-4a49-abaf-bb3fe751e598",
+          "autoExpireDate": 1532668806000,
+          "scheduledDate": 1532496007000,
+          "instructions": null,
+          "orderNumber": "ORD-322",
+        },
+        drugName : "Paracetamol 500mg",
+        uuid : "d9c230a5-89d8-4e4d-b08b-2af3b1234c80",
+        dose:1,
+        doseUnits:"Tablet(s)",
+        route : "Oral",
+        frequency : "Twice a day",
+        startingDate : new Date(1532496007000),
+        endingDate : new Date(1532668806000),
+        administrationInstructions : "{\"instructions\":\"As directed\"}",
+      };
+      const drugs = mapDrugOrdersToDrugs([drugOrder, anotherDrugOrder]);
+      const expectedDrugs = [firstMappedDrug,secondMappedDrug];
+      expect(drugs).toEqual(expectedDrugs)
+    });
+  });
 });
