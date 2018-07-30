@@ -1,17 +1,32 @@
 import React, {Component} from 'react';
-import PatientMAR from './components/PatientMAR'
+import { Router } from 'react-router';
+import {Route, Switch} from 'react-router-dom';
+import PatientMAR from './components/PatientMAR';
 import {patientDetails} from "./Data/dummyData";
+import createHashHistory from 'history/createHashHistory'
+
+const history = createHashHistory();
+
+const Home = () => <h1>Home</h1>;
+
+const ShowPatientMAR = ({match}) => (
+    <div>
+      <PatientMAR today={new Date()} patient={patientDetails} patientUuid={match.params.uuid}/>
+    </div>
+);
+
+
 
 
 class App extends Component {
   render() {
     return (
-        <div>
-          <div>
-            <p>Medicine Administration Record</p>
-          </div>
-          <PatientMAR patient={patientDetails} today={new Date()}/>
-        </div>
+        <Router history={history}>
+          <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route path="/patient/:uuid/mar" component={ShowPatientMAR}/>
+          </Switch>
+        </Router>
     );
   }
 }

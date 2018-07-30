@@ -13,7 +13,6 @@ import Headers from "./Headers";
 import FetchData from "../Data/FetchData";
 import AppDescriptor from "../AppDescriptor";
 import StandingInstructionsPanel from "./StandingInstructionsPanel";
-import {NEW_DRUGS} from "../data/dummyData";
 
 class PatientMAR extends React.Component {
   constructor(props) {
@@ -39,6 +38,7 @@ class PatientMAR extends React.Component {
   }
 
   componentWillMount() {
+    console.log(this.props.patientUuid);
     let currentWeek = this.getCurrentWeekDates();
     let currentDrugToPopup = initialEmptyDrug;
     currentDrugToPopup.startingDate = this.state.today;

@@ -2,11 +2,14 @@
   "name": "nursing-activity-management-app",
   "version": "0.1.0",
   "dependencies": {
+    "history": "^4.7.2",
     "jest-fetch-mock": "^1.6.5",
     "moment": "^2.22.1",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "react-table": "^6.8.6",
     "react-test-renderer": "^16.4.0",
     "whatwg-fetch": "^2.0.4"
