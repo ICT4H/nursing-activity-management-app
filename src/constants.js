@@ -16,5 +16,7 @@ export const ADMINISTRATED = "ADMINISTRATED",
     },
     START_OF_WEEK = 2,
     hostFullURL = hostURL + RESTWS_V1,
-    ipdSchedulesUrl =hostFullURL+"ipd/schedules/"
+    ipdSchedulesUrl = hostFullURL + "ipd/schedules/",
+    patientDetailsUrl = hostFullURL + "patient/",
+    prescribedAndActiveDrugsUrl = hostFullURL + "bahmnicore/drugOrders/active"
 ;

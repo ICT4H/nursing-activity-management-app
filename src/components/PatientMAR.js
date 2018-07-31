@@ -13,11 +13,15 @@ import Headers from "./Headers";
 import FetchData from "../Data/FetchData";
 import AppDescriptor from "../AppDescriptor";
 import StandingInstructionsPanel from "./StandingInstructionsPanel";
+import {ipdSchedulesUrl, patientDetailsUrl, prescribedAndActiveDrugsUrl} from "../constants";
 
 class PatientMAR extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      patient: {
+        person: {}
+      },
       currentDrugToPopup: {},
       shallHidePopup: true,
       today: props.today,
@@ -38,7 +42,6 @@ class PatientMAR extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props.patientUuid);
     let currentWeek = this.getCurrentWeekDates();
     let currentDrugToPopup = initialEmptyDrug;
     currentDrugToPopup.startingDate = this.state.today;
@@ -76,32 +79,67 @@ class PatientMAR extends React.Component {
   getThisWeekData(currentWeek) {
     let startDate = DateUtils.getFormattedDate(currentWeek.startingDate);
     let endDate = DateUtils.getFormattedDate(currentWeek.endingDate);
+    this.getPatientDetails();
     this.getPatientSchedules(startDate, endDate);
     this.getPrescribedDrugs(startDate, endDate);
   }
 
+  setNewDrugs(newDrugsData) {
+    let newDrugOrders = filterScheduledDrugs(newDrugsData, this.state.currentWeekData.schedules);
+    let newDrugs = mapDrugOrdersToDrugs(newDrugOrders);
+    let currentWeekData = this.state.currentWeekData;
+    currentWeekData.newDrugs = newDrugs;
+    this.setState({currentWeekData});
+  }
+
+  getPatientDetails() {
+    FetchData
+        .get(`${patientDetailsUrl}${this.state.patientUuid}`, 'application/json')
+        .then((data) => {
+          this.setState({patient: data});
+        })
+        .catch((error) => {
+          this.showErrors(error);
+        });
+  }
 
   getPrescribedDrugs(startDate, endDate) {
-    const callback = function (drugOrders) {
-      let newDrugOrders = filterScheduledDrugs(drugOrders, this.state.currentWeekData.schedules);
-      let newDrugs = mapDrugOrdersToDrugs(newDrugOrders);
-      console.log(newDrugOrders);
-      console.log(newDrugs);
-      let currentWeekData = this.state.currentWeekData;
-      currentWeekData.newDrugs = newDrugs;
-      this.setState({currentWeekData});
-    };
-    FetchData.fetchPrescribedDrugsForPatient(this.props.patient.patientUuid, startDate, endDate, callback.bind(this));
+    let url = FetchData.buildUrl(prescribedAndActiveDrugsUrl, {
+      patientUuid: this.state.patientUuid
+    });
+    FetchData
+        .get(url, 'application/json')
+        .then((data) => {
+          this.setNewDrugs(data);
+        })
+        .catch((error) => {
+          this.showErrors(error);
+        });
   }
 
   getPatientSchedules(startDate, endDate) {
-    let callBack = function (schedules) {
-      let currentWeekSchedules = groupByMedicineOrder(schedules);
-      let currentWeekData = this.state.currentWeekData;
-      currentWeekData.schedules = currentWeekSchedules;
-      this.setState({currentWeekData});
-    };
-    FetchData.fetchSchedulesForPatient(this.props.patient.patientUuid, startDate, endDate, callBack.bind(this));
+    let url = FetchData.buildUrl(`${ipdSchedulesUrl}/patient/${this.state.patientUuid}`, {startDate, endDate});
+    FetchData
+        .get(url, 'application/json')
+        .then((data) => {
+          this.setSchedules(data);
+        })
+        .catch((error) => {
+          this.showErrors(error);
+        });
+  }
+
+  setSchedules(data) {
+    let currentWeekSchedules = groupByMedicineOrder(data);
+    let currentWeekData = this.state.currentWeekData;
+    currentWeekData.schedules = currentWeekSchedules;
+    this.setState({currentWeekData});
+  }
+
+  showErrors(error) {
+    const errorMessage = error.message;
+    console.log(errorMessage);
+    this.setState({errorMessage});
   }
 
   hidePopup() {
@@ -138,7 +176,7 @@ class PatientMAR extends React.Component {
   }
 
   render() {
-    let patient = this.props.patient;
+    let patient = this.state.patient;
     const currentWeek = this.state.currentWeek;
     return (
         <div>
@@ -147,7 +185,7 @@ class PatientMAR extends React.Component {
                             saveFn={this.saveFn} cancelFn={this.hidePopup}
           />
 
-          <Headers patient={patient} today={this.state.today}
+          <Headers patient={patient.person} today={this.state.today}
                    onClickOfButton={this.showNewSchedulePopup.bind(this, this.state.currentDrugToPopup)}/>
           <div className="patientScreen">
             <ReactTable

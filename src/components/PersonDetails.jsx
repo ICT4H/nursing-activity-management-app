@@ -5,7 +5,7 @@ class PersonDetails extends Component {
     let person = this.props.person;
     return (<div className={this.props.className}>
       <div>
-        {person.name}
+        {person.display}
       </div>
       <div>
         {person.gender}
