@@ -3,7 +3,7 @@ import SelectOptions from '../../src/components/SelectOptions';
 import renderer from 'react-test-renderer';
 
 test('Should have all options from list of options provided', () => {
-  let options=["male","female"];
+  let options = [{name: "male"}, {name: "female"}];
   let selectedValue = 'male';
   const mockHandleChange = jest.fn();
   const component = renderer.create(
@@ -15,8 +15,8 @@ test('Should have all options from list of options provided', () => {
 });
 
 test('Given option should be selected default', () => {
-  let options=["male","female"];
-  let selectedValue="male";
+  let options = [{name: "male"}, {name: "female"}];
+  let selectedValue = "male";
   const mockHandleChange = jest.fn();
   const component = renderer.create(
       <SelectOptions options={options} className="selectOption"

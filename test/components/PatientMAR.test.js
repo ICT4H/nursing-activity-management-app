@@ -11,16 +11,23 @@ let component;
 let today;
 
 beforeEach(() => {
+  jest.clearAllMocks();
+  jest.mock('whatwg-fetch');
   today = new Date("June 14, 2018 02:30:00");
   component = mount(
       <PatientMAR patient={patientDetails} today={today}/>,
   );
-
+  component.setState({
+    patient: patientDetails, currentWeekData: {
+      schedules: [],
+      newDrugs: []
+    }
+  });
 });
 
 describe('PatientMAR', () => {
   test('Should have NewSchedulePopup with having patient as property', () => {
-    expect(component.find('NewSchedulePopup').prop('patient')).toBe(patientDetails);
+    expect(component.find('NewSchedulePopup').prop('patient')).toBe(patientDetails.person);
   });
 
   test('Should have WeekControl component with having property currentWeek', () => {
@@ -34,14 +41,14 @@ describe('PatientMAR', () => {
 
   test('Should have Headers component with having property patient and today (date)', () => {
     expect(component.find('Headers').prop('today')).toEqual(today);
-    expect(component.find('Headers').prop('patient')).toEqual(patientDetails);
+    expect(component.find('Headers').prop('patient')).toEqual(patientDetails.person);
   });
 
   test('Should change starting and ending dates of currentWeek on click of goToPastWeek button(button with symbol "<")', () => {
     let sampleDate = new Date("June 14, 2018 02:30:00");
     component = mount(<PatientMAR patient={patientDetails}
                                   today={sampleDate}/>,);
-    component.setState({currentWeek:{startingDate:sampleDate}});
+    component.setState({currentWeek: {startingDate: sampleDate}});
     let pastWeekButton = component.find('button').find(".pastWeek");
     pastWeekButton.simulate('click');
     expect(component.state('currentWeek')).toEqual(DateUtils.getPastWeekStatingAndEndingDates(sampleDate));
@@ -51,7 +58,7 @@ describe('PatientMAR', () => {
     let sampleDate = new Date("June 14, 2018 02:30:00");
     component = mount(<PatientMAR patient={patientDetails}
                                   today={sampleDate}/>,);
-    component.setState({currentWeek:{startingDate:sampleDate}});
+    component.setState({currentWeek: {startingDate: sampleDate}});
     let nextWeekButton = component.find('button').find(".nextWeek");
     nextWeekButton.simulate('click');
     expect(component.state('currentWeek')).toEqual(DateUtils.getNextWeekStatingAndEndingDates(sampleDate));

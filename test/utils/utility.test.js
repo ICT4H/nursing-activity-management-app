@@ -458,15 +458,15 @@ describe('utility', () => {
           "instructions": null,
           "orderNumber": "ORD-323",
         },
-        drugName : "Paracetamol 500mg",
-        uuid : "d9c230a5-89d8-4e4d-b08b-2af3b1234c80",
-        dose:1,
-        doseUnits:"Tablet(s)",
-        route : "Oral",
-        frequency : "Twice a day",
-        startingDate : new Date(1532669575000),
-        endingDate : new Date(1532928774000),
-        administrationInstructions : "{\"instructions\":\"As directed\"}",
+        drugName: "Paracetamol 500mg",
+        uuid: "d9c230a5-89d8-4e4d-b08b-2af3b1234c80",
+        dose: 1,
+        doseUnits: "Tablet(s)",
+        route: "Oral",
+        frequency: "Twice a day",
+        startingDate: new Date(1532669575000),
+        endingDate: new Date(1532928774000),
+        administrationInstructions: "{\"instructions\":\"As directed\"}",
       };
       const secondMappedDrug = {
         order: {
@@ -476,18 +476,18 @@ describe('utility', () => {
           "instructions": null,
           "orderNumber": "ORD-322",
         },
-        drugName : "Paracetamol 500mg",
-        uuid : "d9c230a5-89d8-4e4d-b08b-2af3b1234c80",
-        dose:1,
-        doseUnits:"Tablet(s)",
-        route : "Oral",
-        frequency : "Twice a day",
-        startingDate : new Date(1532496007000),
-        endingDate : new Date(1532668806000),
-        administrationInstructions : "{\"instructions\":\"As directed\"}",
+        drugName: "Paracetamol 500mg",
+        uuid: "d9c230a5-89d8-4e4d-b08b-2af3b1234c80",
+        dose: 1,
+        doseUnits: "Tablet(s)",
+        route: "Oral",
+        frequency: "Twice a day",
+        startingDate: new Date(1532496007000),
+        endingDate: new Date(1532668806000),
+        administrationInstructions: "{\"instructions\":\"As directed\"}",
       };
       const drugs = mapDrugOrdersToDrugs([drugOrder, anotherDrugOrder]);
-      const expectedDrugs = [firstMappedDrug,secondMappedDrug];
+      const expectedDrugs = [firstMappedDrug, secondMappedDrug];
       expect(drugs).toEqual(expectedDrugs)
     });
   });

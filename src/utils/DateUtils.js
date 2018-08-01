@@ -19,11 +19,11 @@ class DateUtils {
     return moment(firstDate).isSame(secondDate);
   };
 
-  static formatTime (date) {
+  static formatTime(date) {
     return moment(date).format("h:mm A");
   }
 
-  static getPastWeekStatingAndEndingDates(givenDate){
+  static getPastWeekStatingAndEndingDates(givenDate) {
     let week = {};
     week.startingDate = moment(givenDate).add(-7, "days").toDate();
     week.endingDate = moment(givenDate).add(-1, "days").toDate();
@@ -37,12 +37,12 @@ class DateUtils {
     return week;
   }
 
-  static getWeekStatingAndEndingDates (givenDate,configValue) {
+  static getWeekStatingAndEndingDates(givenDate, configValue) {
     let week = {};
-    configValue = (configValue<7&&configValue>0 ? configValue : 2);
-    let startingDate = moment(givenDate).day(configValue-1);
+    configValue = (configValue < 7 && configValue > 0 ? configValue : 2);
+    let startingDate = moment(givenDate).day(configValue - 1);
     if (moment(startingDate).isAfter(givenDate)) {
-      startingDate = moment(givenDate).day(configValue-7);
+      startingDate = moment(givenDate).day(configValue - 7);
     }
     week.startingDate = startingDate.toDate();
     week.endingDate = moment(startingDate).add(6, "days").toDate();
@@ -50,7 +50,7 @@ class DateUtils {
   };
 
   static formatWeekStartEndDate(givenWeek) {
-    return moment(givenWeek.startingDate).format('D MMM')+" - "+moment(givenWeek.endingDate).format('D MMM');
+    return moment(givenWeek.startingDate).format('D MMM') + " - " + moment(givenWeek.endingDate).format('D MMM');
   }
 
   static getDateAndDay(date) {

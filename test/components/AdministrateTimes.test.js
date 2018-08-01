@@ -23,7 +23,7 @@ describe('Administrate Times', () => {
   test('Should have N inputs when property noOfTimeInput is changed to N from M', () => {
     let component = mount(<AdministrateTimes noOfTimeInputs={4}/>);
     expect(component.find('input').at(0).first().type()).toBe('input');
-    component.setProps({noOfTimeInputs:8});
+    component.setProps({noOfTimeInputs: 8});
     expect(component.find('input').at(7).first().type()).toBe('input');
     expect(component.find('input')).toHaveLength(8);
   });

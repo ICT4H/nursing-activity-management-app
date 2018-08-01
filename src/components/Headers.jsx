@@ -19,5 +19,4 @@ Headers.propTypes = {
 };
 
 
-
 export default Headers

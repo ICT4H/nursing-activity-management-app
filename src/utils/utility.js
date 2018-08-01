@@ -65,24 +65,24 @@ const filterScheduledDrugs = function (drugOrders, scheduledDrugs) {
 };
 
 const mapDrugOrdersToDrugs = function (drugOrders) {
-  return drugOrders.map((drugOrder)=>{
+  return drugOrders.map((drugOrder) => {
     return {
       order: {
-        uuid : drugOrder.uuid,
+        uuid: drugOrder.uuid,
         autoExpireDate: drugOrder.autoExpireDate,
-        scheduledDate:drugOrder.scheduledDate,
+        scheduledDate: drugOrder.scheduledDate,
         instructions: drugOrder.instructions,
         orderNumber: drugOrder.orderNumber
       },
-      drugName : drugOrder.drug.name,
-      uuid : drugOrder.drug.uuid,
-      dose:drugOrder.dosingInstructions.dose,
-      doseUnits:drugOrder.dosingInstructions.doseUnits,
-      route:drugOrder.dosingInstructions.route,
-      frequency:drugOrder.dosingInstructions.frequency,
-      startingDate : new Date(drugOrder.scheduledDate),
-      endingDate : new Date(drugOrder.autoExpireDate),
-      administrationInstructions : drugOrder.dosingInstructions.administrationInstructions
+      drugName: drugOrder.drug.name,
+      uuid: drugOrder.drug.uuid,
+      dose: drugOrder.dosingInstructions.dose,
+      doseUnits: drugOrder.dosingInstructions.doseUnits,
+      route: drugOrder.dosingInstructions.route,
+      frequency: drugOrder.dosingInstructions.frequency,
+      startingDate: new Date(drugOrder.scheduledDate),
+      endingDate: new Date(drugOrder.autoExpireDate),
+      administrationInstructions: drugOrder.dosingInstructions.administrationInstructions
     };
   });
 };

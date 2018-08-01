@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 
 class SelectOptions extends Component {
   getAllOptions() {
-    return this.props.options.map((o) => <option value={o} key={"option" + o}>{o}</option>);
+    return this.props.options.map((o) => <option value={o.name} key={"option" + o.name}>{o.name}</option>);
   }
 
   render() {
     return (
         <select value={this.props.selectedValue} onChange={this.props.onChange} className={this.props.className}>
-          <option>{this.props.chooseMsg||""}</option>
+          <option>{this.props.chooseMsg || ""}</option>
           {
             this.getAllOptions()
           }
@@ -19,6 +19,6 @@ class SelectOptions extends Component {
 }
 
 SelectOptions.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 export default SelectOptions

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import moment from "moment/moment";
 import PropTypes from "prop-types";
 import DateUtils from "../utils/DateUtils";
 

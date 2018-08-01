@@ -7,7 +7,7 @@ class DosingInstructions extends Component {
     return (
         <div>
           <input type="number" placeholder="dose" min={1} value={this.props.doseValue}
-              onChange={this.props.handleDoseChange}/>
+                 onChange={this.props.handleDoseChange}/>
           <SelectOptions selectedValue={this.props.doseUnit} options={this.props.medicineUnits} className="chooseUnit"
                          onChange={this.props.handleMedicineUnitChange} chooseMsg="CHOOSE UNIT"/>
         </div>
@@ -17,6 +17,6 @@ class DosingInstructions extends Component {
 
 
 DosingInstructions.propTypes = {
-  medicineUnits: PropTypes.arrayOf(PropTypes.string).isRequired,
+  medicineUnits: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 export default DosingInstructions

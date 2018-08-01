@@ -14,7 +14,7 @@ class StandingInstructionsPanel extends Component {
     let panelElements = [];
     for (let i = 0; i < drugs.length; i++) {
       const drug = drugs[i];
-      panelElements.push(<PanelElement message={drug.drugName} action={this.props.action.bind(null,drug)}
+      panelElements.push(<PanelElement message={drug.drugName} action={this.props.action.bind(null, drug)}
                                        actionName={this.props.actionName}
                                        key={`PanelElement${drug.drugName}`}/>);
     }

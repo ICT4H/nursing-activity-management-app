@@ -61,6 +61,7 @@ class PatientMAR extends React.Component {
   }
 
   updateCurrentMedicine(medicine) {
+    console.log(medicine);
     this.setState({currentDrugToPopup: medicine});
   }
 
@@ -177,11 +178,11 @@ class PatientMAR extends React.Component {
 
   render() {
     let patient = this.state.patient;
-    const currentWeek = this.state.currentWeek;
+    // console.log(patient);
     return (
         <div>
           <NewSchedulePopup drug={this.state.currentDrugToPopup} hidden={this.state.shallHidePopup}
-                            patient={patient} onChange={this.updateCurrentMedicine}
+                            patient={patient.person} onChange={this.updateCurrentMedicine}
                             saveFn={this.saveFn} cancelFn={this.hidePopup}
           />
 
@@ -192,18 +193,22 @@ class PatientMAR extends React.Component {
                 data={this.state.currentWeekData.schedules}
                 columns={this.getCurrentWeekColumns()}
                 className="-highlight medicineTable"
-                PaginationComponent={() => <WeekControl className="weekControl" goToPastWeek={this.goToPastWeek}
-                                                        goToNextWeek={this.goToNextWeek} currentWeek={currentWeek}
-                />}
+                PaginationComponent={this.getWeekControlComponent()}
                 minRows={this.state.currentWeekData.schedules.length}
                 showPaginationTop={true}
                 showPaginationBottom={false}
             />
-            <StandingInstructionsPanel drugs={this.state.currentWeekData.newDrugs} className="InstructionPanel"
+            <StandingInstructionsPanel drugs={this.state.currentWeekData.newDrugs} className="instructionPanel"
                                        action={this.showNewSchedulePopup} actionName="createSchedule"/>
           </div>
         </div>
     )
+  }
+
+  getWeekControlComponent() {
+    return () => <WeekControl className="weekControl" goToPastWeek={this.goToPastWeek}
+                              goToNextWeek={this.goToNextWeek} currentWeek={this.state.currentWeek}
+    />;
   }
 }
 

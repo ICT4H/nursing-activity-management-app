@@ -18,7 +18,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader','css-loader']
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
@@ -26,9 +26,9 @@ const config = {
     extensions: ['.js', '.jsx']
   },
   plugins: [
-      new HtmlWebpackPlugin({
-        template: './public/index.html'
-      })
+    new HtmlWebpackPlugin({
+      template: './public/index.html'
+    })
   ]
 };
 module.exports = config;

@@ -15,11 +15,13 @@ describe('DosingInstructions', () => {
     expect(component.find('input').prop('onChange')).toBe(mockedDoseChangeFunction);
   });
   it('Should have SelectOptions component with given medicineUnits as options props', () => {
-    let component = mount(<DosingInstructions doseValue={2} medicineUnits={["twice", "once", "thrice"]}/>);
-    expect(component.find('SelectOptions').prop('options')).toEqual(["twice", "once", "thrice"]);
+    let component = mount(<DosingInstructions doseValue={2}
+                                              medicineUnits={[{name: "twice"}, {name: "once"}, {name: "thrice"}]}/>);
+    expect(component.find('SelectOptions').prop('options')).toEqual([{name: "twice"}, {name: "once"}, {name: "thrice"}]);
   });
   it('Should have SelectOptions component with given doseUnit as selectedValue props', () => {
-    let component = mount(<DosingInstructions doseValue={2} medicineUnits={["twice", "once", "thrice"]}
+    let component = mount(<DosingInstructions doseValue={2}
+                                              medicineUnits={[{name: "twice"}, {name: "once"}, {name: "thrice"}]}
                                               doseUnit={"once"}/>);
     expect(component.find('SelectOptions').prop('selectedValue')).toBe("once");
   });

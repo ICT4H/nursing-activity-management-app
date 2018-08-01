@@ -1,80 +1,99 @@
 import React from 'react';
 import NewSchedulePopup from '../../src/components/NewSchedulePopup';
-import renderer from 'react-test-renderer';
 import SaveCancelButtons from "../../src/components/SaveCancelButtons";
 import PersonDetails from "../../src/components/PersonDetails";
-import {BID, QD, TAB} from "../../src/constants";
 import {mount, shallow} from 'enzyme';
 import MedicationInput from "../../src/components/MedicationInput";
-import DateUtils from "../../src/utils/DateUtils";
+import FetchData from "../../src/data/FetchData";
+import * as sinon from "sinon";
 
 let component;
 let drugToPopup = {
   drugName: "Paracetmol",
   dose: 2,
-  unit: TAB,
-  frequency: BID,
+  unit: "Tablet(s)",
+  frequencyValue: "Once a day",
+  frequency: {uuid: "9d7c32a2-3f10-11e4-adec-0800271c1b75", frequencyPerDay: 1, name: "Once a day"},
   startingDate: new Date("June 8, 2018 2:30:00"),
-  timings:[]
+  endingDate: new Date("June 10, 2018 2:30:00"),
+  timings: []
 };
 let patient = {
-  name: "Cally Cardenas",
+  display: "Cally Cardenas",
   gender: 'male',
   age: 33
 };
 let saveFn = () => true;
 let cancelFn = () => true;
 
+const frequencies = [{uuid: "9d7c32a2-3f10-11e4-adec-0800271c1b75", frequencyPerDay: 1, name: "Once a day"}
+  , {uuid: "9d7d0641-3f10-11e4-adec-0800271c1b75", frequencyPerDay: 2, name: "Twice a day"}
+  , {uuid: "9d838148-3f10-11e4-adec-0800271c1b75", frequencyPerDay: 3, name: "Thrice a day"}
+  , {uuid: "9d84890a-3f10-11e4-adec-0800271c1b75", frequencyPerDay: 4, name: "Four times a day"}
+  , {uuid: "33443dad-8a92-11e4-977f-0800271c1b75", frequencyPerDay: 24, name: "Every Hour"}
+  , {uuid: "3345a0d3-8a92-11e4-977f-0800271c1b75", frequencyPerDay: 12, name: "Every 2 hours"}
+  , {uuid: "0", frequencyPerDay: 1, name: "Immediately"}];
+const doseUnits = [{name: "Capsule(s)", rootConcept: null},
+  {name: "Tablet(s)", rootConcept: null},
+  {name: "ml", rootConcept: null},
+  {name: "mg", rootConcept: null},
+  {name: "IU", rootConcept: null}];
+
+let getMethodStub;
+
 beforeEach(() => {
-  component = renderer.create(<NewSchedulePopup drug={drugToPopup}
-                                                patient={patient} onChange={() => true}
-                                                saveFn={saveFn} cancelFn={cancelFn}/>);
+  jest.clearAllMocks();
+  getMethodStub = sinon.stub(FetchData, 'get').callsFake(() => Promise.resolve({frequencies, doseUnits}));
+  component = mount(<NewSchedulePopup drug={drugToPopup}
+                                      patient={patient} onChange={() => true}
+                                      saveFn={saveFn} cancelFn={cancelFn}/>);
+});
+
+afterEach(() => {
+  getMethodStub.restore();
 });
 
 describe('NewSchedulePopup', () => {
-  test('Should have save cancel buttons', () => {
-    expect(component.root.findByType(SaveCancelButtons).props.saveFn).toBe(saveFn);
-    expect(component.root.findByType(SaveCancelButtons).props.cancelFn).toBe(cancelFn);
+  it('Should have save cancel buttons', () => {
+    expect(component.find("SaveCancelButtons").prop('saveFn')).toBe(saveFn);
+    expect(component.find("SaveCancelButtons").prop('cancelFn')).toBe(cancelFn);
   });
 
-  test('Should have SelectOptions of className "choose unit" with provided unit as selected value', () => {
-    expect(component.root.findByProps({className: 'chooseUnit'}).props.selectedValue).toBe(drugToPopup.unit);
+  it('Should have SelectOptions of className "choose frequency" with provided frequency as selected value', () => {
+    expect(component.render().find('.chooseFrequency')).toHaveLength(1);
   });
 
-  test('Should have SelectOptions of className "choose frequency" with provided frequency as selected value', () => {
-    expect(component.root.findByProps({className: 'chooseFrequency'}).props.selectedValue).toBe(drugToPopup.frequency);
+  it('Should have given patient details in it', () => {
+    expect(component.find('PersonDetails').prop('person')).toBe(patient);
   });
 
-  test('Should have given patient details in it', () => {
-    expect(component.root.findByType(PersonDetails).props.person).toBe(patient);
-  });
-
-  test('Should have MedicationInput component', () => {
+  it('Should have MedicationInput component', () => {
     component = shallow(<NewSchedulePopup drug={drugToPopup}
                                           patient={patient} onChange={() => true}
-                                          saveFn={saveFn} cancelFn={cancelFn}/>)
+                                          saveFn={saveFn} cancelFn={cancelFn}/>);
     let element = component.find(MedicationInput);
     expect(element.props().drugName).toBe(drugToPopup.drugName);
   });
 
-  test('Should have input field with given dose as value', () => {
-    let element = component.root.findByProps({placeholder: 'dose'});
-    component.root.findByProps({placeholder: 'dose'});
-    expect(element.props.value).toBe(drugToPopup.dose);
-    expect(element.type).toBe('input');
+  it('should have DosingInstructions component with given doseUnits and dose value as prop', function () {
+    expect(component.find('DosingInstructions').prop('doseUnit')).toBe(drugToPopup.doseUnits);
+    expect(component.find('DosingInstructions').prop('doseValue')).toBe(drugToPopup.dose);
   });
 
-  test('Should have input field with given date as value', () => {
-    let element = component.root.findByProps({placeholder: 'startingDate'});
-    expect(element.type).toBe('input');
-    expect(element.props.value).toBe(DateUtils.getFormattedDate(drugToPopup.startingDate));
+  it('Should have input field with given date as value', () => {
+    expect(component.find('DosingPeriod').prop('startingDate')).toBe(drugToPopup.startingDate);
+    expect(component.find('DosingPeriod').prop('endingDate')).toBe(drugToPopup.endingDate);
   });
 
-  test('Should call onChange function with changed input values', () => {
+  it('Should call onChange function with changed input values', () => {
     const onChangeMock = jest.fn();
     component = mount(<NewSchedulePopup drug={drugToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     let drugNameInput = component.findWhere(element => element.type() === 'input'
         && element.prop('value') === drugToPopup.drugName);
     drugNameInput.simulate('change');
@@ -82,23 +101,31 @@ describe('NewSchedulePopup', () => {
     expect(onChangeMock).toBeCalled();
   });
 
-  test('Should call onChange function with changed frequency value when frequency selected is changed', () => {
+  it('Should call onChange function with changed frequency value when frequency selected is changed', () => {
     const onChangeMock = jest.fn();
     component = mount(<NewSchedulePopup drug={drugToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     let frequencyInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
-    frequencyInput.simulate('change', {target: {value: QD}});
-
-    drugToPopup.frequency = QD;
+    frequencyInput.simulate('change', {target: {value: "Once a day"}});
+    drugToPopup.frequencyValue = "Once a day";
+    drugToPopup.frequency = {uuid: "9d7c32a2-3f10-11e4-adec-0800271c1b75", frequencyPerDay: 1, name: "Once a day"};
     expect(onChangeMock).toBeCalledWith(drugToPopup);
   });
 
-  test('Should call onChange function with changed dose value when dose input is changed', () => {
+  it('Should call onChange function with changed dose value when dose input is changed', () => {
     const onChangeMock = jest.fn();
     component = mount(<NewSchedulePopup drug={drugToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     let doseInput = component.find(`input [value=${drugToPopup.dose}]`);
     doseInput.simulate('change', {target: {value: 4}});
 
@@ -106,23 +133,31 @@ describe('NewSchedulePopup', () => {
     expect(onChangeMock).toBeCalledWith(drugToPopup);
   });
 
-  test('Should call onChange function with changed drug unit value when different drug unit selected', () => {
+  it('Should call onChange function with changed drug unit value when different drug unit selected', () => {
     const onChangeMock = jest.fn();
     component = mount(<NewSchedulePopup drug={drugToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     let drugUnitInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseUnit'));
-    drugUnitInput.simulate('change', {target: {value: TAB}});
+    drugUnitInput.simulate('change', {target: {value: "Tablet(s)"}});
 
-    drugToPopup.unit = TAB;
+    drugToPopup.unit = "Tablet(s)";
     expect(onChangeMock).toBeCalledWith(drugToPopup);
   });
 
-  test('Should call onChange function with changed startingDate when different startingDate is selected', () => {
+  it('Should call onChange function with changed startingDate when different startingDate is selected', () => {
     const onChangeMock = jest.fn();
     component = mount(<NewSchedulePopup drug={drugToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     let startingDateInput = component.find('#dosingPeriodStartingDate');
     const changedDateValue = "2017-02-12";
     startingDateInput.simulate('change', {target: {value: changedDateValue}});
@@ -132,11 +167,15 @@ describe('NewSchedulePopup', () => {
   });
 
 
-  test('Should call onChange function with changed startingDate when different startingDate is selected', () => {
+  it('Should call onChange function with changed startingDate when different startingDate is selected', () => {
     const onChangeMock = jest.fn();
     component = mount(<NewSchedulePopup drug={drugToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     let endingDateInput = component.find('#dosingPeriodEndingDate');
     const changedDateValue = "2018-06-21";
     endingDateInput.simulate('change', {target: {value: changedDateValue}});
@@ -145,48 +184,59 @@ describe('NewSchedulePopup', () => {
     expect(onChangeMock).toBeCalledWith(drugToPopup);
   });
 
-  test('Should have className hidden when hidden prop is given as true', () => {
+  it('Should have className hidden when hidden prop is given as true', () => {
     component = mount(<NewSchedulePopup drug={drugToPopup} hidden={true}
                                         patient={patient} onChange={() => true}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     component.hasClass('hidden');
   });
 
-  test('Should change className to newSchedulePopup when hidden prop is changed to false', () => {
+  it('Should change className to newSchedulePopup when hidden prop is changed to false', () => {
     component = mount(<NewSchedulePopup drug={drugToPopup} hidden={true}
                                         patient={patient} onChange={() => true}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     component.hasClass('hidden');
     component.setProps({hidden: false});
     component.hasClass('newSchedulePopup');
   });
 
-  test('Should have className newSchedulePopup when hidden prop is given as false', () => {
+  it('Should have className newSchedulePopup when hidden prop is given as false', () => {
     component = mount(<NewSchedulePopup drug={drugToPopup} hidden={false}
                                         patient={patient} onChange={() => true}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     component.hasClass('newSchedulePopup');
   });
 
-  test('Should have className hidden when hidden prop is changed to true', () => {
+  it('Should have className hidden when hidden prop is changed to true', () => {
     component = mount(<NewSchedulePopup drug={drugToPopup} hidden={false}
                                         patient={patient} onChange={() => true}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
+    component.setState({
+      frequencies: frequencies,
+      doseUnits: doseUnits
+    });
     component.hasClass('newSchedulePopup');
     component.setProps({hidden: true});
     component.hasClass('hidden');
   });
 
-  test('Should call onChange function with changed time in administrativeTimes', () => {
+  it('Should call have AdministrateTimes component', () => {
     const onChangeMock = jest.fn();
     component = mount(<NewSchedulePopup drug={drugToPopup}
                                         patient={patient} onChange={onChangeMock}
                                         saveFn={saveFn} cancelFn={cancelFn}/>);
-    let administrativeTimes = component.find('.administrateTime');
-    const firstTimingInput = administrativeTimes.at(0);
-    const changedTimeValue = "12-30-PM";
-    firstTimingInput.simulate('change', {target: {value: changedTimeValue}});
-    drugToPopup.timings[0] = changedTimeValue;
-    expect(onChangeMock).toBeCalledWith(drugToPopup);
+    expect(component.find("AdministrateTimes")).toHaveLength(1);
   });
 });

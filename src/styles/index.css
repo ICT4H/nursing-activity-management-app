@@ -12,13 +12,6 @@ body {
     border: black 1px solid;
 }
 
-/*.medicineTable {*/
-    /*margin-top: 1%;*/
-    /*display: flex;*/
-    /*flex-direction: row;*/
-    /*justify-content: center;*/
-/*}*/
-
 table {
     border-collapse: collapse;
 }
@@ -78,24 +71,23 @@ th, td {
     align-content: space-around;
 }
 
-.medicineTable{
+.medicineTable {
     width: 100%;
     height: 100%;
 }
 
-.InstructionPanel {
+.instructionPanel {
     display: flex;
     flex-direction: column;
     padding: 2%;
 }
 
-.panelElement{
+.panelElement {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-
-.panelElement button{
+.panelElement button {
     margin: 8%;
 }

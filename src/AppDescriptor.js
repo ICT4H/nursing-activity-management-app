@@ -5,4 +5,5 @@ class AppDescriptor {
     return START_OF_WEEK;
   }
 }
+
 export default AppDescriptor;

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Router } from 'react-router';
+import {Router} from 'react-router';
 import {Route, Switch} from 'react-router-dom';
 import PatientMAR from './components/PatientMAR';
 import {patientDetails} from "./Data/dummyData";
@@ -14,8 +14,6 @@ const ShowPatientMAR = ({match}) => (
       <PatientMAR today={new Date()} patient={patientDetails} patientUuid={match.params.uuid}/>
     </div>
 );
-
-
 
 
 class App extends Component {

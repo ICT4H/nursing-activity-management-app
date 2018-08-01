@@ -18,5 +18,6 @@ export const ADMINISTRATED = "ADMINISTRATED",
     hostFullURL = hostURL + RESTWS_V1,
     ipdSchedulesUrl = hostFullURL + "ipd/schedules/",
     patientDetailsUrl = hostFullURL + "patient/",
-    prescribedAndActiveDrugsUrl = hostFullURL + "bahmnicore/drugOrders/active"
+    prescribedAndActiveDrugsUrl = hostFullURL + "bahmnicore/drugOrders/active",
+    drugOrderConfigUrl = hostFullURL + "bahmnicore/config/drugOrders"
 ;
