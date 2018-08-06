@@ -56,6 +56,15 @@ class DateUtils {
   static getDateAndDay(date) {
     return moment(date).format('D MMM, ddd');
   }
+
+
+  static parseLongDateToServerFormat (longDate) {
+    return longDate ? moment(longDate).format("YYYY-MM-DDTHH:mm:ss.SSS") : null;
+  }
+
+  static parseServerDateToDate (longDate) {
+    return longDate ? moment(longDate, "YYYY-MM-DDTHH:mm:ss.SSSZZ").toDate() : null;
+  }
 }
 
 export default DateUtils;

@@ -1,14 +1,14 @@
-import FetchData from "../../src/data/FetchData";
+import HttpRequest from "../../src/data/HttpRequest";
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.mock('whatwg-fetch');
 });
-describe('FetchData', () => {
+describe('HttpRequest', () => {
   describe('buildUrl', () => {
     it('should build url with given urlString and params', function () {
       const params = {firstParam: "first", secondParam: "second"};
-      const builtUrl = FetchData.buildUrl("https://localhost/atSomePage", params);
+      const builtUrl = HttpRequest.buildUrl("https://localhost/atSomePage", params);
       const expectedUrl = "https://localhost/atSomePage?firstParam=first&secondParam=second";
       expect(builtUrl.toString()).toBe(expectedUrl);
 

@@ -10,7 +10,7 @@ import DrugDetails from "./DrugDetails";
 import PropTypes from "prop-types";
 import DateUtils from "../utils/DateUtils";
 import Headers from "./Headers";
-import FetchData from "../Data/FetchData";
+import HttpRequest from "../data/HttpRequest";
 import AppDescriptor from "../AppDescriptor";
 import StandingInstructionsPanel from "./StandingInstructionsPanel";
 import {ipdSchedulesUrl, patientDetailsUrl, prescribedAndActiveDrugsUrl} from "../constants";
@@ -61,7 +61,6 @@ class PatientMAR extends React.Component {
   }
 
   updateCurrentMedicine(medicine) {
-    console.log(medicine);
     this.setState({currentDrugToPopup: medicine});
   }
 
@@ -94,7 +93,7 @@ class PatientMAR extends React.Component {
   }
 
   getPatientDetails() {
-    FetchData
+    HttpRequest
         .get(`${patientDetailsUrl}${this.state.patientUuid}`, 'application/json')
         .then((data) => {
           this.setState({patient: data});
@@ -104,13 +103,20 @@ class PatientMAR extends React.Component {
         });
   }
 
-  getPrescribedDrugs(startDate, endDate) {
-    let url = FetchData.buildUrl(prescribedAndActiveDrugsUrl, {
-      patientUuid: this.state.patientUuid
+  getPrescribedDrugs(startDateString, endDateString) {
+    let startDate = DateUtils.parseLongDateToServerFormat(startDateString);
+    let endDate = DateUtils.parseLongDateToServerFormat(endDateString);
+    console.log("startDate ",startDate);
+    console.log("endDate ",endDate);
+    let url = HttpRequest.buildUrl(prescribedAndActiveDrugsUrl, {
+      patientUuid: this.state.patientUuid,
+      startDate,
+      endDate
     });
-    FetchData
+    HttpRequest
         .get(url, 'application/json')
         .then((data) => {
+          console.log(data);
           this.setNewDrugs(data);
         })
         .catch((error) => {
@@ -119,10 +125,11 @@ class PatientMAR extends React.Component {
   }
 
   getPatientSchedules(startDate, endDate) {
-    let url = FetchData.buildUrl(`${ipdSchedulesUrl}/patient/${this.state.patientUuid}`, {startDate, endDate});
-    FetchData
+    let url = HttpRequest.buildUrl(`${ipdSchedulesUrl}patient/${this.state.patientUuid}`, {startDate, endDate});
+    HttpRequest
         .get(url, 'application/json')
         .then((data) => {
+          console.log(data);
           this.setSchedules(data);
         })
         .catch((error) => {
@@ -149,8 +156,17 @@ class PatientMAR extends React.Component {
   }
 
   saveFn() {
+    const scheduleRequest = this.createScheduleRequest();
+    HttpRequest
+        .post(ipdSchedulesUrl, scheduleRequest)
+        .then((data) => {
+          console.log(data);
+          // this.setNewDrugs(data);
+        })
+        .catch((error) => {
+          this.showErrors(error);
+        });
     console.log(this.state.currentDrugToPopup);
-    //todo: Save the medicines schedules
     this.hidePopup();
   }
 
@@ -209,6 +225,15 @@ class PatientMAR extends React.Component {
     return () => <WeekControl className="weekControl" goToPastWeek={this.goToPastWeek}
                               goToNextWeek={this.goToNextWeek} currentWeek={this.state.currentWeek}
     />;
+  }
+
+  createScheduleRequest() {
+    let drug = this.state.currentDrugToPopup;
+    return {
+      orderUuid: drug.order.uuid,
+      patientUuid: this.state.patientUuid,
+      timings: drug.timings
+    }
   }
 }
 

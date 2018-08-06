@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 
-class FetchData {
+class HttpRequest {
   static buildUrl(urlString, params) {
     let url = new URL(urlString);
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
@@ -23,6 +23,25 @@ class FetchData {
         })
   }
 
+  static post(url, jsonBody) {
+    return fetch(url, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(jsonBody),
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      const error = new Error(response.statusText);
+      error.response = response;
+      throw error;
+    })
+  }
+
 }
 
-export default FetchData;
+export default HttpRequest;

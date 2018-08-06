@@ -4,7 +4,7 @@ import SaveCancelButtons from "../../src/components/SaveCancelButtons";
 import PersonDetails from "../../src/components/PersonDetails";
 import {mount, shallow} from 'enzyme';
 import MedicationInput from "../../src/components/MedicationInput";
-import FetchData from "../../src/data/FetchData";
+import HttpRequest from "../../src/data/HttpRequest";
 import * as sinon from "sinon";
 
 let component;
@@ -12,7 +12,7 @@ let drugToPopup = {
   drugName: "Paracetmol",
   dose: 2,
   unit: "Tablet(s)",
-  frequencyValue: "Once a day",
+  frequencyString: "Once a day",
   frequency: {uuid: "9d7c32a2-3f10-11e4-adec-0800271c1b75", frequencyPerDay: 1, name: "Once a day"},
   startingDate: new Date("June 8, 2018 2:30:00"),
   endingDate: new Date("June 10, 2018 2:30:00"),
@@ -43,7 +43,7 @@ let getMethodStub;
 
 beforeEach(() => {
   jest.clearAllMocks();
-  getMethodStub = sinon.stub(FetchData, 'get').callsFake(() => Promise.resolve({frequencies, doseUnits}));
+  getMethodStub = sinon.stub(HttpRequest, 'get').callsFake(() => Promise.resolve({frequencies, doseUnits}));
   component = mount(<NewSchedulePopup drug={drugToPopup}
                                       patient={patient} onChange={() => true}
                                       saveFn={saveFn} cancelFn={cancelFn}/>);
@@ -112,7 +112,7 @@ describe('NewSchedulePopup', () => {
     });
     let frequencyInput = component.findWhere(element => element.type() === 'select' && element.hasClass('chooseFrequency'));
     frequencyInput.simulate('change', {target: {value: "Once a day"}});
-    drugToPopup.frequencyValue = "Once a day";
+    drugToPopup.frequencyString = "Once a day";
     drugToPopup.frequency = {uuid: "9d7c32a2-3f10-11e4-adec-0800271c1b75", frequencyPerDay: 1, name: "Once a day"};
     expect(onChangeMock).toBeCalledWith(drugToPopup);
   });

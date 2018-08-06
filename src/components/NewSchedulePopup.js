@@ -2,13 +2,13 @@ import React from "react";
 import PersonDetails from './PersonDetails'
 import SelectOptions from "./SelectOptions";
 import SaveCancelButtons from "./SaveCancelButtons";
-import {BID, CAP, drugOrderConfigUrl, MG, ML, QD, QID, QOD, TAB, TBSP, TID, TSP} from "../constants";
+import {drugOrderConfigUrl} from "../constants";
 import {getResultantObject} from "../utils/utility";
 import AdministrateTimes from "./AdministrateTimes";
 import MedicationInput from "./MedicationInput";
 import DosingInstructions from "./DosingInstructions";
 import DosingPeriod from "./DosingPeriod";
-import FetchData from "../data/FetchData";
+import HttpRequest from "../data/HttpRequest";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -20,14 +20,11 @@ class NewSchedulePopup extends React.Component {
     this.handleStartingDateChange = this.handleStartingDateChange.bind(this);
     this.handleEndingDateChange = this.handleEndingDateChange.bind(this);
     this.handleTimingChanges = this.handleTimingChanges.bind(this);
-    this.getFrequencyUuid = this.getFrequencyUuid.bind(this);
-    //todo: Might come from server using an API
+    this.getFrequency = this.getFrequency.bind(this);
     this.state = {
       frequencies: [],
       doseUnits: []
     };
-    this.medicineUnits = [TAB, CAP, ML, MG, TSP, TBSP];
-    this.frequencies = [QD, BID, TID, QID, QOD];
   }
 
   componentWillMount() {
@@ -47,14 +44,14 @@ class NewSchedulePopup extends React.Component {
                                 doseUnit={drug.doseUnits} doseValue={drug.dose}
                                 handleDoseChange={this.handleDoseChange}
             />
-            <SelectOptions selectedValue={drug.frequencyValue} options={this.state.frequencies}
+            <SelectOptions selectedValue={drug.frequencyString} options={this.state.frequencies}
                            className="chooseFrequency"
                            chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
             <DosingPeriod handleStartingDateChange={this.handleStartingDateChange}
                           handleEndingDateChange={this.handleEndingDateChange}
                           startingDate={drug.startingDate} endingDate={drug.endingDate}
             />
-            <AdministrateTimes noOfTimeInputs={this.getFrequencyPerDay(drug.frequency)}
+            <AdministrateTimes noOfTimeInputs={this.getFrequencyPerDay(drug.frequencyString)}
                                handleTimeChange={this.handleTimingChanges}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
           </div>
@@ -75,9 +72,9 @@ class NewSchedulePopup extends React.Component {
   }
 
   handleFrequencyChange(event) {
-    const frequency = this.getFrequencyUuid(event.target.value);
+    const frequency = this.getFrequency(event.target.value);
     let changedFrequency = {frequency: frequency};
-    let changedFrequencyValue = {frequencyValue: event.target.value};
+    let changedFrequencyValue = {frequencyString: event.target.value};
     let resultantDrug = getResultantObject(this.props.drug, changedFrequencyValue);
     resultantDrug = getResultantObject(resultantDrug, changedFrequency);
     this.props.onChange(resultantDrug);
@@ -113,7 +110,7 @@ class NewSchedulePopup extends React.Component {
   }
 
   getFrequenciesAndDosingUnits() {
-    FetchData
+    HttpRequest
         .get(drugOrderConfigUrl, "application/json")
         .then((data) => {
           this.setState({frequencies: data.frequencies, doseUnits: data.doseUnits});
@@ -123,13 +120,13 @@ class NewSchedulePopup extends React.Component {
         })
   }
 
-  getFrequencyUuid(frequencyValue) {
+  getFrequency(frequencyValue) {
     return this.state.frequencies.find((f) => f.name === frequencyValue);
   }
 
   getFrequencyPerDay(frequencyValue) {
     let frequency = this.state.frequencies.find((f) => f.name === frequencyValue);
-    return (frequency) ? Math.ceil(frequency.frequencyPerDay) : 0;
+    return (frequency) ? Math.ceil(frequency.frequencyPerDay||0) : 0;
   }
 }
 

@@ -79,7 +79,7 @@ const mapDrugOrdersToDrugs = function (drugOrders) {
       dose: drugOrder.dosingInstructions.dose,
       doseUnits: drugOrder.dosingInstructions.doseUnits,
       route: drugOrder.dosingInstructions.route,
-      frequency: drugOrder.dosingInstructions.frequency,
+      frequencyString: drugOrder.dosingInstructions.frequency,
       startingDate: new Date(drugOrder.scheduledDate),
       endingDate: new Date(drugOrder.autoExpireDate),
       administrationInstructions: drugOrder.dosingInstructions.administrationInstructions

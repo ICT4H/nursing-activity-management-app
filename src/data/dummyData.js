@@ -10,7 +10,8 @@ const patientDetails = {
 let initialEmptyDrug = {
   drugName: "", dose: 1,
   unit: "",
-  frequency: "",
+  frequencyString: "",
+  frequency: {name: "", uuid: "", frequencyPerDay: 0},
   startingDate: new Date('June 8, 2018 2:30:00'),
   endingDate: new Date('June 8, 2018 2:30:00')
 };
