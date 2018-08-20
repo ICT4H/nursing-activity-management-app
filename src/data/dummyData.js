@@ -12,6 +12,7 @@ let initialEmptyDrug = {
   unit: "",
   frequencyString: "",
   frequency: {name: "", uuid: "", frequencyPerDay: 0},
+  daysOfWeek: [],
   startingDate: new Date('June 8, 2018 2:30:00'),
   endingDate: new Date('June 8, 2018 2:30:00')
 };

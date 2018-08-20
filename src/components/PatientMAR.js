@@ -3,14 +3,20 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import NewSchedulePopup from './NewSchedulePopup';
 import {initialEmptyDrug} from "../Data/dummyData";
-import {filterScheduledDrugs, getSchedulesOf, groupByMedicineOrder, mapDrugOrdersToDrugs} from "../utils/utility";
+import {
+  filterScheduledDrugs,
+  getSchedulesOf,
+  groupByMedicineOrder,
+  isWeeklyFreqType,
+  mapDrugOrdersToDrugs
+} from "../utils/utility";
 import WeekControl from "./WeekControl";
 import Schedules from "./Schedules";
 import DrugDetails from "./DrugDetails";
 import PropTypes from "prop-types";
 import DateUtils from "../utils/DateUtils";
 import Headers from "./Headers";
-import HttpRequest from "../data/HttpRequest";
+import HttpRequest from "../utils/HttpRequest";
 import AppDescriptor from "../AppDescriptor";
 import StandingInstructionsPanel from "./StandingInstructionsPanel";
 import {ipdSchedulesUrl, patientDetailsUrl, prescribedAndActiveDrugsUrl} from "../constants";
@@ -106,8 +112,6 @@ class PatientMAR extends React.Component {
   getPrescribedDrugs(startDateString, endDateString) {
     let startDate = DateUtils.parseLongDateToServerFormat(startDateString);
     let endDate = DateUtils.parseLongDateToServerFormat(endDateString);
-    console.log("startDate ",startDate);
-    console.log("endDate ",endDate);
     let url = HttpRequest.buildUrl(prescribedAndActiveDrugsUrl, {
       patientUuid: this.state.patientUuid,
       startDate,
@@ -116,7 +120,6 @@ class PatientMAR extends React.Component {
     HttpRequest
         .get(url, 'application/json')
         .then((data) => {
-          console.log(data);
           this.setNewDrugs(data);
         })
         .catch((error) => {
@@ -129,7 +132,6 @@ class PatientMAR extends React.Component {
     HttpRequest
         .get(url, 'application/json')
         .then((data) => {
-          console.log(data);
           this.setSchedules(data);
         })
         .catch((error) => {
@@ -151,6 +153,7 @@ class PatientMAR extends React.Component {
   }
 
   hidePopup() {
+    console.log(this.state.currentDrugToPopup);
     this.updateCurrentMedicine(initialEmptyDrug);
     this.setState({shallHidePopup: true})
   }
@@ -161,12 +164,10 @@ class PatientMAR extends React.Component {
         .post(ipdSchedulesUrl, scheduleRequest)
         .then((data) => {
           console.log(data);
-          // this.setNewDrugs(data);
         })
         .catch((error) => {
           this.showErrors(error);
         });
-    console.log(this.state.currentDrugToPopup);
     this.hidePopup();
   }
 
@@ -194,7 +195,6 @@ class PatientMAR extends React.Component {
 
   render() {
     let patient = this.state.patient;
-    // console.log(patient);
     return (
         <div>
           <NewSchedulePopup drug={this.state.currentDrugToPopup} hidden={this.state.shallHidePopup}
@@ -229,10 +229,15 @@ class PatientMAR extends React.Component {
 
   createScheduleRequest() {
     let drug = this.state.currentDrugToPopup;
+    if (isWeeklyFreqType(drug.frequencyString)) {
+      drug.scheduleType = "Weekly";
+    }
     return {
       orderUuid: drug.order.uuid,
       patientUuid: this.state.patientUuid,
-      timings: drug.timings
+      timings: drug.timings,
+      days: drug.daysOfWeek,
+      scheduleType: drug.scheduleType || "Daily"
     }
   }
 }

@@ -4,7 +4,7 @@ import SaveCancelButtons from "../../src/components/SaveCancelButtons";
 import PersonDetails from "../../src/components/PersonDetails";
 import {mount, shallow} from 'enzyme';
 import MedicationInput from "../../src/components/MedicationInput";
-import HttpRequest from "../../src/data/HttpRequest";
+import HttpRequest from "../../src/utils/HttpRequest";
 import * as sinon from "sinon";
 
 let component;

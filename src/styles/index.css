@@ -91,3 +91,7 @@ th, td {
 .panelElement button {
     margin: 8%;
 }
+
+.daysOfWeek {
+    display: block;
+}

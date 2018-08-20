@@ -1,6 +1,6 @@
 import React from "react";
 import DateUtils from "./DateUtils";
-import {BID, QD, QID, QOD, TID} from "../constants";
+import {administrationScheduleDefinition, BID, QD, QID, QOD, TID} from "../constants";
 
 const defaultScheduleFormatter = function (schedule) {
   return <p>{DateUtils.formatTime(schedule.scheduledTime)}</p>;
@@ -25,7 +25,8 @@ const getSchedulesOf = function (date, schedules) {
 function getScheduleShortDetails(schedule) {
   return {
     scheduledTime: schedule.scheduledTime,
-    status: schedule.status
+    status: schedule.status,
+    id: schedule.scheduleId
   };
 }
 
@@ -64,6 +65,21 @@ const filterScheduledDrugs = function (drugOrders, scheduledDrugs) {
   });
 };
 
+const isWeeklyFreqType = function (frequencyString) {
+  const frequency = administrationScheduleDefinition[frequencyString];
+  return frequency && frequency.type === 'weekly';
+};
+
+const getNoOfDaysInWeek = function (frequencyString) {
+  const frequency = administrationScheduleDefinition[frequencyString];
+  return (frequency && isWeeklyFreqType(frequencyString) && frequency.numberOfTimes) || 0;
+};
+
+const getDosingTimesPerDay = function (frequencyString) {
+  const frequency = administrationScheduleDefinition[frequencyString];
+  return (frequency && isWeeklyFreqType(frequencyString) && frequency.dosingTimesPerDay) || 0;
+};
+
 const mapDrugOrdersToDrugs = function (drugOrders) {
   return drugOrders.map((drugOrder) => {
     return {
@@ -95,5 +111,8 @@ export {
   getScheduleShortDetails,
   mapScheduleToDrug,
   filterScheduledDrugs,
-  mapDrugOrdersToDrugs
+  mapDrugOrdersToDrugs,
+  isWeeklyFreqType,
+  getNoOfDaysInWeek,
+  getDosingTimesPerDay
 }

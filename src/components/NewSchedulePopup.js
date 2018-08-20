@@ -3,12 +3,13 @@ import PersonDetails from './PersonDetails'
 import SelectOptions from "./SelectOptions";
 import SaveCancelButtons from "./SaveCancelButtons";
 import {drugOrderConfigUrl} from "../constants";
-import {getResultantObject} from "../utils/utility";
+import {getDosingTimesPerDay, getNoOfDaysInWeek, getResultantObject, isWeeklyFreqType} from "../utils/utility";
 import AdministrateTimes from "./AdministrateTimes";
 import MedicationInput from "./MedicationInput";
 import DosingInstructions from "./DosingInstructions";
 import DosingPeriod from "./DosingPeriod";
-import HttpRequest from "../data/HttpRequest";
+import HttpRequest from "../utils/HttpRequest";
+import DaysOfWeek from "./DaysOfWeek";
 
 class NewSchedulePopup extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class NewSchedulePopup extends React.Component {
     this.handleStartingDateChange = this.handleStartingDateChange.bind(this);
     this.handleEndingDateChange = this.handleEndingDateChange.bind(this);
     this.handleTimingChanges = this.handleTimingChanges.bind(this);
+    this.updateDaysOfWeek = this.updateDaysOfWeek.bind(this);
     this.getFrequency = this.getFrequency.bind(this);
     this.state = {
       frequencies: [],
@@ -51,6 +53,8 @@ class NewSchedulePopup extends React.Component {
                           handleEndingDateChange={this.handleEndingDateChange}
                           startingDate={drug.startingDate} endingDate={drug.endingDate}
             />
+            <DaysOfWeek hidden={!isWeeklyFreqType(drug.frequencyString)} onChange={this.updateDaysOfWeek}
+                        noOfDaysInWeek={getNoOfDaysInWeek(drug.frequencyString)}/>
             <AdministrateTimes noOfTimeInputs={this.getFrequencyPerDay(drug.frequencyString)}
                                handleTimeChange={this.handleTimingChanges}/>
             <SaveCancelButtons saveFn={this.props.saveFn} cancelFn={this.props.cancelFn}/>
@@ -126,7 +130,15 @@ class NewSchedulePopup extends React.Component {
 
   getFrequencyPerDay(frequencyValue) {
     let frequency = this.state.frequencies.find((f) => f.name === frequencyValue);
-    return (frequency) ? Math.ceil(frequency.frequencyPerDay||0) : 0;
+    if (isWeeklyFreqType(frequencyValue)) {
+      getDosingTimesPerDay(frequencyValue);
+    }
+    return (frequency) ? Math.ceil(frequency.frequencyPerDay || 0) : 0;
+  }
+
+  updateDaysOfWeek(daysOfWeek) {
+    let resultantDrug = getResultantObject(this.props.drug, {daysOfWeek});
+    this.props.onChange(resultantDrug);
   }
 }
 

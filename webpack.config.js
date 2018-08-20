@@ -3,32 +3,38 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: "/nursing_activity_app/"
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: 'babel-loader'
+
+      entry: './src/index.js',
+      output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js',
+        publicPath: "/nursing_activity_app/"
       },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+      module: {
+        rules: [
+          {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: 'babel-loader'
+          },
+          {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+          }
+        ]
+      },
+      resolve: {
+        extensions: ['.js', '.jsx']
+      },
+      plugins: [
+        new HtmlWebpackPlugin({
+          template: './public/index.html'
+        })
+      ],
+      mode: webpack.isLocal ? "development" : "production",
+      optimization: {
+        minimize: false,
       }
-    ]
-  },
-  resolve: {
-    extensions: ['.js', '.jsx']
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './public/index.html'
-    })
-  ]
-};
+    }
+;
 module.exports = config;
