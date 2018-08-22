@@ -16,7 +16,10 @@ class AdministrateTimes extends Component {
       inputs.push(<input key={`administrateTime${i}`} type="time" onChange={this.changeTimes.bind(this, i)}
                          className="administrateTime"/>);
     }
-    return (<div className="administrateTimes">{inputs}</div>)
+    return (<div className="administrateTimes">
+      <label>AdministrativeTimings</label>
+      {inputs}
+    </div>)
   }
 
   changeTimes(indexOfTiming, event) {

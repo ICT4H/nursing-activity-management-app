@@ -18,7 +18,7 @@ describe('MedicationInput', () => {
   test('Should have label as MedicineName', () => {
     let component = mount(<MedicationInput/>);
     let element = component.find('label');
-    expect(element.text()).toBe("MedicineName");
+    expect(element.text()).toBe("DrugName");
   });
 
   test('Should have label as MedicineName', () => {

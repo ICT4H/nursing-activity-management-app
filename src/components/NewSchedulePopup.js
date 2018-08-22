@@ -46,9 +46,12 @@ class NewSchedulePopup extends React.Component {
                                 doseUnit={drug.doseUnits} doseValue={drug.dose}
                                 handleDoseChange={this.handleDoseChange}
             />
-            <SelectOptions selectedValue={drug.frequencyString} options={this.state.frequencies}
-                           className="chooseFrequency"
-                           chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
+            <div>
+              <label>Frequency</label>
+              <SelectOptions selectedValue={drug.frequencyString} options={this.state.frequencies}
+                             className="chooseFrequency"
+                             chooseMsg="CHOOSE FREQUENCY" onChange={this.handleFrequencyChange}/>
+            </div>
             <DosingPeriod handleStartingDateChange={this.handleStartingDateChange}
                           handleEndingDateChange={this.handleEndingDateChange}
                           startingDate={drug.startingDate} endingDate={drug.endingDate}

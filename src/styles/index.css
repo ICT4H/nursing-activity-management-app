@@ -30,10 +30,15 @@ th, td {
 }
 
 .popupContent {
+    display: flex;
+    flex-direction: column;
+    /*justify-items: center;*/
+    justify-content: space-between;
     background-color: #fefefe;
     padding: 2%;
     border: 1px solid #888;
-    width: 80%;
+    width: 70%;
+    height: 60%;
 }
 
 .drugDetails {
