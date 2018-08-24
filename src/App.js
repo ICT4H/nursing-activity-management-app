@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Router} from 'react-router';
 import {Route, Switch} from 'react-router-dom';
 import PatientMAR from './components/PatientMAR';
-import {patientDetails} from "./Data/dummyData";
+import {patientDetails} from "./data/initialData";
 import createHashHistory from 'history/createHashHistory'
 
 const history = createHashHistory();

@@ -2,7 +2,7 @@ import React from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import NewSchedulePopup from './NewSchedulePopup';
-import {initialEmptyDrug} from "../Data/dummyData";
+import {initialEmptyDrug} from "../data/initialData";
 import {
   filterScheduledDrugs,
   getSchedulesOf,
