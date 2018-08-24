@@ -233,7 +233,13 @@ class PatientMAR extends React.Component {
       drug.scheduleType = "Weekly";
     }
     return {
-      orderUuid: drug.order.uuid,
+      drugUuid: drug.uuid,
+      dose: drug.dose,
+      doseUnits: drug.doseUnits,
+      route: drug.route,
+      startingDate: drug.startingDate,
+      endingDate: drug.endingDate,
+      orderUuid: drug.order && drug.order.uuid,
       patientUuid: this.state.patientUuid,
       timings: drug.timings,
       days: drug.daysOfWeek,

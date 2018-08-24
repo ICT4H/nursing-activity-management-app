@@ -90,6 +90,8 @@ const mapDrugOrdersToDrugs = function (drugOrders) {
         instructions: drugOrder.instructions,
         orderNumber: drugOrder.orderNumber
       },
+      timings: [],
+      daysOfWeek: [],
       drugName: drugOrder.drug.name,
       uuid: drugOrder.drug.uuid,
       dose: drugOrder.dosingInstructions.dose,

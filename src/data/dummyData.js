@@ -8,12 +8,16 @@ const patientDetails = {
   patientUuid: "a81c9847-bfef-41f3-8bc2-8abfe11e3a6a"
 };
 let initialEmptyDrug = {
+  uuid: "",
   drugName: "", dose: 1,
   unit: "",
+  route: "",
   frequencyString: "",
   frequency: {name: "", uuid: "", frequencyPerDay: 0},
   daysOfWeek: [],
-  startingDate: new Date('June 8, 2018 2:30:00'),
-  endingDate: new Date('June 8, 2018 2:30:00')
+  timings: [],
+  scheduleType: "",
+  startingDate: new Date(),
+  endingDate: new Date()
 };
 export {patientDetails, initialEmptyDrug}
