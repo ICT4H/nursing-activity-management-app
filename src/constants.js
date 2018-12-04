@@ -1,4 +1,4 @@
-const hostURL = "https://localhost/openmrs/";
+const hostURL = "/openmrs/";
 const RESTWS_V1 = "ws/rest/v1/";
 export const ADMINISTRATED = "ADMINISTRATED",
     NOTADMINISTRATED = "NOTADMINISTRATED",

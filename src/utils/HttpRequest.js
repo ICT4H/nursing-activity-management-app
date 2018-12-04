@@ -2,7 +2,8 @@ import 'whatwg-fetch';
 
 class HttpRequest {
   static buildUrl(urlString, params) {
-    let url = new URL(urlString);
+    var host = location.protocol.concat("//").concat(window.location.hostname);
+    let url = new URL(host + urlString);
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
     return url;
   }
